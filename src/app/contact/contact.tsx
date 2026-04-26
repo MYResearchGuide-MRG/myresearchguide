@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
 import { Linkedin, Instagram, Mail } from "lucide-react";
@@ -33,7 +34,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     } else {
       setStatus("Error sending.");
     }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     setStatus("System Error.");
   }
