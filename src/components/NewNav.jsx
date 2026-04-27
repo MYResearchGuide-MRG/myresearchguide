@@ -13,7 +13,7 @@ const Nav = () => {
   const navLinks = [
     { name: "About Us", href: "/team" },
     { name: "Contact Us", href: "/contact" }, // Added as requested
-    { name: "Partners and Sponsors", href: "/PartnerSponsor" },
+    { name: "Partners and Sponsors", href: "/partner-sponsor" }
   ];
 
   const menuVariants = {
