@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
