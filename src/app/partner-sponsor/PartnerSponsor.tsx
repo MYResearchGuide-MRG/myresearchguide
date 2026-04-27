@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { motion } from "framer-motion";
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from 'next/image';
 
 const partners = [
   {
@@ -113,11 +115,8 @@ export default function PartnersSponsors() {
           <p className="!text-slate-500 !uppercase !tracking-widest !text-xs !mb-4">
             Backed by
           </p>
-          <h2 className="!text-4xl md:!text-6xl !font-bold !tracking-tighter !leading-tight">
-            Our Partners &{" "}
-            <span className="!bg-gradient-to-r !from-stone-400 !to-slate-300 !bg-clip-text !text-transparent">
-              Sponsors
-            </span>
+          <h2 className="!text-4xl md:!text-6xl !font-bold !tracking-tighter !leading-tight !bg-gradient-to-r !from-stone-400 !to-slate-300 !bg-clip-text !text-transparent">
+            Our Partners & Sponsors
           </h2>
           <p className="!text-slate-400 !mt-6 !text-base md:!text-lg !max-w-xl !mx-auto !leading-relaxed">
             We are grateful to the organisations and individuals who support our
