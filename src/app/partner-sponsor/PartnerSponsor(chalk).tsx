@@ -175,13 +175,6 @@ export default function PartnersSponsors() {
           >
             Partners
           </motion.h3>
-          <div className="!grid !grid-cols-2 md:!grid-cols-4 !gap-4">
-            {partners.map((p, i) => (
-              <motion.div key={i} variants={itemVariants}>
-                <FlipCard {...p} />
-              </motion.div>
-            ))}
-          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -195,6 +188,13 @@ export default function PartnersSponsors() {
               </button>
             </a>
           </motion.div>
+          <div className="!grid !grid-cols-2 md:!grid-cols-4 !gap-4">
+            {partners.map((p, i) => (
+              <motion.div key={i} variants={itemVariants}>
+                <FlipCard {...p} />
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
         {/* sponsors */}

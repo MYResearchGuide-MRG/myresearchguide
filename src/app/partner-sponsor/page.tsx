@@ -1,5 +1,5 @@
 import NewNav from "@/components/NewNav";
-import PartnerSponsor from "./PartnerSponsor";
+import PartnerSponsor from "./PartnerSponsor(chalk)";
 import Foot from "@/components/Foot";
 
 export default function Page() {
