@@ -32,7 +32,7 @@ const sponsors = [
   {
     name: "Sponsor 1",
     logo: "/logo_1.png",
-    description: "bla bla bla",
+    description: "bla bla blaa",
   },
   {
     name: "Sponsor 2",
