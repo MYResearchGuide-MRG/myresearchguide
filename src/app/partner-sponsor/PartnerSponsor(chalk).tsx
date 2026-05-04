@@ -24,9 +24,9 @@ const partners = [
   },
 ];
 
-const sponsors = [
-  // Example: { name: "Organization Name", logo: "/path-to-logo.png" }
-];
+// const sponsors = [
+//   // Example: { name: "Organization Name", logo: "/path-to-logo.png" }
+// ];
 
 const ChalkboardTile = () => (
   <div className="!w-[1024px] !h-[768px] !flex-shrink-0 !overflow-hidden">
@@ -152,7 +152,10 @@ export default function PartnersSponsors() {
           </motion.h3>
           
           <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-            {sponsors.length > 0 ? (
+            <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
+                    No sponsors as of 3/5/2026.
+                </div>
+            {/* {sponsors.length > 0 ? (
                 sponsors.map((s, i) => (
                 <motion.div 
                     key={i} 
@@ -173,7 +176,7 @@ export default function PartnersSponsors() {
                 <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
                     No sponsors as of 3/5/2026.
                 </div>
-            )}
+            )} */}
           </div>
         </motion.div>
 
