@@ -65,24 +65,28 @@ export default function Partner() {
               Partners
             </motion.h3>
             
-            <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-              {partners.map((p, i) => (
-                <motion.div 
-                  key={i} 
-                  variants={itemVariants}
-                  whileHover={{ y: -12 }} // The "Raise" animation
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="!bg-white !rounded-2xl !p-6 !flex !flex-col !items-center !justify-between !aspect-video shadow-lg cursor-default"
-                >
-                  <div className="!flex-1 !flex !items-center !justify-center !w-full !p-2">
-                     <img src={p.logo} alt={p.name} className="!max-w-full !max-h-full !object-contain" />
-                  </div>
-                  <p className="!text-slate-900 !font-black !text-xs md:!text-sm !mt-2 !text-center !uppercase !tracking-widest !border-t !border-slate-100 !pt-4 !w-full">
-                      {p.name}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
+<div className="!grid !grid-cols-1 md:!grid-cols-3 !gap-6">
+            {partners.map((p, i) => (
+              <motion.div 
+                key={i} 
+                variants={itemVariants}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="!bg-white !rounded-2xl !flex !flex-col !items-center !justify-between !p-6 !aspect-[3/1.8] md:!aspect-[3/1.5] shadow-lg cursor-default"
+              >
+                <div className="!flex-1 !flex !items-center !justify-center !w-full">
+                   <img 
+                    src={p.logo} 
+                    alt={p.name} 
+                    className="!max-w-[70%] !max-h-[60%] !object-contain" 
+                   />
+                </div>
+                <p className="!text-slate-900 !font-semibold !text-xs md:!text-sm !mt-2 !text-center">
+                    {p.name}
+                </p>
+              </motion.div>
+            ))}
+          </div>
           </motion.div>
   
           {/* Sponsors Section - Blue Outer Card */}
@@ -101,7 +105,10 @@ export default function Partner() {
             </motion.h3>
             
             <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-              {sponsors.length > 0 ? (
+               <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
+                      No sponsors as of 3/5/2026.
+                  </div>
+              {/* {sponsors.length > 0 ? (
                   sponsors.map((s, i) => (
                   <motion.div 
                       key={i} 
@@ -122,7 +129,7 @@ export default function Partner() {
                   <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
                       No sponsors as of 3/5/2026.
                   </div>
-              )}
+              )} */}
             </div>
           </motion.div>
 
@@ -142,7 +149,10 @@ export default function Partner() {
             </motion.h3>
             
             <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-              {sponsors.length > 0 ? (
+              <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
+                      No Gold Sponsors as of 3/5/2026.
+                  </div>
+              {/* {sponsors.length > 0 ? (
                   sponsors.map((s, i) => (
                   <motion.div 
                       key={i} 
@@ -163,7 +173,7 @@ export default function Partner() {
                   <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
                       No Gold Sponsors as of 3/5/2026.
                   </div>
-              )}
+              )} */}
             </div>
           </motion.div>
           </div>
