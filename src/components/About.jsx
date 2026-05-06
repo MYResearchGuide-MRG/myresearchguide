@@ -65,17 +65,17 @@ export default function About1() {
               </div>
             </div>
             {/* Join community button */}
-            <div className="flex !justify-center lg:!justify-center !pt-6">
+            {/* <div className="flex !pt-6">
               <a
                 href="https://forms.gle/Gm9A6SQhettL5NJD8"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <button className="!bg-white !text-slate-900 !px-10 !py-4 !uppercase !font-black !tracking-tighter !transition-transform active:!scale-95 hover:!bg-slate-200 !rounded-lg !text-base md:!text-lg">
-                  Join our community and help out! 
+                <button className="!bg-white !text-slate-900 !px-10 !py-4 !font-bold !tracking-tighter !transition-transform active:!scale-95 hover:!bg-slate-200 !rounded-lg md:!text-lg">
+                  Join our community! 
                 </button>
               </a>
-            </div>
+            </div> */}
           </div>
 
           {/* Right Side: Visual Placeholder */}

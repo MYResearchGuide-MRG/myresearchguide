@@ -7,20 +7,25 @@ import Image from 'next/image';
 
   const partners = [
     {
-      name: "MBIOS",
+      name: "Malaysian BioScience Scholars",
       logo: "/mbios.png",
+      link: "https://mbios.org"
     },
     {
-      name: "SEAEcon",
+      name: "Southeast Asian Economics Project",
       logo: "/seaecon.png",
+      link: "https://seaecon.org",
+
     },
     {
-      name: "APCORE",
+      name: "Asia Pacific Center of Robotics Enginnering",
       logo: "/apcore.jpg",
+      link: "https://apcore.apu.edu.my",
     },
     {
       name: "Girls In STEM",
       logo: "/girls4stem.jpeg",
+      link: "https://girlsinstem43.wixsite.com/girlsinstemkl",
     },
   ];
   
@@ -65,49 +70,56 @@ export default function Partner() {
               Partners
             </motion.h3>
             
-<div className="!grid !grid-cols-1 md:!grid-cols-3 !gap-6">
+
+           <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-2 !gap-6 !w-full">
             {partners.map((p, i) => (
-              <motion.div 
-                key={i} 
+              <motion.div
+                key={i}
                 variants={itemVariants}
                 whileHover={{ y: -5 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="!bg-white !rounded-2xl !flex !flex-col !items-center !justify-between !p-6 !aspect-[3/1.8] md:!aspect-[3/1.5] shadow-lg cursor-default"
+                className="!bg-white !rounded-2xl !flex !flex-col !items-center !justify-center !p-6 !min-h-[160px] shadow-lg cursor-default !overflow-hidden"
               >
+              <a href={p.link}>
                 <div className="!flex-1 !flex !items-center !justify-center !w-full">
-                   <img 
-                    src={p.logo} 
-                    alt={p.name} 
-                    className="!max-w-[70%] !max-h-[60%] !object-contain" 
-                   />
+
+
+                  <img
+                    src={p.logo}
+                    alt={p.name}
+                    className="!w-auto !h-auto !max-w-full !max-h-[150px] !object-contain"
+                  />
                 </div>
-                <p className="!text-slate-900 !font-semibold !text-xs md:!text-sm !mt-2 !text-center">
-                    {p.name}
+                <p className="!text-slate-900 !font-semibold !text-sm !mt-4 !text-center !w-full !block">
+                  {p.name}
                 </p>
+                </a>
               </motion.div>
             ))}
           </div>
+
+
+          
           </motion.div>
   
-          {/* Sponsors Section - Blue Outer Card */}
+          {/* Sponsors Section - Platinum (Plat-Blue) Outer Card */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="!mb-24 !p-8 md:!p-16 !rounded-[3rem] !bg-gradient-to-br !from-blue-950/50 !via-slate-950 !to-blue-900/30 !border !border-blue-900/20 shadow-2xl"
+            className="!mb-24 !p-8 md:!p-16 !rounded-[3rem] !bg-gradient-to-br !from-slate-400/20 !via-blue-900/40 !to-slate-600/20 !border !border-blue-400/20 shadow-2xl"
           >
             <motion.h3
               variants={itemVariants}
-              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-cyan- !mb-12 !text-center md:!text-left"
+              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-slate-100 !mb-12 !text-center md:!text-left"
             >
               Platinum Sponsors
             </motion.h3>
             
             <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-               <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
+                <div className="!col-span-full !text-slate-400 !text-lg !font-medium !py-12 !text-center !bg-black/40 !rounded-2xl !border !border-dashed !border-slate-700">
                       No sponsors as of 3/5/2026.
-                  </div>
+                   </div>
               {/* {sponsors.length > 0 ? (
                   sponsors.map((s, i) => (
                   <motion.div 
@@ -133,23 +145,23 @@ export default function Partner() {
             </div>
           </motion.div>
 
-            {/* Sponsors Section - Blue Outer Card */}
+           {/* Sponsors Section - Gold (Gold-Yellow) Outer Card */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="!mb-24 !p-8 md:!p-16 !rounded-[3rem] !bg-gradient-to-br !from-blue-950/50 !via-slate-950 !to-blue-900/30 !border !border-blue-900/20 shadow-2xl"
+            className="!mb-24 !p-8 md:!p-16 !rounded-[3rem] !bg-gradient-to-br !from-amber-900/40 !via-yellow-900/20 !to-amber-600/30 !border !border-yellow-600/20 shadow-2xl"
           >
             <motion.h3
               variants={itemVariants}
-              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-blue-200 !mb-12 !text-center md:!text-left"
+              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !mb-12 !text-center md:!text-left"
             >
               Gold Sponsors
             </motion.h3>
             
             <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-              <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
+              <div className="!col-span-full !text-yellow-600/60 !text-lg !font-medium !py-12 !text-center !bg-black/40 !rounded-2xl !border !border-dashed !border-yellow-900/40">
                       No Gold Sponsors as of 3/5/2026.
                   </div>
               {/* {sponsors.length > 0 ? (
