@@ -65,9 +65,9 @@ export default function About1() {
               </div>
             </div>
             {/* Join community button */}
-            {/* <div className="flex !pt-6">
+            <div className="flex !pt-6">
               <a
-                href="https://forms.gle/Gm9A6SQhettL5NJD8"
+                href="https://forms.gle/Zr3J5MBSpgjjBgSQ6"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -75,7 +75,7 @@ export default function About1() {
                   Join our community! 
                 </button>
               </a>
-            </div> */}
+            </div>
           </div>
 
           {/* Right Side: Visual Placeholder */}

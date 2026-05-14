@@ -270,7 +270,7 @@ export default function PartnersSponsors() {
           {/* Left: Buttons stacked vertically */}
           <div className="!flex !flex-col !gap-4 !w-full md:!w-auto">
             <a
-              href="gform_1"
+              href="https://forms.gle/YzAVHhD7X1teRkyi8|"
               target="_blank"
               rel="noopener noreferrer"
               className="!w-full"
@@ -280,7 +280,7 @@ export default function PartnersSponsors() {
               </button>
             </a>
             <a
-              href="https://forms.gle/Gm9A6SQhettL5NJD8"
+              href="https://forms.gle/XDwUML5KCBcWDKyU8"
               target="_blank"
               rel="noopener noreferrer"
               className="!w-full"
