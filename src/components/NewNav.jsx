@@ -11,9 +11,9 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: "About Us", href: "/team" },
-    { name: "Contact Us", href: "/contact" }, // Added as requested
-    { name: "Partners & Sponsors", href: "/partner-sponsor" }
+    { name: "About Us", href: "/team" }, // Added as requested
+    { name: "Partners & Sponsors", href: "/partner-sponsor" },
+        { name: "Contact Us", href: "/contact" },
   ];
 
   const menuVariants = {
