@@ -118,7 +118,7 @@ export default function Partner() {
             
             <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
                 <div className="!col-span-full !text-slate-400 !text-lg !font-medium !py-12 !text-center !bg-black/40 !rounded-2xl !border !border-dashed !border-slate-700">
-                      No sponsors as of 3/5/2026.
+                      No Platinum sponsors as of 3/5/2026.
                    </div>
               {/* {sponsors.length > 0 ? (
                   sponsors.map((s, i) => (

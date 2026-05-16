@@ -176,7 +176,7 @@ export default function PartnersSponsors() {
 
             <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
               <div className="!col-span-full !text-slate-400 !text-lg !font-medium !py-12 !text-center !bg-black/40 !rounded-2xl !border !border-dashed !border-slate-700">
-                No sponsors as of 3/5/2026.
+                No Platinum sponsors as of 3/5/2026.
               </div>
               {/* {sponsors.length > 0 ? (
                           sponsors.map((s, i) => (
@@ -268,9 +268,9 @@ export default function PartnersSponsors() {
             </p>
           </div>
           {/* Left: Buttons stacked vertically */}
-          <div className="!flex !flex-col !gap-4 !w-full md:!w-auto">
+          <div className="!flex !flex-col !gap-4 !w-full md:!w-auto md:!mt-0 !mt-3">
             <a
-              href="https://forms.gle/YzAVHhD7X1teRkyi8|"
+              href="https://forms.gle/gfa8yGKAfFE5jxFk8"
               target="_blank"
               rel="noopener noreferrer"
               className="!w-full"

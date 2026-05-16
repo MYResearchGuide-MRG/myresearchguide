@@ -46,16 +46,26 @@ export default function TeamPage() {
         image: "/profile/emma.jpeg",
       },
     ],
-    advisors: [
+advisors: [
+      {
+        name: "Prof. Kim Siang Khaw",
+        role: "Associate Professor & Tenured Fellow (TDLI) & Muon Physicist (ShangHai Jiaotong)",
+        image: "/profile/advisors/khaw.jpg",
+      },
+      {
+        name: "Prof. Mathias Foo",
+        role: "Associate Professor in Control and Engineering Biology, University of Warwick",
+        image: "/profile/advisors/mathias.jpg",
+      },
+      {
+        name: "Prof. Nursakinah Suardi",
+        role: "Associate Professor at School of Physics, Universiti Sains Malaysia",
+        image: "/profile/advisors/nursakinah.jpg",
+      },
       {
         name: "Prof. Yuan-Sen Ting",
         role: "Associate Professor, Dept. of Astronomy, Ohio State University",
         image: "/profile/advisors/ting.png",
-      },
-      {
-        name: "Dr. Nursakinah Suardi",
-        role: "Associate Professor at School of Physics, Universiti Sains Malaysia",
-        image: "/profile/advisors/nursakinah.jpg",
       },
       {
         name: "Juin Xian Loh",
@@ -82,17 +92,7 @@ export default function TeamPage() {
         role: "Physics, University of Oxford",
         image: "/interviews/owen.png",
       },
-      {
-        name: "Mathias Foo",
-        role: "Associate Professor in Control and Engineering Biology, University of Warwick",
-        image: "/profile/advisors/mathias.jpg",
-      },
-      {
-        name: "Kim Siang Khaw",
-        role: "Associate Professor & Tenured Fellow (TDLI) & Muon Physicist (ShangHai Jiaotong)",
-        image: "/profile/advisors/khaw.jpg",
-      },
-    ],
+]
   };
 
   const [isAscending, setIsAscending] = useState(true);
@@ -136,7 +136,7 @@ export default function TeamPage() {
 
           {/* Board of Advisors Section */}
           <section className="!text-center !py-20 !px-4">
-            <h1 className="!text-7xl !font-bold !mb-20 !mt-20">
+            <h1 className="!text-7xl !font-bold !mb-20 !mt-5">
               Board of Advisors
             </h1>
 

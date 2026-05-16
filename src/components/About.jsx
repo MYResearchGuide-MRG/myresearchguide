@@ -65,9 +65,9 @@ export default function About1() {
               </div>
             </div>
             {/* Join community button */}
-            <div className="flex !pt-6">
+            <div className="flex !pt-6 justify-center">
               <a
-                href="https://forms.gle/Zr3J5MBSpgjjBgSQ6"
+                href="https://forms.gle/SWL2CsYJRbrVyKWe6"
                 target="_blank"
                 rel="noopener noreferrer"
               >
