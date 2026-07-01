@@ -1,134 +1,198 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
-import { Linkedin, Instagram, Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { Linkedin, Instagram, Mail, ArrowRight } from "lucide-react";
+import { FloatingPaths } from "@/components/ui/background-paths";
 
 export default function VerticalContactSection() {
   const [status, setStatus] = useState("");
+  const sending = status === "Sending...";
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setStatus("Sending...");
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus("Sending...");
 
-  const formData = new FormData(e.currentTarget);
-  
-  // CRITICAL: Ensure these keys match the names in your <input> tags
-  const payload = {
-    name: formData.get("name"),     // matches <input name="name" />
-    email: formData.get("email"),   // matches <input name="email" />
-    message: formData.get("message") // matches <textarea name="message" />
+    const formData = new FormData(e.currentTarget);
+
+    // CRITICAL: Ensure these keys match the names in your <input> tags
+    const payload = {
+      name: formData.get("name"), // matches <input name="name" />
+      email: formData.get("email"), // matches <input name="email" />
+      message: formData.get("message"), // matches <textarea name="message" />
+    };
+
+    // Debugging: Check your browser console to see if this is null!
+    console.log("Payload being sent:", payload);
+
+    const response = await fetch("/api/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    try {
+      if (response.ok) {
+        setStatus("Message Sent!");
+        (e.target as HTMLFormElement).reset(); // Clear form
+      } else {
+        setStatus("Error sending.");
+      }
+    } catch (error) {
+      setStatus("System Error.");
+    }
   };
 
-  // Debugging: Check your browser console to see if this is null!
-  console.log("Payload being sent:", payload);
+  const contactMethods = [
+    {
+      href: "http://www.linkedin.com/company/myresearchguide",
+      label: "LinkedIn",
+      value: "MYResearchGuide",
+      Icon: Linkedin,
+    },
+    {
+      href: "https://www.instagram.com/myresearchguide",
+      label: "Instagram",
+      value: "@myresearchguide",
+      Icon: Instagram,
+    },
+    {
+      href: "mailto:myresearchguide.org@gmail.com",
+      label: "Email",
+      value: "myresearchguide.org@gmail.com",
+      Icon: Mail,
+    },
+  ];
 
-  const response = await fetch("/api/send", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  try {
-    if (response.ok) {
-      setStatus("Message Sent!");
-      (e.target as HTMLFormElement).reset(); // Clear form
-    } else {
-      setStatus("Error sending.");
-    }
-  } catch (error) {
-    setStatus("System Error.");
-  }
-};
+  const fieldWrap = "!flex !flex-col !gap-2";
+  const labelClass =
+    "!text-[11px] !font-mono !uppercase !tracking-[0.2em] !text-white/40";
+  const inputClass =
+    "!w-full !bg-transparent !text-white !text-lg !py-2 !border-0 !border-b !border-white/20 !rounded-none !outline-none !placeholder-white/25 focus:!border-white !transition-colors";
+
   return (
-    <section className="!min-h-screen !bg-black !p-6 md:!p-12 !flex !items-center !justify-center">
-      <div className="!max-w-5xl !w-full !flex !flex-col lg:!flex-row !gap-0">
-
-        {/* Left Side: 3 Vertical Slate Boxes */}
-        <div className="!flex !flex-col !gap-4 !z-10 !basis-full lg:!basis-1/3 !mb-6 lg:!mb-0 lg:!translate-x-12 lg:!py-12">
-
-          {/* Address Card */}
-          <a
-            href="http://www.linkedin.com/company/myresearchguide"
-            target="_blank"
-            className=""
-            aria-label="LinkedIn"
-          >
-            <div className="!bg-slate-900 !p-8 !flex !flex-col !items-center !text-center !shadow-2xl !border !border-slate-800 !rounded-lg">
-
-              <Linkedin className="!text-slate-400 !mb-4" size={32} />
-              <h3 className="!font-bold !text-white !uppercase !tracking-widest !text-xs !mb-3">LinkedIn</h3>
-              <p className="!text-slate-300 !text-sm">MYResearchGuide</p>
-
-            </div>
-          </a>
-
-          {/* Phone Card */}
-          <a
-            href="https://www.instagram.com/myresearchguide"
-            target="_blank"
-            className="text-gray-500 hover:text-pink-600 transition-colors"
-            aria-label="Instagram"
-          >
-            <div className="!bg-slate-900 !p-8 !flex !flex-col !items-center !text-center !shadow-2xl !border !border-slate-800 !rounded-lg">
-              <Instagram className="!text-slate-400 !mb-4" size={32} />
-              <h3 className="!font-bold !text-white !uppercase !tracking-widest !text-xs !mb-3">Instagram</h3>
-              <p className="!text-slate-300 !text-sm">@myresearchguide</p>
-            </div>
-          </a>
-
-          <a
-            href="mailto:myresearchguide.org@gmail.com"
-            className="text-gray-500 hover:text-red-500 transition-colors"
-            aria-label="Gmail"
-          >
-            {/* Email Card */}
-            <div className="!bg-slate-900 !p-8 !flex !flex-col !items-center !text-center !shadow-2xl !border !border-slate-800 !rounded-lg">
-              <Mail className="!text-slate-400 !mb-4" size={32} />
-              <h3 className="!font-bold !text-white !uppercase !tracking-widest !text-xs !mb-3">Email</h3>
-              <p className="!text-slate-300 !text-sm !hover:text-white !transition-colors">myresearchguide.org@gmail.com</p>
-            </div>
-            </a>
-        </div>
-
-      {/* Right Side: Contact Form */}
-      <div className="!p-8 md:!p-16 !basis-full lg:!basis-2/3 !flex !flex-col !justify-center !shadow-2xl !rounded-lg">
-        <div className="lg:!pl-16">
-          <h2 className="!text-3xl md:!text-4xl !font-bold !text-white !mb-8 !text-center lg:!text-left">Contact Us</h2>
-
-          <form onSubmit={handleSubmit} className="!space-y-4">
-            <input
-            name="name"
-              type="text"
-              placeholder="Name"
-              required
-              className="!w-full !p-4 !bg-slate-900 !text-white !border !border-slate-700 !outline-none !focus:border-slate-500 !placeholder-slate-500 !rounded-lg"
-            />
-            <input
-            name="email"
-              type="email"
-              placeholder="Email Address"
-              required
-              className="!w-full !p-4 !bg-slate-900 !text-white !border !border-slate-700 !outline-none !focus:border-slate-500 !placeholder-slate-500 !rounded-lg"
-            />
-            <textarea
-            name="message"
-              placeholder="How can we help?"
-              rows={4}
-              className="!w-full !p-4 !bg-slate-900 !text-white !border !border-slate-700 !outline-none !focus:border-slate-500 !resize-none !rounded-lg"
-            ></textarea>
-
-            <div className="!flex !justify-center lg:!justify-start !pt-4">
-              <button
-                type="submit"
-                className="!bg-white !text-slate-900 !px-10 !py-3 !uppercase !font-black !tracking-tighter !transition-transform active:!scale-95 hover:!bg-slate-200 !rounded-lg"
-              >
-                {status || "Send Message"}
-              </button>
-            </div>
-          </form>
-        </div>
+    <section className="!relative !min-h-screen !bg-black !text-white !px-6 !py-32 md:!py-40 !flex !items-center !justify-center !overflow-hidden">
+      {/* Animated background paths */}
+      <div className="!absolute !inset-0 !pointer-events-none">
+        <FloatingPaths position={1} className="!text-white/20" />
+        <FloatingPaths position={-1} className="!text-white/20" />
       </div>
 
-    </div>
-    </section >
+      <div className="!relative !z-10 !max-w-6xl !w-full !mx-auto !grid !grid-cols-1 lg:!grid-cols-2 !gap-16 lg:!gap-24 !items-center">
+        {/* LEFT — statement + contact methods */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
+          <p className="!text-[11px] !font-mono !uppercase !tracking-[0.3em] !text-white/40 !mb-6">
+            Get in touch
+          </p>
+          <h1 className="!text-5xl md:!text-7xl !font-bold !tracking-tighter !leading-[0.95] !mb-8">
+            Let&apos;s start a
+            <br />
+            conversation.
+          </h1>
+          <p className="!text-white/50 !text-base md:!text-lg !leading-relaxed !max-w-md !mb-12">
+            Whether you have a question, an idea, or want to get involved with
+            MYResearchGuide — we read every message.
+          </p>
+
+          <div className="!border-t !border-white/10">
+            {contactMethods.map(({ href, label, value, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="!group !flex !items-center !gap-5 !py-5 !border-b !border-white/10 !no-underline !transition-colors hover:!bg-white/[0.03]"
+              >
+                <span className="!flex !items-center !justify-center !w-11 !h-11 !rounded-full !border !border-white/20 !text-white/80 !transition-colors group-hover:!border-white group-hover:!text-white">
+                  <Icon size={18} />
+                </span>
+                <span className="!flex !flex-col">
+                  <span className={labelClass}>{label}</span>
+                  <span className="!text-white !text-base">{value}</span>
+                </span>
+                <ArrowRight
+                  size={18}
+                  className="!ml-auto !text-white/30 !transition-all group-hover:!text-white group-hover:!translate-x-1"
+                />
+              </a>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* RIGHT — form with underline inputs */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+        >
+          <form onSubmit={handleSubmit} className="!space-y-8">
+            <div className={fieldWrap}>
+              <label htmlFor="name" className={labelClass}>
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Your name"
+                required
+                className={inputClass}
+              />
+            </div>
+
+            <div className={fieldWrap}>
+              <label htmlFor="email" className={labelClass}>
+                Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                required
+                className={inputClass}
+              />
+            </div>
+
+            <div className={fieldWrap}>
+              <label htmlFor="message" className={labelClass}>
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="How can we help?"
+                rows={4}
+                required
+                className={`${inputClass} !resize-none`}
+              ></textarea>
+            </div>
+
+            <div className="!flex !items-center !gap-5 !pt-2">
+              <button
+                type="submit"
+                disabled={sending}
+                className="!group !inline-flex !items-center !gap-2 !bg-white !text-black !px-8 !py-3.5 !rounded-full !font-bold !text-sm !uppercase !tracking-tighter !transition-transform active:!scale-95 hover:!bg-white/90 disabled:!opacity-60"
+              >
+                {status && status !== "Sending..." ? status : "Send message"}
+                <ArrowRight
+                  size={16}
+                  className="!transition-transform group-hover:!translate-x-1"
+                />
+              </button>
+              {sending && (
+                <span className="!text-white/50 !text-sm">Sending…</span>
+              )}
+            </div>
+          </form>
+        </motion.div>
+      </div>
+    </section>
   );
 }
