@@ -12,8 +12,9 @@ const Nav = () => {
 
   const navLinks = [
     { name: "About Us", href: "/team" }, // Added as requested
+    { name: "Researchers", href: "/researchers" },
     { name: "Partners & Sponsors", href: "/partner-sponsor" },
-        { name: "Contact Us", href: "/contact" },
+    { name: "Contact Us", href: "/contact" },
   ];
 
   const menuVariants = {
@@ -47,7 +48,7 @@ const Nav = () => {
 
         {/* Desktop Navigation Links */}
         <div className="!hidden md:!flex !items-center !gap-10">
-          {navLinks.slice(0, 3).map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}

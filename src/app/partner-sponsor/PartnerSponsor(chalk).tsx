@@ -1,38 +1,79 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
+import { GlowCard } from "@/components/ui/spotlight-card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
-  const partners = [
-    {
-      name: "Malaysian BioScience Scholars",
-      logo: "/mbios.png",
-      link: "https://mbios.org"
-    },
-    {
-      name: "Southeast Asian Economics Project",
-      logo: "/seaecon.png",
-      link: "https://seaecon.org",
+type Org = {
+  name: string;
+  logo: string;
+  description: string;
+  link: string;
+  logoFit?: "cover" | "contain"; // "cover" fills the whole circle
+  logoPad?: string; // tailwind padding class for "contain" logos (default !p-5)
+};
 
-    },
-    {
-      name: "Asia Pacific Center of Robotics Enginnering",
-      logo: "/apcore.jpg",
-      link: "https://apcore.apu.edu.my",
-    },
-    {
-      name: "Girls In STEM",
-      logo: "/girls4stem.jpeg",
-      link: "https://girlsinstem43.wixsite.com/girlsinstemkl",
-    },
-  ];
-  
+const partners: Org[] = [
+  {
+    name: "Malaysian BioScience Scholars",
+    logo: "/mbios.png",
+    description:
+      "A student-led association supporting Malaysian students pursuing bioscience careers around the world.",
+    link: "https://mbios.org",
+  },
+  {
+    name: "Southeast Asian Economics Project",
+    logo: "/seaecon.png",
+    description:
+      "A student-led economics non-profit and social enterprise in KL, promoting multidisciplinary economic thinking across Southeast Asia.",
+    link: "https://seaecon.org",
+  },
+  {
+    name: "Asia Pacific Centre of Robotics Engineering",
+    logo: "/apcore.jpg",
+    description:
+      "A specialised robotics research and development hub based at APU in KL.",
+    link: "https://apcore.apu.edu.my",
+    logoPad: "!p-1", // enlarge logo within the circle
+  },
+  {
+    name: "Girls In STEM",
+    logo: "/girls4stem.jpeg",
+    description:
+      "A student-run organisation in KL empowering young women to explore and pursue their passion in STEM.",
+    link: "https://girlsinstem43.wixsite.com/girlsinstemkl",
+    logoFit: "cover", // fill the whole circle with its purple background
+  },
+  {
+    name: "Che(ms.)try",
+    logo: "/chemstry.png",
+    description:
+      "A student-led chemistry initiative empowering women and igniting a passion for science through creative, community-driven outreach.",
+    link: "https://www.instagram.com/chems._try",
+  },
+];
 
-// const sponsors = [
-//   // Example: { name: "Organization Name", logo: "/path-to-logo.png" }
-// ];
+// Gold-tier sponsors. Platinum tier removed for now.
+const goldSponsors: Org[] = [
+  {
+    name: "MABECS",
+    logo: "/mabecs.svg",
+    description:
+      "MABECS is Malaysia's leading UK education consultancy, established in 1985. It guides Malaysian students through every stage of studying abroad — from selecting universities and courses to completing UCAS applications and securing visas. With a network of over 90 university and pathway partners, MABECS offers personalised consulting delivered by British Council-trained education advisors.",
+    link: "https://www.mabecs.com/en-gb",
+  },
+];
 
 const ChalkboardTile = () => (
   <div className="!w-[1024px] !h-[768px] !flex-shrink-0 !overflow-hidden">
@@ -45,6 +86,85 @@ const ChalkboardTile = () => (
     />
   </div>
 );
+
+function PartnerCarousel({ items }: { items: Org[] }) {
+  // Auto-scrolls; pauses on hover, resumes on leave.
+  const autoplay = useRef(
+    Autoplay({ delay: 2800, stopOnInteraction: false, stopOnMouseEnter: true }),
+  );
+
+  return (
+    <Carousel
+      opts={{ align: "start", loop: true }}
+      plugins={[autoplay.current]}
+      className="!w-full !px-4 md:!px-14"
+    >
+      <CarouselContent
+        className="!-ml-4 !py-6"
+        style={
+          {
+            // Silver (desaturated) spotlight.
+            "--saturation": "0",
+            "--lightness": "78",
+            // --outer: blurred ambient layer that pooled into a blob at the corner.
+            "--outer": "0",
+            // --border-light-opacity: the hard-coded pure-WHITE ::after highlight that
+            // stayed white (ignores saturation) and blobbed at the rounded corner. Off.
+            "--border-light-opacity": "0",
+            // Soften the remaining silver border reflection so corners don't over-brighten.
+            "--border-spot-opacity": "0.7",
+          } as React.CSSProperties & Record<string, string>
+        }
+      >
+        {items.map((org, i) => (
+          <CarouselItem
+            key={i}
+            className="!pl-4 !basis-full sm:!basis-1/2 lg:!basis-1/3"
+          >
+            <GlowCard
+              customSize
+              className="!w-full !h-full !min-h-[420px] !flex !flex-col !items-center !text-center !rounded-3xl !p-8"
+            >
+              {/* logo in white circle */}
+              <div className="!bg-white !rounded-full !w-28 !h-28 !overflow-hidden !flex !items-center !justify-center !mb-6 !shadow-lg">
+                {org.logoFit === "cover" ? (
+                  <img
+                    src={org.logo}
+                    alt={org.name}
+                    className="!w-full !h-full !object-cover"
+                  />
+                ) : (
+                  <img
+                    src={org.logo}
+                    alt={org.name}
+                    className={`!max-w-full !max-h-full !object-contain ${org.logoPad ?? "!p-5"}`}
+                  />
+                )}
+              </div>
+              <h4 className="!text-lg md:!text-xl !font-bold !text-white !mb-3">
+                {org.name}
+              </h4>
+              <p className="!text-zinc-400 !text-sm !leading-relaxed !mb-6">
+                {org.description}
+              </p>
+              <a
+                href={org.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="!mt-auto !inline-flex !items-center !gap-2 !text-white !text-sm !font-semibold !no-underline hover:!underline"
+              >
+                Visit
+                <ExternalLink size={16} />
+              </a>
+            </GlowCard>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious className="!z-20 !left-1 md:!-left-12 !text-white !bg-zinc-900/80 !border-zinc-700 hover:!bg-zinc-800" />
+      <CarouselNext className="!z-20 !right-1 md:!-right-12 !text-white !bg-zinc-900/80 !border-zinc-700 hover:!bg-zinc-800" />
+    </Carousel>
+  );
+}
 
 const containerVariants = {
   hidden: {},
@@ -117,144 +237,61 @@ export default function PartnersSponsors() {
 
       {/* ── CONTENT SECTION ── */}
       <div className="!px-6 md:!px-12 !py-20 !max-w-6xl !mx-auto">
-        {/* Partners Section - Grey Outer Card */}
-        <div className="!px-6 md:!px-12 !py-20 !max-w-6xl !mx-auto">
-          {/* Partners Section - Grey Outer Card */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="!mb-16 !p-8 md:!p-16 !rounded-[3rem] !bg-slate-900/40 !border !border-slate-800/50 shadow-2xl"
-          >
-            <motion.h3
-              variants={itemVariants}
-              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-slate-200 !mb-12 !text-center md:!text-left"
-            >
-              Partners
-            </motion.h3>
-
-            <div className="!grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-2 !gap-6 !w-full">
-              {partners.map((p, i) => (
-                <motion.div
-                  key={i}
-                  variants={itemVariants}
-                  whileHover={{ y: -5 }}
-                  className="!bg-white !rounded-2xl !flex !flex-col !items-center !justify-center !p-6 !min-h-[160px] shadow-lg cursor-default !overflow-hidden"
-                >
-                  <a href={p.link}>
-                    <div className="!flex-1 !flex !items-center !justify-center !w-full">
-                      <img
-                        src={p.logo}
-                        alt={p.name}
-                        className="!w-auto !h-auto !max-w-full !max-h-[150px] !object-contain"
-                      />
-                    </div>
-                    <p className="!text-slate-900 !font-semibold !text-sm !mt-4 !text-center !w-full !block">
-                      {p.name}
-                    </p>
-                  </a>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Sponsors Section - Platinum (Plat-Blue) Outer Card */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="!mb-24 !p-8 md:!p-16 !rounded-[3rem] !bg-gradient-to-br !from-slate-400/20 !via-blue-900/40 !to-slate-600/20 !border !border-blue-400/20 shadow-2xl"
-          >
-            <motion.h3
-              variants={itemVariants}
-              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-slate-100 !mb-12 !text-center md:!text-left"
-            >
-              Platinum Sponsors
-            </motion.h3>
-
-            <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-              <div className="!col-span-full !text-slate-400 !text-lg !font-medium !py-12 !text-center !bg-black/40 !rounded-2xl !border !border-dashed !border-slate-700">
-                No Platinum sponsors as of 3/5/2026.
-              </div>
-              {/* {sponsors.length > 0 ? (
-                          sponsors.map((s, i) => (
-                          <motion.div 
-                              key={i} 
-                              variants={itemVariants}
-                              whileHover={{ y: -12 }} // The "Raise" animation
-                              transition={{ duration: 0.3, ease: "easeOut" }}
-                              className="!bg-white !rounded-2xl !p-6 !flex !flex-col !items-center !justify-between !aspect-video shadow-lg cursor-default"
-                          >
-                              <div className="!flex-1 !flex !items-center !justify-center !w-full !p-2">
-                                  <img src={s.logo} alt={s.name} className="!max-w-full !max-h-full !object-contain" />
-                              </div>
-                              <p className="!text-slate-900 !font-black !text-xs md:!text-sm !mt-2 !text-center !uppercase !tracking-widest !border-t !border-slate-100 !pt-4 !w-full">
-                                  {s.name}
-                              </p>
-                          </motion.div>
-                          ))
-                      ) : (
-                          <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
-                              No sponsors as of 3/5/2026.
-                          </div>
-                      )} */}
-            </div>
-          </motion.div>
-
-          {/* Sponsors Section - Gold (Gold-Yellow) Outer Card */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            className="!mb-24 !p-8 md:!p-16 !rounded-[3rem] !bg-gradient-to-br !from-amber-900/40 !via-yellow-900/20 !to-amber-600/30 !border !border-yellow-600/20 shadow-2xl"
-          >
-            <motion.h3
-              variants={itemVariants}
-              className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !mb-12 !text-center md:!text-left"
-            >
-              Gold Sponsors
-            </motion.h3>
-
-            <div className="!grid !grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4 !gap-6">
-              <div className="!col-span-full !text-yellow-600/60 !text-lg !font-medium !py-12 !text-center !bg-black/40 !rounded-2xl !border !border-dashed !border-yellow-900/40">
-                No Gold Sponsors as of 3/5/2026.
-              </div>
-              {/* {sponsors.length > 0 ? (
-                          sponsors.map((s, i) => (
-                          <motion.div 
-                              key={i} 
-                              variants={itemVariants}
-                              whileHover={{ y: -12 }} // The "Raise" animation
-                              transition={{ duration: 0.3, ease: "easeOut" }}
-                              className="!bg-white !rounded-2xl !p-6 !flex !flex-col !items-center !justify-between !aspect-video shadow-lg cursor-default"
-                          >
-                              <div className="!flex-1 !flex !items-center !justify-center !w-full !p-2">
-                                  <img src={s.logo} alt={s.name} className="!max-w-full !max-h-full !object-contain" />
-                              </div>
-                              <p className="!text-slate-900 !font-black !text-xs md:!text-sm !mt-2 !text-center !uppercase !tracking-widest !border-t !border-slate-50 !pt-4 !w-full">
-                                  {s.name}
-                              </p>
-                          </motion.div>
-                          ))
-                      ) : (
-                          <div className="!col-span-full !text-slate-500 !text-lg !font-medium !py-12 !text-center !bg-black/20 !rounded-2xl !border !border-dashed !border-slate-800">
-                              No Gold Sponsors as of 3/5/2026.
-                          </div>
-                      )} */}
-            </div>
-          </motion.div>
+        {/* Partners — carousel */}
+        <div className="!mb-32">
+          <h3 className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-slate-200 !mb-16 !text-center">
+            Partners
+          </h3>
+          <PartnerCarousel items={partners} />
         </div>
 
-        {/* ── FOOTER SECTION ── */}
+        {/* Sponsors — Gold tier */}
+        <div className="!mb-24">
+          <h3 className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !mb-4 !text-center !bg-gradient-to-br !from-amber-200 !via-yellow-400 !to-amber-600 !bg-clip-text !text-transparent !drop-shadow-[0_0_25px_rgba(251,191,36,0.45)]">
+            Gold Sponsors
+          </h3>
+
+          <div className="!mt-12 !flex !flex-col !items-center">
+            {goldSponsors.map((s, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="!flex !flex-col !items-center !text-center !max-w-xl"
+              >
+                <div className="!bg-white !rounded-full !w-40 !h-40 !overflow-hidden !flex !items-center !justify-center !p-7 !mb-6 !shadow-lg !ring-1 !ring-yellow-500/30">
+                  <img
+                    src={s.logo}
+                    alt={s.name}
+                    className="!max-w-full !max-h-full !object-contain"
+                  />
+                </div>
+                <p className="!text-slate-300 !text-sm md:!text-base !leading-relaxed !mb-5">
+                  {s.description}
+                </p>
+                <a
+                  href={s.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="!inline-flex !items-center !gap-2 !text-white !text-sm !font-semibold !no-underline hover:!underline"
+                >
+                  Visit
+                  <ExternalLink size={16} />
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── THANK YOU / CTA SECTION ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="!flex !flex-col md:!flex-row !items-center !justify-between "
+          className="!flex !flex-col md:!flex-row !items-center !justify-between !gap-10"
         >
           <div className="!text-center md:!text-left !max-w-xl">
             <h3 className="!text-4xl md:!text-6xl !font-bold !tracking-tighter !mb-6 !leading-none !bg-gradient-to-l !from-white !to-slate-500 !bg-clip-text !text-transparent">
@@ -267,7 +304,6 @@ export default function PartnersSponsors() {
               researchers.
             </p>
           </div>
-          {/* Left: Buttons stacked vertically */}
           <div className="!flex !flex-col !gap-4 !w-full md:!w-auto md:!mt-0 !mt-3">
             <a
               href="https://forms.gle/gfa8yGKAfFE5jxFk8"
@@ -290,8 +326,6 @@ export default function PartnersSponsors() {
               </button>
             </a>
           </div>
-
-          {/* Right: Thank you message */}
         </motion.div>
       </div>
     </div>

@@ -3,85 +3,27 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
   PlayCircle,
   NotebookPen,
+  ArrowRight,
 } from "lucide-react";
+import { researchers } from "@/data/researchers";
 
-const speakers = [
-  { 
-    id: 1, 
-    title: "Chooi Je Qin", 
-    name: "AI Safety @ Oxford, Stats/CS/Math @ Harvard", 
-    image: "/interviews/jeqin.jpg", 
-    link: "" 
-  },
-  { 
-    id: 2, 
-    title: "Melvin Cheng Choon Lei", 
-    name: "Bio Eng & Data Sci. @ Stanford | Glycobiology @ Oxford", 
-    image: "/interviews/melvin.png", 
-    link: "" 
-  },
-  { 
-    id: 3, 
-    title: "Chuin Wei Tan", 
-    name: "AI for Materials PhD @ Harvard", 
-    image: "/interviews/chuinwei.png", 
-    link: "" 
-  },
-  { 
-    id: 4, 
-    title: "Dr. KamWoh Ng", 
-    name: "Research Scientist @ Meta, PhD in AI @ Surrey", 
-    image: "/interviews/kamwoh.png", 
-    link: "" 
-  },
-  { 
-    id: 5, 
-    title: "Joel Pang", 
-    name: "Chem Eng @ Caltech", 
-    image: "/interviews/joel.png", 
-    link: "" 
-  },
-  { 
-    id: 6, 
-    title: "Loh Juin Xian", 
-    name: "PhD in Chem Eng @ NTU", 
-    image: "/interviews/juinxian.png", 
-    link: "" 
-  },
-  { 
-    id: 7, 
-    title: "Ong Zhi Zheng", 
-    name: "Physics & EECS @ MIT", 
-    image: "/interviews/ongzhizheng.png", 
-    link: "" 
-  },
-  { 
-    id: 8, 
-    title: "Owen Loh", 
-    name: "Physics @ Oxford", 
-    image: "/interviews/owen.png", 
-    link: "" 
-  },
-  { 
-    id: 9, 
-    title: "Wong Jer Ren", 
-    name: "Math & AI @ MIT", 
-    image: "/interviews/wongjerren.png", 
-    link: "" 
-  },
-  { 
-    id: 10, 
-    title: "Zad Chin", 
-    name: "Stats & Math @ Harvard", 
-    image: "/interviews/zadchin.png", 
-    link: "" 
-  }
-];
+// Derived from the shared researcher data file so the home teaser and the
+// /researchers directory stay in sync.
+const speakers = researchers
+  .filter((r) => r.image)
+  .map((r, i) => ({
+    id: i + 1,
+    title: r.name,
+    name: r.tagline,
+    image: r.image,
+    link: r.interview || "",
+  }));
 
 const Interview = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -244,6 +186,16 @@ const Interview = () => {
         >
           <ChevronRight size={40} />
         </button>
+      </div>
+
+      <div className="!mt-12 !flex !justify-center">
+        <Link
+          href="/researchers"
+          className="!group !inline-flex !items-center !gap-2 !bg-transparent !text-white !border !border-white/30 !px-8 !py-3 !rounded-xl !font-bold !text-sm !uppercase !tracking-widest !no-underline !transition-all hover:!bg-white/10 hover:!border-white"
+        >
+          View all researchers
+          <ArrowRight size={18} className="!transition-transform group-hover:!translate-x-1" />
+        </Link>
       </div>
     </section>
   );

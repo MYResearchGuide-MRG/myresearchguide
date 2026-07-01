@@ -4,10 +4,8 @@ import Stats from "@/components/Stats";
 import {Faq}  from "@/components/Faq";
 import Foot from "@/components/Foot";
 import BackgroundOrb from "@/components/BackgroundOrb";
-import Cards from "@/components/Cards"
 import Top from "@/components/Top"
 import NewNav from "@/components/NewNav"
-import Partner from "@/components/Partner"
 import HeroNew from "@/components/HeroNew"
 import About1 from "@/components/About"
 
@@ -29,9 +27,7 @@ export default function Home() {
         <Carousel />
         <About1 />
         <Stats />
-        <Cards />
         <Faq />
-        <Partner />
         <Foot />
       </div>
     </main>
