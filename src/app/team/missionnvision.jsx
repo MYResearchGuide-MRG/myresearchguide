@@ -1,32 +1,44 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import Image from "next/image";
 
+// Word whose opacity is driven by scroll progress (teleprompter reveal)
+function RevealWord({ children, progress, range }) {
+  const opacity = useTransform(progress, range, [0.15, 1]);
+  return (
+    <motion.span style={{ opacity }} className="!mr-[0.3em] !inline-block">
+      {children}
+    </motion.span>
+  );
+}
+
+// Paragraph that reveals word-by-word as it scrolls through the viewport
+function ScrollReveal({ text, className = "" }) {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start 0.85", "end 0.45"],
+  });
+  const words = text.split(" ");
+
+  return (
+    <p ref={container} className={`!flex !flex-wrap !justify-center ${className}`}>
+      {words.map((word, i) => {
+        const start = i / words.length;
+        const end = start + 1 / words.length;
+        return (
+          <RevealWord key={i} progress={scrollYProgress} range={[start, end]}>
+            {word}
+          </RevealWord>
+        );
+      })}
+    </p>
+  );
+}
+
 export default function Mission() {
-  // Animation settings
-  const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1.2,
-        ease: [0.22, 1, 0.36, 1],
-        staggerChildren: 0.3,
-      },
-    },
-  };
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 1.5, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
   return (
     <section className="min-h-[500px]">
       <div className="gap-6 !m-10 md:m-0">
@@ -52,27 +64,12 @@ export default function Mission() {
           </div>
 
           <section className="!relative !py-20 !px-6 !overflow-hidden">
-            {/* Consolidated About block */}
-            <div className="!max-w-3xl !mx-auto !relative !z-0 !text-center">
-              <motion.div
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="!flex !flex-col !gap-6"
-              >
-                <h2 className="!text-3xl md:!text-5xl !font-bold !text-white">
-                  About Us.
-                </h2>
-                <p className="!text-lg md:!text-xl !leading-relaxed !text-white/90">
-                  MYResearchGuide (termed MRG) was founded in 2026 and is a
-                  not-for-profit organisation crafted in collaboration with
-                  Malaysian researchers from top institutions around the world.
-                  Our mission is to make science research accessible towards all
-                  Malaysian youth, and through curated initiatives are dedicated
-                  to bridging the gap between curiosity and opportunity.
-                </p>
-              </motion.div>
+            {/* Consolidated About block — scroll-driven teleprompter reveal */}
+            <div className="!max-w-4xl !mx-auto !relative !z-0 !text-center">
+              <ScrollReveal
+                text="MYResearchGuide (termed MRG) was founded in 2026 and is a not-for-profit organisation crafted in collaboration with Malaysian researchers from top institutions around the world. Our mission is to make science research accessible towards all Malaysian youth, and through curated initiatives are dedicated to bridging the gap between curiosity and opportunity."
+                className="!text-2xl sm:!text-3xl md:!text-4xl !font-semibold !leading-[1.35] !tracking-tight !text-white"
+              />
             </div>
 
             {/* 2. OVERLAPPING HERO IMAGE */}
@@ -81,7 +78,7 @@ export default function Mission() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1.8, delay: 0.4 }}
-              className="!relative !z-10 !max-w-auto md:!max-w-4xl !mx-auto !mt-10 md:!-mt-16 !px-4"
+              className="!relative !z-10 !max-w-auto md:!max-w-4xl !mx-auto !mt-16 md:!mt-24 !px-4"
             >
               <div className="!rounded-2xl !overflow-hidden !border-4 !border-black !shadow-[0_20px_50px_rgba(0,0,0,0.8)] md:!w-[700px] md:!h-auto md:!mx-auto !mt-10">
                 <Image
