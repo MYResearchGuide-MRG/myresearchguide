@@ -24,6 +24,13 @@ export type Researcher = {
 // The static file is only the fallback for researchers WITHOUT a profile row
 // yet, plus DB-only people are always included.
 export async function fetchPublicResearchers(): Promise<Researcher[]> {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  ) {
+    return staticResearchers;
+  }
+
   let supabase;
   try {
     supabase = await createClient();
