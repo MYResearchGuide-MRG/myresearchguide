@@ -1,0 +1,1192 @@
+/* Organisation section.
+   Palette and shapes intentionally mirror the site-wide dark theme used by the
+   researcher/interview cards: pure black ground, zinc-900/50 surfaces on
+   zinc-800 borders, monochrome text, and white-based hover/focus accents. */
+
+.organisation {
+  --org-surface: rgba(24, 24, 27, 0.5);
+  --org-surface-hover: rgba(39, 39, 42, 0.55);
+  --org-surface-solid: #101012;
+  --org-border: #27272a;
+  --org-border-hover: rgba(255, 255, 255, 0.4);
+  --org-hairline: rgba(255, 255, 255, 0.08);
+  --org-text: #ffffff;
+  --org-muted: #a1a1aa;
+  --org-subtle: #71717a;
+  --org-focus: rgba(255, 255, 255, 0.45);
+  position: relative;
+  padding: 6rem clamp(1rem, 5vw, 4rem) 0;
+  color: var(--org-text);
+  background: transparent;
+}
+
+.organisationHeader,
+.graphSurface,
+.advisorsSection {
+  width: min(100%, 76rem);
+  margin-inline: auto;
+}
+
+/* Advisors lead the section, so the team header sits below them. */
+.organisationHeader {
+  padding: 5rem 0 4rem;
+  text-align: center;
+}
+
+.organisationTitle {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.organisationTitle span {
+  display: block;
+  font-weight: 600;
+  background: linear-gradient(to right, #a8a29e, #cbd5e1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.organisationSubtitle {
+  max-width: 34rem;
+  margin: 1.25rem auto 0;
+  color: var(--org-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.graphSurface {
+  padding: 1rem 0 7rem;
+}
+
+.graphLayer,
+.mobileLayer {
+  position: relative;
+}
+
+/* Tier label: small caps rule, no numbered org-chart badges. */
+.layerHeading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.layerHeading::before,
+.layerHeading::after {
+  flex: 1;
+  max-width: 7rem;
+  height: 1px;
+  background: var(--org-hairline);
+  content: "";
+}
+
+.layerHeading h2 {
+  margin: 0;
+  color: var(--org-subtle);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Every tier is flex-wrap rather than grid so an incomplete final row
+   centres instead of leaving empty cells hanging to the right. */
+.leadershipGrid,
+.directorGrid,
+.departmentGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* Row gap is larger than the column gap: portraits break above each plate,
+     so wrapped rows need clearance the column axis does not. Column gap stays
+     1.25rem to keep the flex-basis arithmetic below intact. */
+  gap: 3rem 1.25rem;
+}
+
+.leadershipGrid {
+  width: min(100%, 40rem);
+  margin-inline: auto;
+}
+
+.leadershipGrid > * {
+  flex: 0 1 calc((100% - 1.25rem) / 2);
+}
+
+.directorGrid > * {
+  flex: 0 1 calc((100% - 3 * 1.25rem) / 4);
+}
+
+/* Single hairline that fades at both ends — hierarchy without chart brackets. */
+.connector {
+  height: 4rem;
+  margin-inline: auto;
+}
+
+.connector::before {
+  display: block;
+  width: 1px;
+  height: 100%;
+  margin-inline: auto;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.16) 30%,
+    rgba(255, 255, 255, 0.16) 70%,
+    transparent
+  );
+  content: "";
+}
+
+/* Person card: a large circular portrait overlapping a soft label plate. The
+   circle is the hero and breaks the plate's top edge — that overlap is what
+   stops the grid from reading as a row of rectangles. */
+.personNode {
+  --avatar: 8.25rem;
+  --overlap: 2.2rem;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  color: var(--org-text);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.personNode:focus-visible {
+  outline: none;
+}
+
+/* The plate carries the surface; its top padding clears the portrait overlap.
+   Capping the width keeps the portrait dominant — a plate stretched to the full
+   column reads as a bar with a circle stuck on top. */
+.plate {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: 17rem;
+  /* Fixed height, not min-height: a wrapped name used to grow its own plate and
+     leave the row visibly ragged. Long text is clamped instead so every card in
+     the section is the same size. */
+  height: var(--plate-height, 10.5rem);
+  flex: 0 0 auto;
+  flex-direction: column;
+  /* Top-aligned, not centred: with a fixed height, centring floats a wrapped
+     name higher than its single-line neighbours. Anchoring the top puts every
+     name in a row on one baseline, and the cue is pinned to the bottom anyway. */
+  justify-content: flex-start;
+  padding: calc(var(--overlap) + 1.3rem) 1.4rem 2.4rem;
+  background: var(--org-surface);
+  border: 1px solid var(--org-border);
+  border-radius: 1.75rem;
+  transition: border-color 300ms ease, background-color 300ms ease;
+}
+
+/* Lift is animated by framer-motion; CSS owns colour only. */
+.personNode:hover .plate,
+.personNode:focus-visible .plate,
+.personNodeActive .plate,
+.departmentNode:hover .plate,
+.departmentNode:focus-visible .plate,
+.departmentNodeActive .plate,
+.advisorCard:hover .plate,
+.advisorCard:focus-visible .plate {
+  background: var(--org-surface-hover);
+  border-color: var(--org-border-hover);
+}
+
+/* The ring tracks the plate, not the transparent wrapper, so it follows the
+   card's visible silhouette instead of boxing in the portrait too. */
+.personNode:focus-visible .plate,
+.departmentNode:focus-visible .plate,
+.advisorCard:focus-visible .plate,
+.mobileDepartmentTrigger:focus-visible,
+.memberRow:focus-visible,
+.profileClose:focus-visible,
+.profileLinks a:focus-visible {
+  box-shadow: 0 0 0 2px var(--org-focus);
+}
+
+.personNodeExecutive {
+  --avatar: 10.5rem;
+  --overlap: 2.6rem;
+}
+
+.personNodeExecutive .plate {
+  --plate-height: 11rem;
+  max-width: 18rem;
+}
+
+.personNodeActive .plate {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+/* Avatar: zinc disc + zinc-800 ring, initials fallback. */
+.avatar {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  overflow: hidden;
+  color: var(--org-muted);
+  background: #27272a;
+  border: 4px solid #27272a;
+  border-radius: 50%;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The disc holds its size and the portrait zooms inside the circular mask, so
+   the overlap geometry stays put while hovering. */
+.personNode:hover .avatar img,
+.personNode:focus-visible .avatar img,
+.advisorCard:hover .avatar img,
+.advisorCard:focus-visible .avatar img,
+.memberRow:hover .avatar img {
+  transform: scale(1.08);
+}
+
+.personNode:hover .avatar,
+.personNode:focus-visible .avatar,
+.advisorCard:hover .avatar,
+.advisorCard:focus-visible .avatar,
+.memberRow:hover .avatar {
+  border-color: #3f3f46;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+/* Showcase portraits read their size from the card and pull the plate up under
+   themselves by the shared --overlap. */
+.avatarExecutive,
+.avatarDirector,
+.avatarAdvisor {
+  width: var(--avatar);
+  height: var(--avatar);
+  margin-bottom: calc(var(--overlap) * -1);
+  font-size: calc(var(--avatar) / 4.5);
+}
+
+.avatarMember {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-width: 2px;
+  font-size: 0.72rem;
+}
+
+.avatarProfile {
+  width: 5.5rem;
+  height: 5.5rem;
+  font-size: 1.15rem;
+}
+
+/* Two lines for a name, two for a role: enough for every entry in the roster
+   while keeping the plate height fixed. */
+.personName,
+.advisorName,
+.departmentName {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.personTitle,
+.advisorTitle,
+.departmentOwner {
+  display: -webkit-box;
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.personName {
+  color: var(--org-text);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.personTitle {
+  margin-top: 0.4rem;
+  color: var(--org-subtle);
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Absolutely positioned so the cue never contributes to the fixed plate
+   height, and always visible so the affordance does not depend on hover. */
+.moreCue {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--org-subtle);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  transition: color 260ms ease, opacity 260ms ease;
+  opacity: 0.75;
+}
+
+.moreCue svg {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.personNode:hover .moreCue,
+.personNode:focus-visible .moreCue,
+.departmentNode:hover .moreCue,
+.departmentNode:focus-visible .moreCue,
+.departmentNodeActive .moreCue,
+.advisorCard:hover .moreCue,
+.advisorCard:focus-visible .moreCue {
+  color: var(--org-text);
+  opacity: 1;
+}
+
+.personNode:hover .moreCue svg,
+.personNode:focus-visible .moreCue svg,
+.departmentNode:hover .moreCue svg,
+.departmentNode:focus-visible .moreCue svg,
+.advisorCard:hover .moreCue svg,
+.advisorCard:focus-visible .moreCue svg {
+  transform: translateX(3px);
+}
+
+.personNodeExecutive .personName {
+  font-size: 1.35rem;
+}
+
+.personNodeExecutive .personTitle,
+.personNodeDirector .personTitle {
+  color: var(--org-muted);
+}
+
+/* Department card — same circle-over-plate motif, with the icon disc standing
+   in for the portrait. */
+.departmentNode {
+  --overlap: 1.8rem;
+  display: flex;
+  min-width: 0;
+  flex: 0 1 calc((100% - 3 * 1.25rem) / 4);
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  color: var(--org-text);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.departmentNode:focus-visible {
+  outline: none;
+}
+
+.departmentNode .plate {
+  --plate-height: 10.25rem;
+  max-width: 14.5rem;
+}
+
+.departmentNodeActive .plate {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+/* Circular icon discs, echoing the round avatars. */
+.departmentIcon,
+.expansionIcon,
+.mobileDepartmentIcon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--org-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--org-hairline);
+  border-radius: 50%;
+}
+
+.departmentIcon {
+  position: relative;
+  z-index: 1;
+  width: 5.75rem;
+  height: 5.75rem;
+  margin-bottom: calc(var(--overlap) * -1);
+  background: var(--org-surface-solid);
+  border-width: 4px;
+  border-color: #27272a;
+  transition: color 300ms ease, background-color 300ms ease,
+    border-color 300ms ease;
+}
+
+.departmentIcon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.departmentNode:hover .departmentIcon,
+.departmentNode:focus-visible .departmentIcon,
+.departmentNodeActive .departmentIcon {
+  color: var(--org-text);
+  border-color: #3f3f46;
+}
+
+.departmentName {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.departmentOwner {
+  margin-top: 0.35rem;
+  color: var(--org-subtle);
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+
+/* Expansion panel — solid so it reads as a layer above the grid. */
+.departmentExpansion {
+  margin-top: 1.25rem;
+  padding: 1.75rem;
+  background: var(--org-surface-solid);
+  border: 1px solid var(--org-border);
+  border-radius: 1.5rem;
+  animation: expansion-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.departmentExpansion[hidden] {
+  display: none;
+}
+
+.expansionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--org-hairline);
+}
+
+.expansionTitleGroup {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.expansionIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+}
+
+.expansionHeader h3 {
+  margin: 0;
+  color: var(--org-text);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.expansionCount {
+  flex: 0 0 auto;
+  color: var(--org-subtle);
+  font-size: 0.78rem;
+}
+
+.memberList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding-top: 1.25rem;
+}
+
+/* Member row as a contained tile rather than an underlined list item. */
+.memberRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 0.9rem;
+  color: var(--org-text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.memberRow:hover,
+.memberRow:focus-visible {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--org-border);
+  outline: none;
+}
+
+.memberRow > svg {
+  flex: 0 0 auto;
+  color: var(--org-subtle);
+  opacity: 0;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.memberRow:hover > svg,
+.memberRow:focus-visible > svg {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+.memberRowLead .memberRowName {
+  color: var(--org-text);
+}
+
+.memberRowCopy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.memberRowName,
+.memberRowTitle,
+.memberRowAffiliations {
+  overflow-wrap: anywhere;
+}
+
+.memberRowName {
+  color: var(--org-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.memberRowTitle {
+  color: var(--org-subtle);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+/* Cross-department affiliation pill. */
+.memberRowAffiliations {
+  flex: 0 0 auto;
+  max-width: 8rem;
+  padding: 0.2rem 0.5rem;
+  color: var(--org-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--org-hairline);
+  border-radius: 999px;
+  font-size: 0.66rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.mobileGraph {
+  display: none;
+}
+
+.advisorsSection {
+  padding: 0 0 5rem;
+  border-bottom: 1px solid var(--org-hairline);
+}
+
+.advisorsHeader {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.advisorsTitle {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.advisorsTitle span {
+  font-weight: 600;
+  background: linear-gradient(to right, #a8a29e, #cbd5e1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.advisorsHeader > p {
+  max-width: 34rem;
+  margin: 1.1rem auto 0;
+  color: var(--org-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.advisorGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.75rem 2rem;
+}
+
+.advisorCard {
+  --avatar: 9rem;
+  --overlap: 2.4rem;
+  display: flex;
+  min-width: 0;
+  flex: 0 1 calc((100% - 2 * 2rem) / 3);
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  color: var(--org-text);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.advisorCard:focus-visible {
+  outline: none;
+}
+
+.advisorCard .plate {
+  --plate-height: 11rem;
+}
+
+.advisorCopy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.advisorName {
+  color: var(--org-text);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.advisorTitle {
+  color: var(--org-subtle);
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* Profile drawer. */
+/* Department overlay. Sits under the profile layer so a handoff from a
+   department to a person always lands on top. Motion is owned by framer-motion
+   here, not CSS keyframes, because it needs an exit animation. */
+.departmentLayer {
+  position: fixed;
+  z-index: 10900;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.departmentPanel {
+  position: relative;
+  display: flex;
+  width: min(100%, 40rem);
+  max-height: min(85vh, 44rem);
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 2.25rem 2rem 2rem;
+  color: var(--org-text);
+  background: #09090b;
+  border: 1px solid var(--org-border);
+  border-radius: 2rem;
+}
+
+.departmentPanelHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding-right: 3rem;
+}
+
+.departmentPanelIcon {
+  display: grid;
+  width: 3.75rem;
+  height: 3.75rem;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--org-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--org-hairline);
+  border-radius: 50%;
+}
+
+.departmentPanelKicker {
+  margin: 0 0 0.15rem;
+  color: var(--org-subtle);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.departmentPanelHeader h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.departmentPanelCount {
+  margin: 0.3rem 0 0;
+  color: var(--org-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.departmentPanelList {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--org-hairline);
+}
+
+.profileLayer {
+  position: fixed;
+  z-index: 11000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  animation: layer-in 200ms ease both;
+}
+
+.profileDrawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  width: min(100%, 28rem);
+  height: 100%;
+  flex-direction: column;
+  gap: 1.75rem;
+  overflow-y: auto;
+  padding: 4.5rem 2rem 3rem;
+  color: var(--org-text);
+  background: #09090b;
+  border-left: 1px solid var(--org-border);
+  animation: drawer-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.profileClose {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  color: var(--org-muted);
+  background: transparent;
+  border: 1px solid var(--org-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.profileClose:hover {
+  color: var(--org-text);
+  border-color: var(--org-border-hover);
+}
+
+.profileIntro {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--org-hairline);
+}
+
+.profileIntro > div {
+  min-width: 0;
+}
+
+.profileTier {
+  margin: 0 0 0.4rem;
+  color: var(--org-subtle);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.profileIntro h2 {
+  margin: 0;
+  color: var(--org-text);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.profileRole {
+  margin: 0.4rem 0 0;
+  color: var(--org-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.profileSection {
+  margin: 0;
+}
+
+.profileSection h3 {
+  margin: 0 0 0.75rem;
+  color: var(--org-subtle);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.profileSection p {
+  margin: 0;
+  color: var(--org-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.profileDepartments,
+.profileLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.profileDepartment {
+  padding: 0.35rem 0.7rem;
+  color: var(--org-muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--org-hairline);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
+.profileLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.9rem;
+  color: var(--org-text);
+  border: 1px solid var(--org-border);
+  border-radius: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.profileLinks a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--org-border-hover);
+}
+
+@keyframes expansion-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes layer-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawer-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1100px) {
+  .advisorCard {
+    flex-basis: calc((100% - 2rem) / 2);
+  }
+
+  .directorGrid > *,
+  .departmentNode {
+    flex-basis: calc((100% - 1.25rem) / 2);
+  }
+}
+
+@media (max-width: 767px) {
+  .organisation {
+    padding: 4rem 1.25rem 0;
+  }
+
+  .organisationHeader {
+    padding: 3.5rem 0 3rem;
+  }
+
+  .organisationTitle {
+    font-size: clamp(2.25rem, 12vw, 3.5rem);
+  }
+
+  .organisationSubtitle {
+    font-size: 0.95rem;
+  }
+
+  .graphSurface {
+    padding: 0.5rem 0 3.5rem;
+  }
+
+  .desktopGraph {
+    display: none;
+  }
+
+  .mobileGraph {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .mobilePeopleList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .mobilePeopleList > * {
+    flex: 0 1 calc((100% - 0.75rem) / 2);
+  }
+
+  /* Two-up on phones, so the portraits and plates both scale down a step. */
+  .mobilePeopleList .personNode {
+    --avatar: 6rem;
+    --overlap: 1.75rem;
+  }
+
+  .mobilePeopleList .plate {
+    /* One height for every tier here. The phone tree is a single column, so an
+       executive plate and a director plate sit directly above each other and any
+       difference reads as a mistake. Bottom padding clears the pinned cue. */
+    --plate-height: 11rem;
+    padding: calc(var(--overlap) + 1.1rem) 0.85rem 2.1rem;
+    border-radius: 1.5rem;
+  }
+
+  .mobilePeopleList .personNodeExecutive {
+    --avatar: 6.75rem;
+    --overlap: 1.9rem;
+  }
+
+  .mobilePeopleList .personName {
+    font-size: 0.95rem;
+  }
+
+  .mobilePeopleList .personNodeExecutive .personName {
+    font-size: 1.05rem;
+  }
+
+  .mobilePeopleList .personTitle {
+    font-size: 0.75rem;
+  }
+
+  /* Mobile departments: accordion inside one bordered card. */
+  .mobileDepartments {
+    overflow: hidden;
+    background: var(--org-surface);
+    border: 1px solid var(--org-border);
+    border-radius: 1.25rem;
+  }
+
+  .mobileDepartment + .mobileDepartment {
+    border-top: 1px solid var(--org-hairline);
+  }
+
+  .mobileDepartmentTrigger {
+    display: flex;
+    width: 100%;
+    min-height: 4.5rem;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.9rem 1.1rem;
+    color: var(--org-text);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .mobileDepartmentTrigger > svg {
+    margin-left: auto;
+    color: var(--org-subtle);
+    transition: transform 250ms ease;
+  }
+
+  .mobileDepartmentTriggerActive > svg {
+    color: var(--org-text);
+    transform: rotate(180deg);
+  }
+
+  .mobileDepartmentIcon {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: 0 0 auto;
+  }
+
+  .mobileDepartmentName {
+    min-width: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .departmentExpansionMobile {
+    margin: 0;
+    padding: 0.25rem 1.1rem 1.25rem;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .departmentExpansionMobile .expansionHeader {
+    display: none;
+  }
+
+  .departmentExpansionMobile .memberList {
+    grid-template-columns: 1fr;
+    padding-top: 0;
+  }
+
+  .departmentExpansionMobile .memberRow {
+    padding-inline: 0.6rem;
+  }
+
+  .departmentExpansionMobile .memberRowAffiliations {
+    display: none;
+  }
+
+  .advisorsSection {
+    padding: 0 0 3.5rem;
+  }
+
+  .advisorsHeader {
+    margin-bottom: 2rem;
+  }
+
+  .advisorsHeader > p {
+    font-size: 0.88rem;
+  }
+
+  .advisorCard {
+    flex-basis: 100%;
+  }
+
+  .profileDrawer {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    max-height: 88vh;
+    height: auto;
+    padding: 4rem 1.5rem 2.5rem;
+    border-top: 1px solid var(--org-border);
+    border-left: 0;
+    border-radius: 1.5rem 1.5rem 0 0;
+    animation-name: drawer-up;
+  }
+
+  .profileIntro {
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate,
+  .avatar,
+  .avatar img,
+  .departmentIcon,
+  .memberRow,
+  .memberRow > svg,
+  .profileClose,
+  .profileLinks a,
+  .mobileDepartmentTrigger > svg {
+    transition: none;
+  }
+
+  .personNode:hover .avatar img,
+  .personNode:focus-visible .avatar img,
+  .advisorCard:hover .avatar img,
+  .advisorCard:focus-visible .avatar img,
+  .memberRow:hover .avatar img,
+  .memberRow:hover > svg,
+  .memberRow:focus-visible > svg {
+    transform: none;
+  }
+
+  .departmentExpansion,
+  .profileLayer,
+  .profileDrawer {
+    animation: none;
+  }
+}

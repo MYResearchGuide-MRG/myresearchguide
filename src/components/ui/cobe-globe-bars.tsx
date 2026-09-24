@@ -121,6 +121,8 @@ export function GlobeBars({
     let globe: ReturnType<typeof createGlobe> | null = null;
     let animationId: number;
     let phi = 0;
+    let visibilityObserver: IntersectionObserver | null = null;
+    let resizeObserver: ResizeObserver | null = null;
 
     function init() {
       const width = canvas.offsetWidth;
@@ -152,8 +154,10 @@ export function GlobeBars({
         opacity: 0.7,
       });
 
+      // Stop paying for WebGL renders while the globe is scrolled off-screen.
+      const visibleRef = { current: true };
       function animate() {
-        if (!isPausedRef.current) phi += speed;
+        if (visibleRef.current && !isPausedRef.current) phi += speed;
         globe!.update({
           phi: phi + phiOffsetRef.current + dragOffset.current.phi,
           theta: 0.2 + thetaOffsetRef.current + dragOffset.current.theta,
@@ -161,22 +165,32 @@ export function GlobeBars({
         animationId = requestAnimationFrame(animate);
       }
       animate();
+
+      visibilityObserver = new IntersectionObserver(
+        ([entry]) => {
+          visibleRef.current = entry.isIntersecting;
+        },
+        { threshold: 0.01 },
+      );
+      visibilityObserver.observe(canvas);
       setTimeout(() => canvas && (canvas.style.opacity = "1"));
     }
 
     if (canvas.offsetWidth > 0) {
       init();
     } else {
-      const ro = new ResizeObserver((entries) => {
+      resizeObserver = new ResizeObserver((entries) => {
         if (entries[0]?.contentRect.width > 0) {
-          ro.disconnect();
+          resizeObserver?.disconnect();
           init();
         }
       });
-      ro.observe(canvas);
+      resizeObserver.observe(canvas);
     }
 
     return () => {
+      visibilityObserver?.disconnect();
+      resizeObserver?.disconnect();
       if (animationId) cancelAnimationFrame(animationId);
       if (globe) globe.destroy();
     };

@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -10,9 +11,9 @@ export const ContainerScroll = ({
   children: React.ReactNode;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useHydrationSafeReducedMotion();
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    // Change: Ensure the offset is balanced so the animation finishes before it leaves view
     offset: ["start start", "end start"],
   });
 
@@ -30,32 +31,42 @@ export const ContainerScroll = ({
   }, []);
 
   const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1.05, 1];
+    return isMobile ? [0.92, 1] : [1.05, 1];
   };
+
+  // On mobile / reduced motion, keep the 3D card static so content is not clipped
+  const staticMode = prefersReducedMotion || isMobile;
 
   const scale = useTransform(
     scrollYProgress,
     [0, 1],
-    mounted ? scaleDimensions() : [1.05, 1]
+    mounted && !staticMode ? scaleDimensions() : [1, 1]
   );
-  
-  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  const rotate = useTransform(
+    scrollYProgress,
+    [0, 1],
+    staticMode ? [0, 0] : [20, 0]
+  );
+  const translate = useTransform(
+    scrollYProgress,
+    [0, 1],
+    staticMode ? [0, 0] : [0, -100]
+  );
 
   return (
-    // FIX 1: Added !relative, !z-10, and !block to stop other sections from sliding over/under
     <div
-      className="!h-[60rem] md:!h-[80rem] !flex !items-center !justify-center !relative !z-10 !p-2 md:!p-20 !block !w-full"
+      className="!min-h-0 md:!h-[80rem] !flex !items-start md:!items-center !justify-center !relative !z-10 !p-2 sm:!p-4 md:!p-20 !w-full !overflow-visible"
       ref={containerRef}
     >
       <div
-        className="!py-10 md:!py-40 !w-full !relative"
+        className="!py-4 sm:!py-8 md:!py-40 !w-full !relative"
         style={{
-          perspective: "1000px",
+          perspective: staticMode ? undefined : "1000px",
         }}
       >
         <Header translate={translate} titleComponent={titleComponent} />
-        <Card rotate={rotate} translate={translate} scale={scale}>
+        <Card rotate={rotate} translate={translate} scale={scale} staticMode={staticMode}>
           {children}
         </Card>
       </div>
@@ -74,8 +85,7 @@ export const Header = ({ translate, titleComponent }: HeaderProps) => {
       style={{
         translateY: translate,
       }}
-      // FIX 2: Added !z-20 and !relative to ensure title stays on top
-      className="!max-w-5xl !mx-auto !text-center !relative !z-20"
+      className="!max-w-5xl !mx-auto !text-center !relative !z-20 !w-full !px-1"
     >
       {titleComponent}
     </motion.div>
@@ -86,24 +96,29 @@ export const Card = ({
   rotate,
   scale,
   children,
+  staticMode,
 }: {
   rotate: MotionValue<number>;
   scale: MotionValue<number>;
   translate: MotionValue<number>;
   children: React.ReactNode;
+  staticMode?: boolean;
 }) => {
   return (
     <motion.div
-      style={{
-        rotateX: rotate,
-        scale,
-        boxShadow:
-          "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
-      }}
-      // FIX 3: Added !z-10 and ensured !overflow-hidden isn't cutting off the shadow
-      className="!max-w-5xl !-mt-12 !mx-auto !h-[30rem] md:!h-[40rem] !w-full !border-4 !border-[#6C6C6C] !p-2 md:!p-6 !bg-[#222222] !rounded-[30px] !shadow-2xl !mt-5 !relative !z-10"
+      style={
+        staticMode
+          ? undefined
+          : {
+              rotateX: rotate,
+              scale,
+              boxShadow:
+                "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
+            }
+      }
+      className="!max-w-5xl !mx-auto !h-auto !min-h-[14rem] sm:!min-h-[18rem] md:!h-[40rem] !w-full !border-2 sm:!border-4 !border-[#6C6C6C] !p-1.5 sm:!p-2 md:!p-6 !bg-[#222222] !rounded-2xl md:!rounded-[30px] !shadow-2xl !mt-4 md:!mt-5 !relative !z-10"
     >
-      <div className="!h-full !w-full !overflow-hidden !rounded-2xl dark:!bg-zinc-900 md:!rounded-2xl md:!p-4">
+      <div className="!h-full !w-full !overflow-hidden !rounded-xl md:!rounded-2xl dark:!bg-zinc-900 md:!p-4">
         {children}
       </div>
     </motion.div>

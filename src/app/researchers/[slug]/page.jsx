@@ -11,24 +11,18 @@ import {
 } from "lucide-react";
 import NewNav from "@/components/NewNav";
 import Foot from "@/components/Foot";
-import {
-  researchers,
-  getResearcherBySlug,
-  isCompleted,
-  slugify,
-} from "@/data/researchers";
+import { isCompleted, slugify } from "@/data/researchers";
+import { fetchPublicResearchers } from "@/lib/researchers-db";
 import { transcripts } from "@/data/transcripts";
 import UniLogoStack from "@/components/UniLogoStack";
 
-export function generateStaticParams() {
-  return researchers
-    .filter((r) => isCompleted(r))
-    .map((r) => ({ slug: slugify(r.name) }));
-}
+// Profile data is DB-backed now, so pages are rendered per-request.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const r = getResearcherBySlug(slug);
+  const researchers = await fetchPublicResearchers();
+  const r = researchers.find((x) => slugify(x.name) === slug);
   if (!r) return { title: "Researcher | MYResearchGuide" };
   return {
     title: `${r.name} | MYResearchGuide`,
@@ -88,7 +82,8 @@ function Transcript({ text }) {
 
 export default async function ResearcherDetail({ params }) {
   const { slug } = await params;
-  const r = getResearcherBySlug(slug);
+  const researchers = await fetchPublicResearchers();
+  const r = researchers.find((x) => slugify(x.name) === slug);
   if (!r || !isCompleted(r)) notFound();
 
   const transcript = transcripts[slug];

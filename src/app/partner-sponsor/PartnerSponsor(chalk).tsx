@@ -1,8 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -68,10 +72,17 @@ const partners: Org[] = [
 const goldSponsors: Org[] = [
   {
     name: "MABECS",
-    logo: "/mabecs.svg",
+    logo: "/Full Logo_coloured_2026.png",
     description:
       "MABECS is Malaysia's leading UK education consultancy, established in 1985. It guides Malaysian students through every stage of studying abroad — from selecting universities and courses to completing UCAS applications and securing visas. With a network of over 90 university and pathway partners, MABECS offers personalised consulting delivered by British Council-trained education advisors.",
     link: "https://www.mabecs.com/en-gb",
+  },
+  {
+    name: "MathWorks",
+    logo: "/mathworks-logo.png",
+    description:
+      "MathWorks is the leading developer of mathematical computing software — MATLAB and Simulink — trusted by engineers and scientists worldwide. Through its academic programmes and student-focused resources, MathWorks empowers the next generation of researchers to model, simulate, and accelerate discovery.",
+    link: "https://www.mathworks.com",
   },
 ];
 
@@ -87,8 +98,15 @@ const ChalkboardTile = () => (
   </div>
 );
 
-function PartnerCarousel({ items }: { items: Org[] }) {
+function PartnerCarousel({
+  items,
+  prefersReducedMotion,
+}: {
+  items: Org[];
+  prefersReducedMotion: boolean | null;
+}) {
   // Auto-scrolls; pauses on hover, resumes on leave.
+  // Disabled entirely when the user prefers reduced motion.
   const autoplay = useRef(
     Autoplay({ delay: 2800, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
@@ -96,7 +114,7 @@ function PartnerCarousel({ items }: { items: Org[] }) {
   return (
     <Carousel
       opts={{ align: "start", loop: true }}
-      plugins={[autoplay.current]}
+      plugins={prefersReducedMotion ? [] : [autoplay.current]}
       className="!w-full !px-4 md:!px-14"
     >
       <CarouselContent
@@ -121,67 +139,69 @@ function PartnerCarousel({ items }: { items: Org[] }) {
             key={i}
             className="!pl-4 !basis-full sm:!basis-1/2 lg:!basis-1/3"
           >
-            <GlowCard
-              customSize
-              className="!w-full !h-full !min-h-[420px] !flex !flex-col !items-center !text-center !rounded-3xl !p-8"
+            <motion.div
+              initial={
+                prefersReducedMotion ? false : { opacity: 0, y: 16 }
+              }
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 0.45, ease: "easeOut", delay: i * 0.05 }
+              }
+              whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+              className="!h-full"
             >
-              {/* logo in white circle */}
-              <div className="!bg-white !rounded-full !w-28 !h-28 !overflow-hidden !flex !items-center !justify-center !mb-6 !shadow-lg">
-                {org.logoFit === "cover" ? (
-                  <img
-                    src={org.logo}
-                    alt={org.name}
-                    className="!w-full !h-full !object-cover"
-                  />
-                ) : (
-                  <img
-                    src={org.logo}
-                    alt={org.name}
-                    className={`!max-w-full !max-h-full !object-contain ${org.logoPad ?? "!p-5"}`}
-                  />
-                )}
-              </div>
-              <h4 className="!text-lg md:!text-xl !font-bold !text-white !mb-3">
-                {org.name}
-              </h4>
-              <p className="!text-zinc-400 !text-sm !leading-relaxed !mb-6">
-                {org.description}
-              </p>
-              <a
-                href={org.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="!mt-auto !inline-flex !items-center !gap-2 !text-white !text-sm !font-semibold !no-underline hover:!underline"
+              <GlowCard
+                customSize
+                className="!w-full !h-full !min-h-[420px] !flex !flex-col !items-center !text-center !rounded-3xl !p-8 !transition-shadow hover:!shadow-[0_12px_40px_rgba(255,255,255,0.06)]"
               >
-                Visit
-                <ExternalLink size={16} />
-              </a>
-            </GlowCard>
+                {/* logo in white circle */}
+                <div className="!bg-white !rounded-full !w-28 !h-28 !overflow-hidden !flex !items-center !justify-center !mb-6 !shadow-lg !transition-transform !duration-300 group-hover:!scale-105 hover:!scale-105">
+                  {org.logoFit === "cover" ? (
+                    <img
+                      src={org.logo}
+                      alt={org.name}
+                      className="!w-full !h-full !object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={org.logo}
+                      alt={org.name}
+                      className={`!max-w-full !max-h-full !object-contain ${org.logoPad ?? "!p-5"}`}
+                    />
+                  )}
+                </div>
+                <h4 className="!text-lg md:!text-xl !font-bold !text-white !mb-3">
+                  {org.name}
+                </h4>
+                <p className="!text-zinc-400 !text-sm !leading-relaxed !mb-6">
+                  {org.description}
+                </p>
+                <a
+                  href={org.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="!mt-auto !inline-flex !items-center !gap-2 !text-white !text-sm !font-semibold !no-underline hover:!underline !transition-opacity hover:!opacity-90"
+                >
+                  Visit
+                  <ExternalLink size={16} />
+                </a>
+              </GlowCard>
+            </motion.div>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="!z-20 !left-1 md:!-left-12 !text-white !bg-zinc-900/80 !border-zinc-700 hover:!bg-zinc-800" />
-      <CarouselNext className="!z-20 !right-1 md:!-right-12 !text-white !bg-zinc-900/80 !border-zinc-700 hover:!bg-zinc-800" />
+      <CarouselPrevious className="!z-20 !left-1 md:!-left-12 !text-white !bg-zinc-900/80 !border-zinc-700 hover:!bg-zinc-800 !transition-colors" />
+      <CarouselNext className="!z-20 !right-1 md:!-right-12 !text-white !bg-zinc-900/80 !border-zinc-700 hover:!bg-zinc-800 !transition-colors" />
     </Carousel>
   );
 }
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" as const },
-  },
-};
-
 export default function PartnersSponsors() {
   const headerRef = useRef(null);
+  const prefersReducedMotion = useHydrationSafeReducedMotion();
   const { scrollYProgress } = useScroll({
     target: headerRef,
     offset: ["start start", "end start"],
@@ -196,13 +216,23 @@ export default function PartnersSponsors() {
         className="!relative !overflow-hidden !min-h-screen !flex !items-center !justify-center"
       >
         <motion.div
-          style={{
-            opacity: backgroundOpacity,
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-          }}
+          style={
+            prefersReducedMotion
+              ? {
+                  opacity: 0.85,
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+                }
+              : {
+                  opacity: backgroundOpacity,
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+                }
+          }
           className="!absolute !inset-0 !z-0 !pointer-events-none"
         >
           <div className="!absolute !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !w-[250%] !-rotate-12 !scale-125">
@@ -217,9 +247,13 @@ export default function PartnersSponsors() {
         <div className="!absolute !bottom-0 !left-0 !right-0 !h-32 !bg-gradient-to-t !from-black !to-transparent !z-[5]" />
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.55, ease: "easeOut" }
+          }
           className="!relative !z-10 !text-center !px-6"
         >
           <p className="!text-slate-400 !uppercase !tracking-widest !text-l !mb-4">
@@ -238,44 +272,72 @@ export default function PartnersSponsors() {
       {/* ── CONTENT SECTION ── */}
       <div className="!px-6 md:!px-12 !py-20 !max-w-6xl !mx-auto">
         {/* Partners — carousel */}
-        <div className="!mb-32">
+        <motion.div
+          className="!mb-32"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.5, ease: "easeOut" }
+          }
+        >
           <h3 className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !text-slate-200 !mb-16 !text-center">
             Partners
           </h3>
-          <PartnerCarousel items={partners} />
-        </div>
+          <PartnerCarousel
+            items={partners}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+        </motion.div>
 
         {/* Sponsors — Gold tier */}
         <div className="!mb-24">
-          <h3 className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !mb-4 !text-center !bg-gradient-to-br !from-amber-200 !via-yellow-400 !to-amber-600 !bg-clip-text !text-transparent !drop-shadow-[0_0_25px_rgba(251,191,36,0.45)]">
+          <motion.h3
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: 0.5, ease: "easeOut" }
+            }
+            className="!text-4xl md:!text-6xl !font-bold !uppercase !tracking-tighter !mb-4 !text-center !bg-gradient-to-br !from-amber-200 !via-yellow-400 !to-amber-600 !bg-clip-text !text-transparent !drop-shadow-[0_0_25px_rgba(251,191,36,0.45)]"
+          >
             Gold Sponsors
-          </h3>
+          </motion.h3>
 
-          <div className="!mt-12 !flex !flex-col !items-center">
+          <div className="!mt-12 !grid !grid-cols-1 md:!grid-cols-2 !gap-12 md:!gap-14 !max-w-4xl !mx-auto">
             {goldSponsors.map((s, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="!flex !flex-col !items-center !text-center !max-w-xl"
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: 0.55, ease: "easeOut" }
+                }
+                whileHover={prefersReducedMotion ? undefined : { y: -4 }}
+                className="!flex !flex-col !items-center !text-center !w-full !h-full"
               >
-                <div className="!bg-white !rounded-full !w-40 !h-40 !overflow-hidden !flex !items-center !justify-center !p-7 !mb-6 !shadow-lg !ring-1 !ring-yellow-500/30">
+                <div className="!bg-white !rounded-full !w-40 !h-40 md:!w-48 !h-48 !overflow-hidden !flex !items-center !justify-center !p-3 !mb-8 !shadow-lg !ring-1 !ring-yellow-500/30 !transition-transform !duration-300 hover:!scale-105">
                   <img
                     src={s.logo}
                     alt={s.name}
                     className="!max-w-full !max-h-full !object-contain"
                   />
                 </div>
-                <p className="!text-slate-300 !text-sm md:!text-base !leading-relaxed !mb-5">
+                <p className="!text-slate-300 !text-sm md:!text-base !leading-relaxed !mb-8 !flex-1">
                   {s.description}
                 </p>
                 <a
                   href={s.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="!inline-flex !items-center !gap-2 !text-white !text-sm !font-semibold !no-underline hover:!underline"
+                  className="!inline-flex !items-center !gap-2 !text-white !text-sm !font-semibold !no-underline hover:!underline !transition-opacity hover:!opacity-90"
                 >
                   Visit
                   <ExternalLink size={16} />
@@ -287,10 +349,14 @@ export default function PartnersSponsors() {
 
         {/* ── THANK YOU / CTA SECTION ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 0.55, ease: "easeOut" }
+          }
           className="!flex !flex-col md:!flex-row !items-center !justify-between !gap-10"
         >
           <div className="!text-center md:!text-left !max-w-xl">
@@ -311,9 +377,16 @@ export default function PartnersSponsors() {
               rel="noopener noreferrer"
               className="!w-full"
             >
-              <button className="!w-full md:!w-72 !bg-white !text-black !px-8 !py-5 !tracking-tighter !transition-all active:!scale-95 !font-bold hover:!bg-slate-200 !rounded-2xl !text-sm">
+              <motion.button
+                type="button"
+                whileHover={
+                  prefersReducedMotion ? undefined : { scale: 1.02 }
+                }
+                whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+                className="!w-full md:!w-72 !bg-white !text-black !px-8 !py-5 !tracking-tighter !transition-colors !font-bold hover:!bg-slate-200 !rounded-2xl !text-sm"
+              >
                 Become a Sponsor
-              </button>
+              </motion.button>
             </a>
             <a
               href="https://forms.gle/XDwUML5KCBcWDKyU8"
@@ -321,9 +394,16 @@ export default function PartnersSponsors() {
               rel="noopener noreferrer"
               className="!w-full"
             >
-              <button className="!w-full md:!w-72 !bg-transparent !text-white !border-2 !border-slate-700 !px-8 !py-5 !font-bold !tracking-tighter !transition-transform active:!scale-95 hover:!border-white !rounded-2xl !text-sm">
+              <motion.button
+                type="button"
+                whileHover={
+                  prefersReducedMotion ? undefined : { scale: 1.02 }
+                }
+                whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+                className="!w-full md:!w-72 !bg-transparent !text-white !border-2 !border-slate-700 !px-8 !py-5 !font-bold !tracking-tighter !transition-colors hover:!border-white !rounded-2xl !text-sm"
+              >
                 Become a Partner
-              </button>
+              </motion.button>
             </a>
           </div>
         </motion.div>

@@ -73,6 +73,26 @@ body {
 .animate-marquee {
   animation: infinite-marquee 80s linear infinite;
 }
+
+/* Focused reduced-motion fallbacks for continuous CSS loops only.
+   Does not globally disable transitions or change the visual palette. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-diagonal,
+  .animate-scroll {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .move:hover {
+    animation: none !important;
+  }
+
+  .cursor-box,
+  .cursor-box::before {
+    transition: none !important;
+  }
+}
 .container {
   padding: 2rem;
   display: flex;
@@ -320,16 +340,56 @@ body {
       transform: translateX(0);
     }
     to {
-      transform: translateX(calc(-50%));
+      /* Half the doubled track — seamless loop */
+      transform: translateX(-50%);
     }
   }
 
   .animate-scroll {
-    animation: scroll 50s linear infinite;
+    animation: scroll 36s linear infinite;
+    will-change: transform;
+  }
+
+  /* Faster cycle on phones so more logos appear in view over time */
+  @media (max-width: 767px) {
+    .animate-scroll {
+      animation-duration: 24s;
+    }
+  }
+
+  /* Only pause on devices that truly hover (not touch) */
+  @media (hover: hover) and (pointer: fine) {
+    .group:hover .animate-scroll,
+    .animate-scroll:hover {
+      animation-play-state: paused;
+    }
   }
 
   .pause-animation:hover {
     animation-play-state: paused !important;
+  }
+
+  /* Soft edge fade so logos don't hard-clip on mobile */
+  .uni-marquee-mask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+  }
+
+  .uni-marquee-track {
+    /* gap is set via Tailwind; keep transform hardware-accelerated */
+    backface-visibility: hidden;
   }
 }
 
@@ -516,4 +576,12 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+/* Hide scrollbars on horizontally scrolling strips (dashboard mobile nav). */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

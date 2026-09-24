@@ -2,11 +2,21 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) {
+    throw new Error(
+      'RESEND_API_KEY environment variable is not set. ' +
+      'Get your API key at https://resend.com/api-keys'
+    );
+  }
+  return new Resend(key);
+}
 
 export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json();
+    const resend = getResend();
 
     const { data, error } = await resend.emails.send({
       from: 'Acme <onboarding@resend.dev>',
@@ -16,7 +26,7 @@ export async function POST(req: Request) {
     });
 
     if (error) {
-      console.error("Resend Error Details:", error); // Check your VS Code terminal
+      console.error("Resend Error Details:", error);
       return NextResponse.json({ error }, { status: 400 });
     }
 

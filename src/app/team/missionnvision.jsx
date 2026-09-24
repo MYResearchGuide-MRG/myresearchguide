@@ -3,12 +3,16 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
 // Word whose opacity is driven by scroll progress (teleprompter reveal)
-function RevealWord({ children, progress, range }) {
+function RevealWord({ children, progress, range, staticOpacity }) {
   const opacity = useTransform(progress, range, [0.15, 1]);
   return (
-    <motion.span style={{ opacity }} className="!mr-[0.3em] !inline-block">
+    <motion.span
+      style={{ opacity: staticOpacity ?? opacity }}
+      className="!mr-[0.3em] !inline-block"
+    >
       {children}
     </motion.span>
   );
@@ -17,6 +21,7 @@ function RevealWord({ children, progress, range }) {
 // Paragraph that reveals word-by-word as it scrolls through the viewport
 function ScrollReveal({ text, className = "" }) {
   const container = useRef(null);
+  const prefersReducedMotion = useHydrationSafeReducedMotion();
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ["start 0.85", "end 0.45"],
@@ -29,7 +34,12 @@ function ScrollReveal({ text, className = "" }) {
         const start = i / words.length;
         const end = start + 1 / words.length;
         return (
-          <RevealWord key={i} progress={scrollYProgress} range={[start, end]}>
+          <RevealWord
+            key={i}
+            progress={scrollYProgress}
+            range={[start, end]}
+            staticOpacity={prefersReducedMotion ? 1 : undefined}
+          >
             {word}
           </RevealWord>
         );
@@ -39,19 +49,22 @@ function ScrollReveal({ text, className = "" }) {
 }
 
 export default function Mission() {
+  const prefersReducedMotion = useHydrationSafeReducedMotion();
+
   return (
     <section className="min-h-[500px]">
       <div className="gap-6 !m-10 md:m-0">
         <div>
           <div className="!relative !z-10 !w-full !flex !flex-col !items-center !justify-center">
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1.8,
-                ease: [0.22, 1, 0.36, 1],
-                delay: 1.2,
-              }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 0.55, ease: [0.22, 1, 0.36, 1] }
+              }
               className="md:text-left"
             >
               <h1 className="text-center !text-3xl md:!text-6xl !font-bold ">
@@ -74,10 +87,14 @@ export default function Mission() {
 
             {/* 2. OVERLAPPING HERO IMAGE */}
             <motion.div
-              initial={{ opacity: 0, y: 60 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.8, delay: 0.4 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.08 }
+              }
               className="!relative !z-10 !max-w-auto md:!max-w-4xl !mx-auto !mt-16 md:!mt-24 !px-4"
             >
               <div className="!rounded-2xl !overflow-hidden !border-4 !border-black !shadow-[0_20px_50px_rgba(0,0,0,0.8)] md:!w-[700px] md:!h-auto md:!mx-auto !mt-10">
@@ -86,7 +103,7 @@ export default function Mission() {
                   alt="Hero Display"
                   width={1200}
                   height={800}
-                  className="!w-full !h-auto !display-block"
+                  className="!w-full !h-auto !block !object-cover !object-top"
                 />
               </div>
             </motion.div>

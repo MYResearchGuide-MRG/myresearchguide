@@ -1,39 +1,37 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Fustat, Inter } from "next/font/google";
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const fustat = Fustat({
-  subsets: ["latin"], // Use ['latin', 'arabic'] if you need Arabic support
-  display: "swap",
-});
+import "katex/dist/katex.min.css";
 
 const inter = Inter({
-  subsets: ["latin"], // Use ['latin', 'arabic'] if you need Arabic support
+  subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const siteDescription =
+  "MYResearchGuide is a student-led platform that helps young innovators turn curiosity into high-quality science research. From finding your first topic to publishing your findings, we provide free tools, guidance, and community for Malaysian youth.";
 
 export const metadata: Metadata = {
-  title: "MYResearchGuide",
-  description:
-    "MYResearchGuide is a student-led platform designed to help young innovators turn their questions into high-quality research. From finding your first topic to publishing your findings, we’re here to provide the tools and community you need to lead the way.",
+  title: "MYResearchGuide — Malaysia's #1 Guide to Science Research",
+  description: siteDescription,
+  openGraph: {
+    title: "MYResearchGuide — Malaysia's #1 Guide to Science Research",
+    description: siteDescription,
+    siteName: "MYResearchGuide",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MYResearchGuide — Malaysia's #1 Guide to Science Research",
+    description: siteDescription,
+  },
   icons: {
-    icon: "./favicon.ico", // Path to your logo in the public folder
+    icon: "./favicon.ico",
     shortcut: "./favicon.ico",
-    apple: "./favicon.ico", // Optional: for iOS home screen
+    apple: "./favicon.ico",
   },
 };
 

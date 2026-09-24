@@ -1,102 +1,120 @@
-import { useEffect, useMemo, useState } from "react";
+"use client";
+
 import { motion } from "framer-motion";
-import { MoveRight, PhoneCall } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { GradientText } from "@/components/ui/gradient-text";
+import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
+
+const HANDBOOK_URL =
+  "https://myresearchguide.notion.site/MYResearchGuide-2ef8941036278000abe7de2f682a4414";
 
 function Hero() {
-  const [titleNumber, setTitleNumber] = useState(0);
-  const titles = useMemo(() => ["science", "research"], []);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (titleNumber === titles.length - 1) {
-        setTitleNumber(0);
-      } else {
-        setTitleNumber(titleNumber + 1);
-      }
-    }, 2000);
-    return () => clearTimeout(timeoutId);
-  }, [titleNumber, titles]);
+  const prefersReducedMotion = useHydrationSafeReducedMotion();
 
   return (
     <div className="!w-full !block">
-      <div className="container !mx-auto">
-        {/* Added ! to flex, gap, mt, and alignment to beat Bootstrap's grid/margin defaults */}
-        <div className="!flex !gap-8 !items-center !justify-center !flex-col">
+      <div className="container !mx-auto !px-4 sm:!px-6">
+        <div className="!flex !gap-6 md:!gap-8 !items-center !justify-center !flex-col">
           <div>
-            <div className="flex flex-col gap-6 p-10 bg-black items-center">
-              {/* 1. THE UNCLICKABLE TEXTBOX */}
-              <div
-                /* THE KEY PART: 'pointer-events-none' makes it unclickable. 
-           Change to 'pointer-events-auto cursor-pointer' to make it a button.
-        */
+            <div className="flex flex-col gap-6 p-4 sm:p-6 md:p-10 bg-black items-center">
+              {/* Handbook CTA — static pill, no word animation */}
+              <motion.div
                 className="
           !pointer-events-auto
           cursor-pointer
           !select-none
-          !relative 
-          !px-8 
-          !py-3 
-          !rounded-full 
-          !border 
-          !border-white/20 
-          !bg-white/10 
+          !relative
+          !px-6
+          sm:!px-8
+          !py-3
+          !rounded-full
+          !border
+          !border-white/20
+          !bg-white/10
           !backdrop-blur-md
-          !text-white 
-          !font-semibold 
-          !mt-10
+          !text-white
+          !font-semibold
+          !mt-6
           md:!mt-0
+          !text-sm
+          sm:!text-base
           md:!text-lg
           !shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),inset_0_-1px_1px_rgba(0,0,0,0.4),0_10px_20px_rgba(0,0,0,0.5)]
-          !transition-all
+          !overflow-hidden
+          !max-w-[min(100%,22rem)]
+          sm:!max-w-none
+          !text-center
         "
+                animate={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        boxShadow: [
+                          "inset 0 1px 1px rgba(255,255,255,0.3), inset 0 -1px 1px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.5)",
+                          "inset 0 1px 1px rgba(255,255,255,0.45), inset 0 -1px 1px rgba(0,0,0,0.4), 0 10px 28px rgba(255,255,255,0.12)",
+                          "inset 0 1px 1px rgba(255,255,255,0.3), inset 0 -1px 1px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.5)",
+                        ],
+                      }
+                }
+                transition={
+                  prefersReducedMotion
+                    ? undefined
+                    : {
+                        duration: 2.4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }
+                }
               >
-                {" "}
                 <a
-                  href="https://forms.gle/Sk9JS3kcKe8qw1cU6"
-                  className="!text-white !no-underline"
+                  href={HANDBOOK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="!text-white !no-underline !relative !z-10"
                 >
-                  {/* The bottom shine/reflection line */}
                   <div className="!absolute !bottom-0 !left-1/2 !-translate-x-1/2 !w-3/4 !h-[1px] !bg-gradient-to-r !from-transparent !via-white/40 !to-transparent" />
-                  Click here to sign up for our mailing list!
+                  Click Here to Open the Research Handbook
                 </a>
-              </div>
+                {!prefersReducedMotion && (
+                  <motion.span
+                    className="!pointer-events-none !absolute !inset-y-0 !left-0 !w-1/3 !bg-gradient-to-r !from-transparent !via-white/20 !to-transparent"
+                    initial={{ x: "-120%", opacity: 0 }}
+                    animate={{ x: "320%", opacity: [0, 1, 0] }}
+                    transition={{
+                      duration: 2.4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      repeatDelay: 0.6,
+                    }}
+                    aria-hidden
+                  />
+                )}
+              </motion.div>
             </div>
           </div>
           <div className="!flex !flex-col !items-center !w-full">
-            <h1 className="!text-5xl md:!text-[5rem] !max-w-none !text-center">
+            <h1 className="!text-3xl sm:!text-4xl md:!text-5xl lg:!text-[5rem] !max-w-none !text-center !leading-tight !px-1">
               <span className="!text-spektr-cyan">
                 Malaysia&apos;s #1 Guide to{" "}
               </span>
-              <span className="!relative !flex md:!text-[6rem] !w-full !justify-center !overflow-visible !text-center md:!pb-4 md:!pt-1 !font-semibold bg-gradient-to-r from-stone-400  to-slate-300 bg-clip-text text-transparent">
-                &nbsp;
-                {/* {titles.map((title, index) => (
-                  <motion.span
-                    key={index}
-                    className="!absolute !font-semibold bg-gradient-to-r from-stone-400  to-slate-300 bg-clip-text text-transparent"
-                    initial={{ opacity: 0, y: -100 }}
-                    transition={{ type: "spring", stiffness: 50 }}
-                    animate={
-                      titleNumber === index
-                        ? { y: 0, opacity: 1 }
-                        : { y: titleNumber > index ? -150 : 150, opacity: 0 }
-                    }
-                  >
-                    {title}
-                  </motion.span>
-                ))} */}
+              <span className="!font-semibold !whitespace-nowrap bg-gradient-to-r from-stone-400 to-slate-300 bg-clip-text text-transparent md:!text-[5.5rem] lg:!text-[6rem]">
                 Science Research
               </span>
             </h1>
 
-            {/* FIX: Added !mx-auto to the paragraph to center the block itself within the flex column */}
-            <p className="!text-lg md:!text-xl !leading-relaxed !tracking-tight !text-muted-foreground !max-w-2xl !text-center !mx-auto !mt-4">
-              Welcome to MYResearchGuide, the beginner-friendly platform for all
-              STEM-based research. Backed by researchers from leading
-              universities and institutions - start your research journey today
-              with MYResearchGuide.
-            </p>
+            <motion.p
+              className="!text-base sm:!text-lg md:!text-xl !leading-relaxed !tracking-tight !text-muted-foreground !max-w-2xl !text-center !mx-auto !mt-4 !px-2"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.25 }
+              }
+            >
+              MYResearchGuide is a free, beginner-friendly platform that helps
+              Malaysian students start and grow in science research — with
+              practical steps, researcher insight, and a community built by
+              Malaysians for Malaysians.
+            </motion.p>
           </div>
         </div>
       </div>

@@ -28,6 +28,14 @@ export const universities = {
   "INSA Strasbourg": { logo: "/unis/insa-strasbourg.png", short: "INSA Strasbourg" },
   "University of Edinburgh": { logo: "/unis/edinburgh.png", short: "Edinburgh" },
   "Universiti Malaya": { logo: "/unis/universiti-malaya.png", short: "Universiti Malaya" },
+  // logo-less institutions (no badge/marquee mark yet; filter dropdown uses `short`)
+  "University of Toronto": { short: "UofT" },
+  "University of Warwick": { short: "Warwick" },
+  "Universiti Sains Malaysia": { short: "USM" },
+  "Shanghai Jiao Tong University": { short: "SJTU" },
+  "Tsung-Dao Lee Institute": { short: "TDLI" },
+  "Ohio State University": { short: "Ohio State" },
+  "Max Planck Institute for Astronomy": { short: "MPIA" },
 };
 
 // Logo path for a university name, or null if we don't have one.

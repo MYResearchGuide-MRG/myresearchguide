@@ -4,7 +4,7 @@
 // (each line is one paragraph/section heading).
 
 export const transcripts = {
-  "chooi-je-qin": `Je Qin, or Jay Chooi, is the sole Oxford Rhodes Scholar 2025 for Malaysia. He is the founder of AMISO, the Malaysian society for International Science Olympiads, and a student at Harvard University, where he is pursuing a concurrent Master's in Statistics and a Bachelor's in Computer Science and Mathematics, serving as a leader on Harvard's AI Safety Student Team. Besides his active involvement in AI safety research and public service initiatives, Je Qin has made history by being the first Malaysian to win a gold medal at the International Olympiad in Astronomy and Astrophysics.
+  "jay-chooi": `Je Qin, or Jay Chooi, is the sole Oxford Rhodes Scholar 2025 for Malaysia. He is the founder of AMISO, the Malaysian society for International Science Olympiads, and a student at Harvard University, where he is pursuing a concurrent Master's in Statistics and a Bachelor's in Computer Science and Mathematics, serving as a leader on Harvard's AI Safety Student Team. Besides his active involvement in AI safety research and public service initiatives, Je Qin has made history by being the first Malaysian to win a gold medal at the International Olympiad in Astronomy and Astrophysics.
 
 For more information about his journey, check out his personal note below! (3 MIN READ)
 

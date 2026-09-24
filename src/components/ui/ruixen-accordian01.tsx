@@ -10,22 +10,20 @@ import {
   HelpCircle,
   LayoutList,
   Settings,
-  Accessibility,
-  HandHeart,
-  CircleQuestionMark,
   SquareArrowOutUpRight,
-  CircleDollarSign
+  CircleDollarSign,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
-import { ElementType, ReactNode } from "react"; 
+import { ElementType, ReactNode } from "react";
 
 // 2. Update the type definition
 type AccordionItemType = {
-    icon: ElementType;
-    value: string;
-    question: string;
-    answer: ReactNode; // Changed from 'string' to 'ReactNode'
+  icon: ElementType;
+  value: string;
+  question: string;
+  answer: ReactNode; // Changed from 'string' to 'ReactNode'
 };
 
 const accordionItems: AccordionItemType[] = [
@@ -81,53 +79,64 @@ const accordionItems: AccordionItemType[] = [
 ];
 
 export default function Accordion_01() {
+  const reduceMotion = useHydrationSafeReducedMotion();
+
   return (
     <div className="!mb-40 !bg-black">
       <section className="!w-full !max-w-[1000px] !mx-auto !px-4">
-        {/* We keep the Accordion logic, but Framer Motion will handle the visual slide */}
         <Accordion type="single" collapsible className="!space-y-4">
-          {accordionItems.map(({ icon: Icon, value, question, answer }) => (
-            <AccordionItem
+          {accordionItems.map(({ icon: Icon, value, question, answer }, index) => (
+            <motion.div
               key={value}
-              value={value}
-              className="!group !border !border-zinc-800 !rounded-xl !overflow-hidden !bg-zinc-900/20"
+              initial={
+                reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }
+              }
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.4,
+                ease: "easeOut",
+                delay: reduceMotion ? 0 : index * 0.08,
+              }}
             >
-              <AccordionTrigger
-                className="!flex !items-center !justify-between !w-full !px-6 !py-5 !bg-transparent !text-left hover:!no-underline group-data-[state=open]:!bg-zinc-800/50"
+              <AccordionItem
+                value={value}
+                className="!group !border !border-zinc-800 !rounded-xl !overflow-hidden !bg-zinc-900/20"
               >
-                <div className="!flex !items-center !gap-4 !flex-1">
-                  <Icon className="!w-6 !h-6 !text-zinc-500 !transition-colors !duration-300 group-data-[state=open]:!text-spektr-cyan" />
-                  <span className="!text-lg md:!text-2xl !font-medium !text-zinc-200 group-data-[state=open]:!text-white">
-                    {question}
-                  </span>
-                </div>
-              </AccordionTrigger>
+                <AccordionTrigger className="!flex !items-center !justify-between !w-full !px-6 !py-5 !bg-transparent !text-left hover:!no-underline group-data-[state=open]:!bg-zinc-800/50">
+                  <div className="!flex !items-center !gap-4 !flex-1">
+                    <Icon
+                      className={
+                        reduceMotion
+                          ? "!w-6 !h-6 !text-zinc-500 !transition-colors !duration-300 group-data-[state=open]:!text-spektr-cyan"
+                          : "!w-6 !h-6 !text-zinc-500 !transition-all !duration-300 !ease-out group-data-[state=open]:!text-spektr-cyan group-data-[state=open]:!rotate-12 group-data-[state=open]:!scale-110"
+                      }
+                    />
+                    <span className="!text-lg md:!text-2xl !font-medium !text-zinc-200 group-data-[state=open]:!text-white">
+                      {question}
+                    </span>
+                  </div>
+                </AccordionTrigger>
 
-              {/* IMPORTANT: We use forceMount if you want Framer Motion to handle the exit animation properly, 
-                  otherwise Radix unmounts the content before the animation finishes. */}
-              <AccordionContent className="!p-0 !overflow-hidden">
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ 
-                    height: "auto", 
-                    opacity: 1 
-                  }}
-                  exit={{ 
-                    height: 0, 
-                    opacity: 0 
-                  }}
-                  transition={{ 
-                    duration: 0.3, 
-                    ease: "linear" // Constant speed, no "slowing down" effect
-                  }}
-                  className="!px-6 !pb-6 !pt-2 !text-lg md:!text-xl !text-zinc-400 !border-t !border-zinc-800/50"
-                >
-                  <p className="!leading-relaxed">
-                    {answer}
-                  </p>
-                </motion.div>
-              </AccordionContent>
-            </AccordionItem>
+                <AccordionContent className="!p-0 !overflow-hidden">
+                  <motion.div
+                    initial={
+                      reduceMotion
+                        ? { opacity: 1, x: 0 }
+                        : { opacity: 0, x: -6 }
+                    }
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      duration: reduceMotion ? 0 : 0.28,
+                      ease: "easeOut",
+                    }}
+                    className="!relative !px-6 !pb-6 !pt-2 !text-lg md:!text-xl !text-zinc-400 !border-t !border-zinc-800/50 before:absolute before:top-0 before:left-0 before:!w-[3px] before:!h-full before:!bg-spektr-cyan before:!opacity-70"
+                  >
+                    <p className="!leading-relaxed">{answer}</p>
+                  </motion.div>
+                </AccordionContent>
+              </AccordionItem>
+            </motion.div>
           ))}
         </Accordion>
       </section>

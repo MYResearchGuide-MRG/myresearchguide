@@ -54,7 +54,7 @@ export default function Top() {
           {/* Right Column: Screenshot */}
           <div className="basis-full md:basis-128 flex justify-center">
             <motion.img
-              src="/screenshot_notion.png"
+              src="/heroo.png"
               alt="Notion"
               className="max-w-full h-auto rounded-lg shadow-lg !mt-15 !ml-5 !mr-5"
               initial={{ opacity: 0, y: 16 }}
