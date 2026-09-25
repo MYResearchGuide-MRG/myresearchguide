@@ -12,10 +12,11 @@ const allPages = handbookGroups.flatMap((g) => g.pages);
 
 // Stacked backdrop blurs, each masked to a band a little lower than the last,
 // so the teaser goes from sharp to fully blurred top-down ("show more" style).
-const BLUR_SPAN = 90; // % of the teaser height over which blur ramps to full
+const BLUR_SPAN = 75; // % of the teaser height over which blur ramps to full
 const BLUR_LAYERS = [1, 1.5, 2, 2.5].map((blur, i, all) => {
   const step = BLUR_SPAN / (all.length + 1);
-  const start = i * step;
+  // Shifted up one step so the lightest blur already covers the top edge.
+  const start = (i - 1) * step;
   const mask = `linear-gradient(to bottom, transparent ${start}%, #000 ${
     start + step
   }%${i === all.length - 1 ? "" : `, #000 ${start + 2 * step}%, transparent ${start + 3 * step}%`})`;
