@@ -12,8 +12,8 @@ const allPages = handbookGroups.flatMap((g) => g.pages);
 
 // Stacked backdrop blurs, each masked to a band a little lower than the last,
 // so the teaser goes from sharp to fully blurred top-down ("show more" style).
-const BLUR_SPAN = 55; // % of the teaser height over which blur ramps to full
-const BLUR_LAYERS = [0.5, 1, 2, 4, 8, 16].map((blur, i, all) => {
+const BLUR_SPAN = 40; // % of the teaser height over which blur ramps to full
+const BLUR_LAYERS = [0.5, 1, 1.5, 2.5, 3.5, 5].map((blur, i, all) => {
   const step = BLUR_SPAN / (all.length + 1);
   const start = i * step;
   const mask = `linear-gradient(to bottom, transparent ${start}%, #000 ${
@@ -133,18 +133,14 @@ export default function HandbookPreview() {
                   aria-hidden
                   className="!select-none !pointer-events-none !max-w-2xl !pt-1"
                 >
-                  {active.points.map((pt) => (
-                    <div key={pt} className="!mb-6">
-                      <p className="!text-zinc-200 !font-semibold !text-base md:!text-lg !mb-2.5">
-                        {pt}
-                      </p>
-                      <div className="!space-y-2.5">
-                        <div className="!h-2 !w-full !rounded-full !bg-white/15" />
-                        <div className="!h-2 !w-11/12 !rounded-full !bg-white/15" />
-                        <div className="!h-2 !w-2/3 !rounded-full !bg-white/15" />
-                      </div>
-                    </div>
-                  ))}
+                  <p className="!text-zinc-100 !font-semibold !text-base md:!text-lg !mb-2">
+                    In this page
+                  </p>
+                  <ul className="!m-0 !pl-5 !list-disc marker:!text-zinc-500 !space-y-1.5 !text-zinc-300 !text-sm md:!text-base !leading-relaxed">
+                    {active.points.map((pt) => (
+                      <li key={pt}>{pt}</li>
+                    ))}
+                  </ul>
                 </div>
 
                 {/* Progressive blur: each layer blurs harder over a lower band */}
@@ -166,7 +162,7 @@ export default function HandbookPreview() {
                     className="!absolute !inset-0"
                     style={{
                       background:
-                        "linear-gradient(to bottom, rgba(25,25,25,0) 0%, rgba(25,25,25,0.55) 40%, rgba(25,25,25,0.92) 62%, #191919 80%)",
+                        "linear-gradient(to bottom, rgba(25,25,25,0) 0%, rgba(25,25,25,0.5) 28%, rgba(25,25,25,0.9) 55%, #191919 75%)",
                     }}
                   />
                 </div>
