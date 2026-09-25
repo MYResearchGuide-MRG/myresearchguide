@@ -53,10 +53,14 @@ function Hero() {
               href={MYSSP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="!inline-flex !items-center !justify-center !gap-2 !rounded-lg !bg-white !text-black !px-6 !py-3 !text-sm sm:!text-base !font-semibold !no-underline hover:!bg-zinc-200 !transition-colors"
+              className="!relative !inline-flex !items-center !justify-center !rounded-lg !bg-white !text-black !px-12 !py-3 !text-sm sm:!text-base !font-semibold !text-center !no-underline hover:!bg-zinc-200 !transition-colors"
             >
               Malaysia Science Scholar&apos;s Programme (MYSSP)
-              <ArrowUpRight size={18} aria-hidden />
+              <ArrowUpRight
+                className="!absolute !right-4 !shrink-0"
+                size={18}
+                aria-hidden
+              />
             </a>
             <a
               href={HANDBOOK_URL}
