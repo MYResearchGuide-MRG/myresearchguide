@@ -83,7 +83,7 @@ const Nav = () => {
       >
         <ScrollProgress />
         <motion.div
-          className="!relative !pointer-events-auto !flex !items-center !justify-between md:!grid md:!grid-cols-[1fr_auto_1fr] !w-full !max-w-7xl !px-4 sm:!px-6 md:!px-8"
+          className="!relative !pointer-events-auto !flex !items-center !justify-between md:!grid md:!grid-cols-[1fr_auto_1fr] !w-full !max-w-[88rem] !px-4 sm:!px-6 md:!px-8"
           animate={{
             height: scrolled ? 56 : 64,
           }}
