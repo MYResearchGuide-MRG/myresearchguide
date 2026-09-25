@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import AppWindow from "@/components/ui/AppWindow";
@@ -19,33 +20,23 @@ export default function HandbookPreview() {
   const active = allPages.find((p) => p.id === activeId) ?? allPages[0];
 
   return (
-    <AppWindow title="MYResearchGuide’s Research Handbook">
-      {/* Banner — mirrors the Notion cover */}
-      <div className="!relative !h-20 md:!h-28 !overflow-hidden !border-b !border-white/[0.06] !bg-black">
-        <div
-          aria-hidden
-          className="!absolute !inset-0 !opacity-60"
-          style={{
-            background:
-              "repeating-radial-gradient(ellipse at 18% 120%, rgba(255,255,255,0.10) 0 1px, transparent 1px 7px)",
-          }}
-        />
-        <div className="!absolute !inset-0 !flex !flex-col !items-end !justify-center !px-5 md:!px-10">
-          <span className="!text-white !font-bold !tracking-tighter !text-xl md:!text-4xl">
-            MYResearchGuide.
-          </span>
-          <span className="!text-white/60 !italic !text-[10px] md:!text-xs">
-            [ Start your Research Journey, with MYResearchGuide. ]
-          </span>
-        </div>
-      </div>
-
-      <div className="!flex !flex-col md:!flex-row md:!h-[440px]">
-        {/* Table of contents — chip row on mobile, sidebar on desktop */}
+    <AppWindow url="myresearchguide.notion.site">
+      <div className="!flex !flex-col md:!flex-row md:!h-[560px]">
+        {/* Table of contents — full-height sidebar on desktop, chip row on mobile */}
         <nav
           aria-label="Handbook table of contents"
-          className="!shrink-0 md:!w-64 !border-b md:!border-b-0 md:!border-r !border-white/[0.06] !bg-[#0e0e0f] md:!overflow-y-auto !py-3 md:!py-4"
+          className="!shrink-0 md:!w-64 !border-b md:!border-b-0 md:!border-r !border-white/[0.06] !bg-[#141415] md:!overflow-y-auto !py-3 md:!py-5"
         >
+          <div className="!hidden md:!flex !items-center !gap-2 !px-5 !mb-5">
+            <Image
+              src="/MRG2W.png"
+              alt=""
+              aria-hidden
+              width={120}
+              height={40}
+              className="!h-5 !w-auto !object-contain"
+            />
+          </div>
           {handbookGroups.map((group) => (
             <div key={group.label} className="md:!mb-4 !contents md:!block">
               <p className="!hidden md:!block !px-5 !mb-1.5 !text-[10px] !font-semibold !uppercase !tracking-[0.14em] !text-zinc-500">
@@ -79,8 +70,18 @@ export default function HandbookPreview() {
           ))}
         </nav>
 
-        {/* Page preview */}
-        <div className="!relative !flex-1 !min-h-[320px] !overflow-hidden">
+        {/* Page — Notion-style cover banner, then the page body */}
+        <div className="!relative !flex-1 !min-w-0 !min-h-[420px] md:!min-h-0 !overflow-y-auto !overscroll-contain !bg-[#191919]">
+          <Image
+            src="/handbook-banner.jpg"
+            alt="MYResearchGuide — Start your Research Journey, with MYResearchGuide."
+            width={1720}
+            height={406}
+            priority
+            sizes="(max-width: 768px) 100vw, 900px"
+            className="!block !w-full !h-28 sm:!h-36 md:!h-44 !object-cover !object-[62%_50%]"
+            draggable={false}
+          />
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
               key={active.id}
@@ -88,9 +89,12 @@ export default function HandbookPreview() {
               animate={{ opacity: 1, y: 0 }}
               exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
               transition={{ duration: reduceMotion ? 0 : 0.25, ease: "easeOut" }}
-              className="!h-full !overflow-y-auto !px-5 sm:!px-8 md:!px-12 !py-6 md:!py-10 !text-left"
+              className="!px-5 sm:!px-8 md:!px-12 !pb-8 md:!pb-10 !text-left"
             >
-              <div className="!text-3xl md:!text-4xl !mb-3" aria-hidden>
+              <div
+                className="!-mt-7 md:!-mt-9 !mb-3 !text-5xl md:!text-6xl !leading-none !relative"
+                aria-hidden
+              >
                 {active.icon}
               </div>
               <h3 className="!text-white !text-2xl md:!text-3xl !font-bold !tracking-tight !mb-4">

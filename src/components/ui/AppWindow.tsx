@@ -1,56 +1,48 @@
 import React from "react";
+import { Lock } from "lucide-react";
 
 type AppWindowProps = {
   children: React.ReactNode;
-  /** Optional label shown in the middle of the title bar. */
-  title?: string;
+  /** Shown in the address bar, e.g. "myresearchguide.notion.site". */
+  url?: string;
   className?: string;
-  /** Classes for the window body (below the title bar). */
+  /** Classes for the window body (below the toolbar). */
   bodyClassName?: string;
 };
 
 /**
- * Minimal app-window frame (title bar + 3 dots) sitting on a soft monochrome
- * gradient stage. Shared by the hero handbook preview and the Handbook section.
+ * Floating browser window: toolbar with traffic lights and an address bar,
+ * lifted off the page by a deep shadow and a faint top-edge highlight.
+ * Shared by the hero handbook preview and the Handbook section.
  */
 export default function AppWindow({
   children,
-  title,
+  url,
   className = "",
   bodyClassName = "",
 }: AppWindowProps) {
   return (
     <div
-      className={`!relative !rounded-[1.75rem] !p-2 sm:!p-4 md:!p-6 !overflow-hidden ${className}`}
+      className={`!relative !rounded-xl md:!rounded-2xl !overflow-hidden !bg-[#0f0f10] ${className}`}
       style={{
-        background:
-          "radial-gradient(120% 90% at 85% 0%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 38%, rgba(255,255,255,0) 70%), radial-gradient(90% 80% at 0% 100%, rgba(148,163,184,0.18) 0%, rgba(148,163,184,0) 60%), #0c0c0d",
+        boxShadow:
+          "0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.08), 0 40px 120px -30px rgba(255,255,255,0.10), 0 50px 100px -20px rgba(0,0,0,0.9)",
       }}
     >
-      {/* Film grain so the gradient doesn't band */}
-      <div
-        aria-hidden
-        className="!pointer-events-none !absolute !inset-0 !opacity-[0.18] !mix-blend-overlay"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
-      <div className="!relative !rounded-xl md:!rounded-2xl !border !border-white/10 !bg-[#0a0a0a] !shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] !overflow-hidden">
-        <div className="!relative !flex !items-center !h-9 md:!h-10 !px-4 !border-b !border-white/[0.06]">
-          <div className="!flex !gap-1.5" aria-hidden>
-            <span className="!h-2.5 !w-2.5 !rounded-full !bg-white/15" />
-            <span className="!h-2.5 !w-2.5 !rounded-full !bg-white/15" />
-            <span className="!h-2.5 !w-2.5 !rounded-full !bg-white/15" />
-          </div>
-          {title && (
-            <span className="!absolute !left-1/2 !-translate-x-1/2 !text-[11px] md:!text-xs !text-zinc-500 !truncate !max-w-[60%]">
-              {title}
-            </span>
-          )}
+      <div className="!relative !flex !items-center !h-10 md:!h-11 !px-4 !bg-[#1a1a1c] !border-b !border-black/60">
+        <div className="!flex !gap-2 !shrink-0" aria-hidden>
+          <span className="!h-3 !w-3 !rounded-full !bg-[#ff5f57]" />
+          <span className="!h-3 !w-3 !rounded-full !bg-[#febc2e]" />
+          <span className="!h-3 !w-3 !rounded-full !bg-[#28c840]" />
         </div>
-        <div className={bodyClassName}>{children}</div>
+        {url && (
+          <div className="!absolute !left-1/2 !-translate-x-1/2 !flex !items-center !justify-center !gap-1.5 !h-6 md:!h-7 !w-[55%] sm:!w-[45%] !max-w-md !rounded-md !bg-black/40 !text-[11px] md:!text-xs !text-zinc-400">
+            <Lock size={11} aria-hidden className="!shrink-0" />
+            <span className="!truncate">{url}</span>
+          </div>
+        )}
       </div>
+      <div className={bodyClassName}>{children}</div>
     </div>
   );
 }

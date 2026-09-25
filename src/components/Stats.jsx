@@ -262,7 +262,7 @@ const Cards = () => {
 
             {/* Right: app window with the active feature's recording */}
             <div className="lg:!col-span-7 !w-full">
-              <AppWindow title="MYResearchGuide Handbook">
+              <AppWindow url="myresearchguide.notion.site">
                 <div className="!aspect-[16/10] !w-full !relative !bg-black">
                   <AnimatePresence mode="wait">
                     <motion.video
