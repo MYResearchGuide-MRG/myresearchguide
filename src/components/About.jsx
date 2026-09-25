@@ -93,8 +93,8 @@ export default function About1() {
                 +
               </div>
               <p className="!mt-4 !text-base md:!text-xl !text-zinc-300 !max-w-xl">
-                Backed by 40+ Malaysian researchers from top institutions around
-                the world
+                Backed by 40+ Malaysian researchers from top institutions &amp;
+                research labs around the world
               </p>
             </motion.div>
 

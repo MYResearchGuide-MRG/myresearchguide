@@ -153,15 +153,6 @@ const Cards = () => {
                 Stop wasting your money on scam programmes. Pursue real science
                 research, with our guide, for free.
               </p>
-
-              <a
-                href="https://forms.gle/Sk9JS3kcKe8qw1cU6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="!w-fit !px-6 !py-2 !border !border-[#333] !rounded-full !text-sm !font-medium !mb-10 !no-underline !text-white hover:!bg-white hover:!text-black !transition-all !duration-300"
-              >
-                · Click here to join our mailing list!
-              </a>
               <div
                 className="!flex !flex-col !gap-2"
                 role="tablist"
