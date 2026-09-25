@@ -41,7 +41,7 @@ export default function HandbookPreview() {
   } as const;
 
   return (
-    <AppWindow url="myresearchguide.notion.site">
+    <AppWindow url="myresearchguide.notion.site" edgeLight>
       <div className="!flex !flex-col md:!flex-row md:!h-[600px]">
         {/* Table of contents — full-height sidebar on desktop, chip row on mobile */}
         <nav

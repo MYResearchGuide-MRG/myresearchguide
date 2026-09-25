@@ -8,6 +8,8 @@ type AppWindowProps = {
   className?: string;
   /** Classes for the window body (below the toolbar). */
   bodyClassName?: string;
+  /** Animate a light travelling around the window edge. */
+  edgeLight?: boolean;
 };
 
 /**
@@ -20,6 +22,7 @@ export default function AppWindow({
   url,
   className = "",
   bodyClassName = "",
+  edgeLight = false,
 }: AppWindowProps) {
   return (
     <div
@@ -43,6 +46,12 @@ export default function AppWindow({
         )}
       </div>
       <div className={bodyClassName}>{children}</div>
+      {edgeLight && (
+        <div
+          aria-hidden
+          className="window-edge-light !pointer-events-none !absolute !inset-0 !z-30 !rounded-[inherit]"
+        />
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Hero } from "@/components/ui/animated-hero";
 import HandbookPreview from "@/components/HandbookPreview";
+import FloatingTilt from "@/components/ui/FloatingTilt";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
 export default function HeroScrollDemo() {
@@ -33,7 +34,9 @@ export default function HeroScrollDemo() {
             : { duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }
         }
       >
-        <HandbookPreview />
+        <FloatingTilt>
+          <HandbookPreview />
+        </FloatingTilt>
       </motion.div>
     </div>
   );
