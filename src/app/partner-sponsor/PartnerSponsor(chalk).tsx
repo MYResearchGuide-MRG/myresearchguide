@@ -66,6 +66,14 @@ const partners: Org[] = [
       "A student-led chemistry initiative empowering women and igniting a passion for science through creative, community-driven outreach.",
     link: "https://www.instagram.com/chems._try",
   },
+  {
+    name: "AISEA",
+    logo: "/aisea.png",
+    description:
+      "A coalition of AI builder communities across Southeast Asia, connecting local builders through shared infrastructure, regional programmes and partner access.",
+    link: "https://www.aisea.builders/en",
+    logoFit: "cover", // gradient tile fills the circle
+  },
 ];
 
 // Gold-tier sponsors. Platinum tier removed for now.
