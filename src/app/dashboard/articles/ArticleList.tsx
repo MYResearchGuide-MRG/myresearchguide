@@ -204,7 +204,7 @@ export default function ArticleList({
               </span>
               {a.status === "published" ? (
                 <Link
-                  href={`/articles/${a.slug}`}
+                  href={`/events/${a.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="!shrink-0 !text-xs !text-zinc-400 hover:!text-white !no-underline !transition-colors"

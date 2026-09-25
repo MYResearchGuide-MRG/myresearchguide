@@ -2,6 +2,7 @@
 "use client";
 
 import React from "react";
+import { motion } from "framer-motion";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
 const logos = [
@@ -19,24 +20,32 @@ const logos = [
   { name: "Meta", src: "/carousel/Meta.webp" },
 ];
 
-function LogoItem({ logo }) {
+function LogoItem({ logo, index = 0, animate = false }) {
   return (
-    <div
+    <motion.div
       className="
         !flex !shrink-0 !items-center !justify-center
-        !h-16 !w-[5.25rem]
-        sm:!h-[4.5rem] sm:!w-[6.25rem]
-        md:!h-20 md:!w-[7.25rem]
+        !h-20 !w-[7rem]
+        sm:!h-24 sm:!w-[8.5rem]
+        md:!h-28 md:!w-[10rem]
       "
       title={logo.name}
+      initial={animate ? { opacity: 0, y: 28, scale: 0.9 } : false}
+      whileInView={animate ? { opacity: 1, y: 0, scale: 1 } : undefined}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{
+        duration: 0.55,
+        ease: [0.22, 1, 0.36, 1],
+        delay: (index % logos.length) * 0.06,
+      }}
     >
       <img
         src={logo.src}
         alt={logo.name}
-        width={120}
-        height={80}
+        width={160}
+        height={112}
         className="
-          !h-12 sm:!h-14 md:!h-16
+          !h-16 sm:!h-20 md:!h-24
           !w-auto !max-w-full
           !object-contain
           !select-none
@@ -46,7 +55,7 @@ function LogoItem({ logo }) {
         decoding="async"
         draggable={false}
       />
-    </div>
+    </motion.div>
   );
 }
 
@@ -66,8 +75,8 @@ const Carousel = () => {
       aria-label="Partner universities and institutions"
     >
       <div className="!text-center !font-bold !px-4 sm:!px-6">
-        <p className="!text-base sm:!text-lg md:!text-3xl !leading-snug !tracking-tight !text-muted-foreground !max-w-xl !mx-auto">
-          In collaboration with researchers from…
+        <p className="!text-base sm:!text-lg md:!text-3xl !leading-snug !tracking-tight !text-muted-foreground !max-w-3xl !mx-auto">
+          MYResearchGuide is backed by a community of researchers affiliated with…
         </p>
       </div>
 
@@ -94,14 +103,19 @@ const Carousel = () => {
           <div
             className="
               !flex !w-max !items-center
-              !gap-3 sm:!gap-5 md:!gap-6
+              !gap-4 sm:!gap-6 md:!gap-8
               animate-scroll
               uni-marquee-track
             "
             aria-hidden={false}
           >
             {track.map((logo, index) => (
-              <LogoItem key={`${logo.name}-${index}`} logo={logo} />
+              <LogoItem
+                key={`${logo.name}-${index}`}
+                logo={logo}
+                index={index}
+                animate
+              />
             ))}
           </div>
         </div>

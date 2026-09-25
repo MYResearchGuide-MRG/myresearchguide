@@ -84,7 +84,7 @@ export async function createArticle(input: {
   });
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/articles");
+  revalidatePath("/events");
   return { ok: true, slug };
 }
 
@@ -142,9 +142,9 @@ export async function updateArticle(
     .eq("id", id);
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/articles");
-  revalidatePath(`/articles/${slug}`);
-  if (oldSlug !== slug) revalidatePath(`/articles/${oldSlug}`);
+  revalidatePath("/events");
+  revalidatePath(`/events/${slug}`);
+  if (oldSlug !== slug) revalidatePath(`/events/${oldSlug}`);
   return { ok: true, slug };
 }
 
@@ -166,7 +166,7 @@ export async function deleteArticle(id: string): Promise<ArticleResult> {
   const { error } = await supabase.from("articles").delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/articles");
-  revalidatePath(`/articles/${article.slug}`);
+  revalidatePath("/events");
+  revalidatePath(`/events/${article.slug}`);
   return { ok: true };
 }

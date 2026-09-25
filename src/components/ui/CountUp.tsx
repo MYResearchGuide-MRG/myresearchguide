@@ -5,9 +5,15 @@ interface CountUpProps {
   end: number;
   start?: number;
   duration?: number; // Reduced default for a "faster" feel
+  className?: string;
 }
 
-export default function CountUp({ end, start = 0, duration = 800 }: CountUpProps) {
+export default function CountUp({
+  end,
+  start = 0,
+  duration = 800,
+  className = "font-mono tabular-nums inline-block",
+}: CountUpProps) {
   const [count, setCount] = useState(start);
   const [hasStarted, setHasStarted] = useState(false);
   const elementRef = useRef<HTMLSpanElement>(null);
@@ -54,7 +60,7 @@ export default function CountUp({ end, start = 0, duration = 800 }: CountUpProps
   }, [hasStarted, end, start, duration]);
 
   return (
-    <span ref={elementRef} className="font-mono tabular-nums inline-block">
+    <span ref={elementRef} className={className}>
       {count.toLocaleString()}
     </span>
   );

@@ -39,12 +39,12 @@ const accordionItems: AccordionItemType[] = [
     value: "item-2",
     question: "Who can use MYResearchGuide?",
     answer:
-      "We welcome all those with a devotion to science to join our community and utilize our guide, regardless of background or location. However, MYResearchGuide has been crafted mainly by a Malaysian team - certain opportunities, details and events provided may be more feasible for those in the nearby region(s).",
+      "We welcome all those with a devotion to science to join our community and utilise our guide, regardless of background or location. However, MYResearchGuide has been crafted mainly by a Malaysian team - certain opportunities, details and events provided may be more feasible for those in the nearby region(s).",
   },
   {
     icon: Settings,
     value: "item-3",
-    question: "How to use MYResearchGuide?",
+    question: "How can I use MYResearchGuide?",
     answer:
       "Our official handbook will be available on the Notion platform, featuring beginner steps and definitions to alumni experiences. Upcoming additional STEM events, competitions, and opportunities hosted by our organisation may be found on our linked pages.",
   },

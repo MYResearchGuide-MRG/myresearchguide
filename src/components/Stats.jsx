@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
-import { Linkedin, Instagram, Mail } from "lucide-react";
-import { DestinationCard } from "@/components/ui/card-21";
+import AppWindow from "@/components/ui/AppWindow";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
 const AUTO_ADVANCE_MS = 7000;
@@ -21,13 +19,13 @@ const Cards = () => {
 
   const features = [
     {
-      title: "Your personal journey, step-by-step",
+      title: "A step-by-step guide",
       description:
-        "Navigate our guide content with connected pages, keyword definitions, and researcher tips. Each step of the process, from professor outreach to publication, is broken down into detail.",
+        "Navigate our guide content, from cold-emailing tips to publication pathways, broken down with connected pages, keyword definitions, and researcher tips.",
       video: "/gif2.mp4", // compressed from 20.9MB gif (656KB)
     },
     {
-      title: "Get Inspired by Researchers",
+      title: "Conversations with researchers",
       description:
         "With featured heart-to-heart conversations and personal insight from our research community, learn more about our researchers’ featured fields, their journey, and the steps they’ve taken.",
       video: "/gif5.mp4", // compressed from 29MB gif (629KB)
@@ -94,19 +92,19 @@ const Cards = () => {
 
   return (
     <div>
-      <h1 className="!mt-16 sm:!mt-24 md:!mt-40 !text-3xl sm:!text-5xl md:!text-[5rem] !max-w-none !font-regular !text-center !tracking-tighter !ml-2 !mr-2 md:!ml-0 md:!mr-0 !px-2">
+      <h1 className="!mt-16 sm:!mt-24 md:!mt-40 !text-4xl sm:!text-5xl md:!text-[5rem] !max-w-none !font-regular !text-center !tracking-tighter !leading-tight !px-4">
         <span className="!text-spektr-cyan">
-          New to <br></br>
-          <span className="!font-semibold bg-gradient-to-r from-stone-400  to-slate-300 bg-clip-text text-transparent">
+          The{" "}
+          <span className="!font-semibold bg-gradient-to-r from-stone-400 to-slate-300 bg-clip-text text-transparent">
             MYResearchGuide
-          </span>
-          ?<br></br>Here&apos;s how it works.
+          </span>{" "}
+          Handbook
         </span>
       </h1>
 
       <section
         ref={sectionRef}
-        className="!text-white !px-4 sm:!px-6 md:!px-12 !min-h-0 md:!min-h-screen !flex !items-center !overflow-x-clip !py-10 md:!py-0"
+        className="!text-white !px-4 sm:!px-6 md:!px-12 !py-12 md:!py-24 !overflow-x-clip"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onFocusCapture={() => setIsPaused(true)}
@@ -116,57 +114,28 @@ const Cards = () => {
           }
         }}
       >
-        <div className="!max-w-[1600px] !mx-auto !w-full !grid !grid-cols-1 lg:!grid-cols-12 !gap-8 md:!gap-16 !items-start !p-2 sm:!p-6 md:!p-10">
-          {/* Left Side: Content (3/12 columns) */}
-          <div className="lg:!col-span-3 !flex !flex-col !pt-10">
-            <h1 className="!text-3xl md:!text-5xl !font-bold !leading-tight">
-              Get started with science research{" "}
-              <span className="relative !inline-block px-1">
-                one day
-                <motion.span
-                  initial={reduceMotion ? false : { width: "0%" }}
-                  whileInView={{ width: "100%" }}
-                  viewport={{ once: true, amount: "same" }}
-                  transition={{
-                    duration: reduceMotion ? 0 : 0.5,
-                    delay: reduceMotion ? 0 : 0.2,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute !z-10 !left-0 !top-1/2 !h-[4px] !bg-red-500 !-translate-y-1/2"
-                  style={{ originX: 0 }}
-                />
-              </span>
-              <motion.span
-                initial={reduceMotion ? false : { opacity: 0, y: 5 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: reduceMotion ? 0 : 0.4,
-                  delay: reduceMotion ? 0 : 0.7,
-                  ease: "easeOut",
-                }}
-                className="!text-orange-500 !inline-block !ml-2"
-              >
-                now.
-              </motion.span>
-            </h1>
-            <p className="!text-[#a1a1a1] !text-lg !mb-8 !leading-relaxed">
-              Stop wasting your money on scam programs. Pursue real science research, with our guide, for free.{" "}
+        <div className="!max-w-7xl !mx-auto !w-full">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeOut" }}
+            className="!mb-10 md:!mb-16 !text-left"
+          >
+            <h2 className="!text-3xl md:!text-5xl !font-semibold !tracking-tight !leading-tight !mb-3">
+              Get started with science research today.
+            </h2>
+            <p className="!text-zinc-400 !text-base md:!text-lg !max-w-2xl">
+              Not sure how to begin your STEM research journey as a Malaysian?
             </p>
+          </motion.div>
 
-            <button className="!w-fit !px-6 !py-2 !border !border-[#333] !rounded-full !text-sm !font-medium !mb-12 hover:!bg-white hover:!text-black !transition-all !duration-300">
-              <a
-                href="https://forms.gle/Sk9JS3kcKe8qw1cU6"
-                className="!no-underline"
-              >
-                · Click here to join our mailing list!
-              </a>
-            </button>
-
+          <div className="!grid !grid-cols-1 lg:!grid-cols-12 !gap-8 lg:!gap-14 !items-center">
+            {/* Left: feature list — only the active item expands */}
             <div
-              className="!flex !flex-col"
+              className="lg:!col-span-5 !flex !flex-col !gap-2"
               role="tablist"
-              aria-label="How MYResearchGuide works"
+              aria-label="What's inside the MYResearchGuide Handbook"
             >
               {features.map((feature, index) => {
                 const isActive = activeTab === index;
@@ -176,7 +145,9 @@ const Cards = () => {
                 return (
                   <div
                     key={index}
-                    className="!group !border-t !border-[#222] !py-8 !transition-all !duration-300"
+                    className={`!rounded-xl !px-5 !py-5 !transition-colors !duration-300 ${
+                      isActive ? "!bg-white/[0.04]" : "hover:!bg-white/[0.02]"
+                    }`}
                   >
                     <button
                       type="button"
@@ -212,45 +183,24 @@ const Cards = () => {
                           selectTab(features.length - 1, { focus: true });
                         }
                       }}
-                      className="!w-full !text-left !bg-transparent !border-0 !p-0 !cursor-pointer"
+                      className="!w-full !flex !items-center !justify-between !gap-4 !text-left !bg-transparent !border-0 !p-0 !cursor-pointer"
                     >
                       <h3
-                        className={`!text-xl !font-medium !transition-colors !duration-300 ${
-                          isActive
-                            ? "!text-white"
-                            : "!text-[#444] group-hover:!text-white"
+                        className={`!text-lg md:!text-xl !font-semibold !m-0 !transition-colors !duration-300 ${
+                          isActive ? "!text-white" : "!text-zinc-500"
                         }`}
                       >
                         {feature.title}
                       </h3>
+                      <span
+                        aria-hidden
+                        className={`!text-xs !transition-all !duration-300 ${
+                          isActive ? "!text-zinc-300 !rotate-90" : "!text-zinc-600"
+                        }`}
+                      >
+                        ▷
+                      </span>
                     </button>
-
-                    {/* Accessible active-tab progress indicator */}
-                    <div
-                      className="!relative !mt-3 !h-[2px] !w-full !bg-[#222] !overflow-hidden !rounded-full"
-                      role="progressbar"
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-valuenow={isActive ? Math.round(displayProgress) : 0}
-                      aria-label={
-                        isActive
-                          ? `Auto-advance progress for ${feature.title}`
-                          : undefined
-                      }
-                      aria-hidden={!isActive}
-                    >
-                      {isActive && (
-                        <div
-                          className="!absolute !inset-y-0 !left-0 !bg-spektr-cyan !h-full"
-                          style={{
-                            width: `${displayProgress}%`,
-                            transition: reduceMotion
-                              ? "none"
-                              : "width 80ms linear",
-                          }}
-                        />
-                      )}
-                    </div>
 
                     <div
                       role="tabpanel"
@@ -265,24 +215,42 @@ const Cards = () => {
                             key={`desc-${index}`}
                             initial={
                               reduceMotion
-                                ? { opacity: 1, y: 0 }
-                                : { opacity: 0, y: 8 }
+                                ? { opacity: 1, height: "auto" }
+                                : { opacity: 0, height: 0 }
                             }
-                            animate={{ opacity: 1, y: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
                             exit={
                               reduceMotion
-                                ? { opacity: 1, y: 0 }
-                                : { opacity: 0, y: -6 }
+                                ? { opacity: 1, height: "auto" }
+                                : { opacity: 0, height: 0 }
                             }
                             transition={{
-                              duration: reduceMotion ? 0 : 0.28,
+                              duration: reduceMotion ? 0 : 0.3,
                               ease: "easeOut",
                             }}
-                            className="!mt-4"
                           >
-                            <p className="!text-[#888] !text-base !leading-relaxed">
+                            <p className="!mt-3 !mb-0 !text-zinc-400 !text-[15px] !leading-relaxed">
                               {feature.description}
                             </p>
+                            {/* Auto-advance progress */}
+                            <div
+                              className="!relative !mt-5 !h-[2px] !w-full !bg-white/10 !overflow-hidden !rounded-full"
+                              role="progressbar"
+                              aria-valuemin={0}
+                              aria-valuemax={100}
+                              aria-valuenow={Math.round(displayProgress)}
+                              aria-label={`Auto-advance progress for ${feature.title}`}
+                            >
+                              <div
+                                className="!absolute !inset-y-0 !left-0 !bg-white/70 !h-full"
+                                style={{
+                                  width: `${displayProgress}%`,
+                                  transition: reduceMotion
+                                    ? "none"
+                                    : "width 80ms linear",
+                                }}
+                              />
+                            </div>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -290,46 +258,43 @@ const Cards = () => {
                   </div>
                 );
               })}
-              <div className="!border-t !border-[#222]"></div>
-            </div>
-          </div>
-
-          {/* Right Side: Media Display (9/12 columns) */}
-          <div className="lg:!col-span-9 !relative !w-full">
-            <div className="!mt-0 md:!mt-40 !relative !rounded-2xl !overflow-hidden !bg-[#111] !border !border-[#222] !shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-              <div className="!aspect-[16/9] !w-full !flex !items-center !justify-center !bg-black !relative">
-                <AnimatePresence mode="wait">
-                  <motion.video
-                    key={activeTab}
-                    src={features[activeTab].video}
-                    aria-label={features[activeTab].title}
-                    autoPlay={!reduceMotion}
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    initial={
-                      reduceMotion
-                        ? { opacity: 1, scale: 1 }
-                        : { opacity: 0, scale: 1.04 }
-                    }
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={
-                      reduceMotion
-                        ? { opacity: 1, scale: 1 }
-                        : { opacity: 0, scale: 0.98 }
-                    }
-                    transition={{
-                      duration: reduceMotion ? 0 : 0.45,
-                      ease: "easeOut",
-                    }}
-                    className="!w-full !h-full !object-cover !absolute !inset-0"
-                  />
-                </AnimatePresence>
-              </div>
             </div>
 
-            <div className="!absolute !-inset-4 !bg-blue-500/5 !blur-3xl !-z-10 !rounded-full"></div>
+            {/* Right: app window with the active feature's recording */}
+            <div className="lg:!col-span-7 !w-full">
+              <AppWindow title="MYResearchGuide Handbook">
+                <div className="!aspect-[16/10] !w-full !relative !bg-black">
+                  <AnimatePresence mode="wait">
+                    <motion.video
+                      key={activeTab}
+                      src={features[activeTab].video}
+                      aria-label={features[activeTab].title}
+                      autoPlay={!reduceMotion}
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      initial={
+                        reduceMotion
+                          ? { opacity: 1, scale: 1 }
+                          : { opacity: 0, scale: 1.02 }
+                      }
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={
+                        reduceMotion
+                          ? { opacity: 1, scale: 1 }
+                          : { opacity: 0, scale: 0.99 }
+                      }
+                      transition={{
+                        duration: reduceMotion ? 0 : 0.4,
+                        ease: "easeOut",
+                      }}
+                      className="!w-full !h-full !object-cover !object-left-top !absolute !inset-0"
+                    />
+                  </AnimatePresence>
+                </div>
+              </AppWindow>
+            </div>
           </div>
         </div>
       </section>

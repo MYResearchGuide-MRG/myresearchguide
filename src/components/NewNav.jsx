@@ -29,7 +29,7 @@ const Nav = () => {
   const navLinks = [
     { name: "About Us", href: "/team" },
     { name: "Researchers", href: "/researchers" },
-    { name: "Articles", href: "/articles" },
+    { name: "Events", href: "/events" },
     { name: "Partners & Sponsors", href: "/partner-sponsor" },
     { name: "Contact Us", href: "/contact" },
   ];
@@ -83,7 +83,7 @@ const Nav = () => {
       >
         <ScrollProgress />
         <motion.div
-          className="!relative !pointer-events-auto !flex !items-center !justify-between !w-full !max-w-7xl !px-4 sm:!px-6 md:!px-8"
+          className="!relative !pointer-events-auto !flex !items-center !justify-between md:!grid md:!grid-cols-[1fr_auto_1fr] !w-full !max-w-7xl !px-4 sm:!px-6 md:!px-8"
           animate={{
             height: scrolled ? 56 : 64,
           }}
@@ -137,16 +137,23 @@ const Nav = () => {
                 </motion.div>
               </motion.div>
             ))}
-            <motion.div variants={linkItemVariants}>
-              <a
-                href={MAILING_LIST_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="!no-underline"
-              >
-                <InteractiveHoverButton />
-              </a>
-            </motion.div>
+          </motion.div>
+
+          {/* Mailing list CTA — right column, so the links stay centred */}
+          <motion.div
+            className="!hidden md:!flex !justify-end"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeOut" }}
+          >
+            <a
+              href={MAILING_LIST_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="!no-underline"
+            >
+              <InteractiveHoverButton />
+            </a>
           </motion.div>
 
           {/* Mobile Menu Toggle */}

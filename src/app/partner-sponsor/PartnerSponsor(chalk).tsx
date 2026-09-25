@@ -7,8 +7,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
-import Image from "next/image";
 import { ExternalLink } from "lucide-react";
+import NeuronBackdrop from "@/components/ui/NeuronBackdrop";
 import Autoplay from "embla-carousel-autoplay";
 import { GlowCard } from "@/components/ui/spotlight-card";
 import {
@@ -85,18 +85,6 @@ const goldSponsors: Org[] = [
     link: "https://www.mathworks.com",
   },
 ];
-
-const ChalkboardTile = () => (
-  <div className="!w-[1024px] !h-[768px] !flex-shrink-0 !overflow-hidden">
-    <Image
-      src="/equations.jpg"
-      alt="math chalkboard equations"
-      width={1024}
-      height={768}
-      className="!object-cover !opacity-50"
-    />
-  </div>
-);
 
 function PartnerCarousel({
   items,
@@ -215,33 +203,12 @@ export default function PartnersSponsors() {
         ref={headerRef}
         className="!relative !overflow-hidden !min-h-screen !flex !items-center !justify-center"
       >
+        {/* MYSSP neuron network, fades out on scroll */}
         <motion.div
-          style={
-            prefersReducedMotion
-              ? {
-                  opacity: 0.85,
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-                }
-              : {
-                  opacity: backgroundOpacity,
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-                }
-          }
+          style={{ opacity: prefersReducedMotion ? 1 : backgroundOpacity }}
           className="!absolute !inset-0 !z-0 !pointer-events-none"
         >
-          <div className="!absolute !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !w-[250%] !-rotate-12 !scale-125">
-            <div className="!flex !w-max animate-marquee">
-              {[...Array(8)].map((_, i) => (
-                <ChalkboardTile key={i} />
-              ))}
-            </div>
-          </div>
+          <NeuronBackdrop />
         </motion.div>
 
         <div className="!absolute !bottom-0 !left-0 !right-0 !h-32 !bg-gradient-to-t !from-black !to-transparent !z-[5]" />
