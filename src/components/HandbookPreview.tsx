@@ -10,6 +10,18 @@ import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-saf
 
 const allPages = handbookGroups.flatMap((g) => g.pages);
 
+// Stacked backdrop blurs, each masked to a band a little lower than the last,
+// so the teaser goes from sharp to fully blurred top-down ("show more" style).
+const BLUR_SPAN = 55; // % of the teaser height over which blur ramps to full
+const BLUR_LAYERS = [0.5, 1, 2, 4, 8, 16].map((blur, i, all) => {
+  const step = BLUR_SPAN / (all.length + 1);
+  const start = i * step;
+  const mask = `linear-gradient(to bottom, transparent ${start}%, #000 ${
+    start + step
+  }%${i === all.length - 1 ? "" : `, #000 ${start + 2 * step}%, transparent ${start + 3 * step}%`})`;
+  return { blur, mask };
+});
+
 /**
  * Interactive recreation of the Notion handbook: click a page in the table of
  * contents to preview it, then jump to the real page.
@@ -116,46 +128,62 @@ export default function HandbookPreview() {
                 className="!group !relative !flex-1 !min-h-[190px] !block !no-underline !-mx-5 sm:!-mx-8 md:!-mx-12 !px-5 sm:!px-8 md:!px-12 !overflow-hidden"
                 aria-label={`Preview only. Open “${active.title}” in the handbook`}
               >
+                {/* The rest of the page, rendered sharp; the blur stack below softens it */}
                 <div
                   aria-hidden
-                  className="!select-none !pointer-events-none !max-w-2xl !pt-1 !blur-[5px] !opacity-70"
-                  style={{
-                    WebkitMaskImage:
-                      "linear-gradient(to bottom, #000 0%, #000 35%, transparent 100%)",
-                    maskImage:
-                      "linear-gradient(to bottom, #000 0%, #000 35%, transparent 100%)",
-                  }}
+                  className="!select-none !pointer-events-none !max-w-2xl !pt-1"
                 >
                   {active.points.map((pt) => (
-                    <div key={pt} className="!mb-5">
-                      <p className="!text-zinc-200 !font-semibold !text-base md:!text-lg !mb-2">
+                    <div key={pt} className="!mb-6">
+                      <p className="!text-zinc-200 !font-semibold !text-base md:!text-lg !mb-2.5">
                         {pt}
                       </p>
-                      <div className="!space-y-2">
-                        <div className="!h-2.5 !w-full !rounded-full !bg-zinc-600" />
-                        <div className="!h-2.5 !w-11/12 !rounded-full !bg-zinc-600" />
-                        <div className="!h-2.5 !w-2/3 !rounded-full !bg-zinc-600" />
+                      <div className="!space-y-2.5">
+                        <div className="!h-2 !w-full !rounded-full !bg-white/15" />
+                        <div className="!h-2 !w-11/12 !rounded-full !bg-white/15" />
+                        <div className="!h-2 !w-2/3 !rounded-full !bg-white/15" />
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="!absolute !inset-0 !flex !items-center !justify-center !px-4">
-                  <div className="!flex !flex-col !items-center !text-center !gap-2 !rounded-2xl !border !border-white/10 !bg-[#111]/80 !backdrop-blur-md !px-6 !py-5 !shadow-[0_20px_50px_-15px_rgba(0,0,0,0.9)] !transition-transform !duration-300 group-hover:!-translate-y-0.5">
-                    <span className="!flex !h-9 !w-9 !items-center !justify-center !rounded-full !bg-white/10 !text-white">
-                      <Lock size={16} aria-hidden />
-                    </span>
-                    <p className="!m-0 !text-sm !font-semibold !text-white">
-                      This is just a preview
-                    </p>
-                    <p className="!m-0 !text-xs !text-zinc-400 !max-w-[16rem]">
-                      Read the full page, free, in the MYResearchGuide handbook.
-                    </p>
-                    <span className="!mt-1 !inline-flex !items-center !gap-1.5 !rounded-full !bg-white !text-black !px-4 !py-2 !text-sm !font-semibold group-hover:!bg-zinc-200 !transition-colors">
-                      Open full page
-                      <ArrowUpRight size={16} aria-hidden />
-                    </span>
-                  </div>
+                {/* Progressive blur: each layer blurs harder over a lower band */}
+                <div aria-hidden className="!pointer-events-none !absolute !inset-0">
+                  {BLUR_LAYERS.map((layer) => (
+                    <div
+                      key={layer.blur}
+                      className="!absolute !inset-0"
+                      style={{
+                        backdropFilter: `blur(${layer.blur}px)`,
+                        WebkitBackdropFilter: `blur(${layer.blur}px)`,
+                        maskImage: layer.mask,
+                        WebkitMaskImage: layer.mask,
+                      }}
+                    />
+                  ))}
+                  {/* …and fade into the page colour */}
+                  <div
+                    className="!absolute !inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to bottom, rgba(25,25,25,0) 0%, rgba(25,25,25,0.55) 40%, rgba(25,25,25,0.92) 62%, #191919 80%)",
+                    }}
+                  />
+                </div>
+
+                {/* Floating CTA */}
+                <div className="!absolute !inset-x-0 !bottom-0 !flex !flex-col !items-center !text-center !gap-1.5 !px-4 !pb-6 md:!pb-8">
+                  <Lock size={18} aria-hidden className="!text-zinc-300 !mb-0.5" />
+                  <p className="!m-0 !text-sm md:!text-base !font-semibold !text-white">
+                    This is just a preview
+                  </p>
+                  <p className="!m-0 !text-xs md:!text-sm !text-zinc-400">
+                    Read the full page, free, in the MYResearchGuide handbook.
+                  </p>
+                  <span className="!mt-2 !inline-flex !items-center !gap-1.5 !rounded-full !bg-white !text-black !px-4 !py-2 !text-sm !font-semibold group-hover:!bg-zinc-200 !transition-colors">
+                    Open full page
+                    <ArrowUpRight size={16} aria-hidden />
+                  </span>
                 </div>
               </a>
             </motion.article>
