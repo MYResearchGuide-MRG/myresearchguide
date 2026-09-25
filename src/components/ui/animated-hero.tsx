@@ -55,7 +55,7 @@ function Hero() {
               rel="noopener noreferrer"
               className="!inline-flex !items-center !justify-center !gap-2 !rounded-lg !bg-white !text-black !px-6 !py-3 !text-sm sm:!text-base !font-semibold !no-underline hover:!bg-zinc-200 !transition-colors"
             >
-              Malaysia Science Scholar&apos;s Programme
+              Malaysia Science Scholar&apos;s Programme (MYSSP)
               <ArrowUpRight size={18} aria-hidden />
             </a>
             <a

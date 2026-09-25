@@ -86,14 +86,14 @@ export default function About1() {
               <div className="!text-7xl md:!text-9xl !font-semibold !tracking-tighter !leading-none !bg-gradient-to-r !from-stone-400 !to-slate-300 !bg-clip-text !text-transparent">
                 <CountUp
                   start={0}
-                  end={30}
+                  end={40}
                   duration={1800}
                   className="tabular-nums inline-block"
                 />
                 +
               </div>
               <p className="!mt-4 !text-base md:!text-xl !text-zinc-300 !max-w-xl">
-                Backed by 30+ Malaysian researchers from top institutions around
+                Backed by 40+ Malaysian researchers from top institutions around
                 the world
               </p>
             </motion.div>
