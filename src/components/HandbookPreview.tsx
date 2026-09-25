@@ -12,8 +12,8 @@ const allPages = handbookGroups.flatMap((g) => g.pages);
 
 // Stacked backdrop blurs, each masked to a band a little lower than the last,
 // so the teaser goes from sharp to fully blurred top-down ("show more" style).
-const BLUR_SPAN = 40; // % of the teaser height over which blur ramps to full
-const BLUR_LAYERS = [0.5, 1, 1.5, 2.5, 3.5, 5].map((blur, i, all) => {
+const BLUR_SPAN = 90; // % of the teaser height over which blur ramps to full
+const BLUR_LAYERS = [1, 1.5, 2, 2.5].map((blur, i, all) => {
   const step = BLUR_SPAN / (all.length + 1);
   const start = i * step;
   const mask = `linear-gradient(to bottom, transparent ${start}%, #000 ${
@@ -162,7 +162,7 @@ export default function HandbookPreview() {
                     className="!absolute !inset-0"
                     style={{
                       background:
-                        "linear-gradient(to bottom, rgba(25,25,25,0) 0%, rgba(25,25,25,0.5) 28%, rgba(25,25,25,0.9) 55%, #191919 75%)",
+                        "linear-gradient(to bottom, rgba(25,25,25,0) 0%, rgba(25,25,25,0.3) 35%, rgba(25,25,25,0.75) 65%, #191919 92%)",
                     }}
                   />
                 </div>
