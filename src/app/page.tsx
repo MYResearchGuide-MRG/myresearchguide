@@ -6,7 +6,6 @@ import Foot from "@/components/Foot";
 import BackgroundOrb from "@/components/BackgroundOrb";
 import Top from "@/components/Top"
 import NewNav from "@/components/NewNav"
-import AnnouncementBanner from "@/components/AnnouncementBanner"
 import HeroNew from "@/components/HeroNew"
 import About1 from "@/components/About"
 
@@ -19,7 +18,6 @@ export default function Home() {
     <main className="relative min-h-screen !bg-black !text-white overflow-x-clip overflow-y-visible">
       <div className="relative z-10 w-full">
         <NewNav />
-        <AnnouncementBanner />
         <HeroNew />
         <Carousel />
         <About1 />

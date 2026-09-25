@@ -105,7 +105,7 @@ export default function Foot() {
             </div>
 
             <p className="!mt-2 text-gray-500 text-sm">
-              Reach out for any inquiries regarding our STEM programs.
+              Reach out for any enquiries regarding our STEM programmes.
             </p>
           </motion.div>
         </div>

@@ -2,7 +2,7 @@ export const people = [
   {
     id: "dun-li-chan",
     name: "Dun Li Chan",
-    title: "Director",
+    title: "Founder of MYResearchGuide",
     tier: "executive",
     departments: [],
     image: "/profile/team/dun-li-chan.jpg",
@@ -21,7 +21,7 @@ export const people = [
   {
     id: "hazel-lim",
     name: "Hazel Lim",
-    title: "Co-Director",
+    title: "Co-Founder & Executive Director",
     tier: "executive",
     departments: [],
     image: "/profile/hazel.jpeg",
@@ -45,12 +45,12 @@ export const people = [
     ],
   },
   {
-    id: "charmaine-thong-zhi-yan",
-    name: "Charmaine Thong Zhi Yan",
-    title: "Media Director",
+    id: "robyn-chin",
+    name: "Robyn Chin",
+    title: "Media & Marketing Director",
     tier: "director",
     departments: ["media"],
-    image: "/profile/team/charmaine.png",
+    image: "/profile/team/robyn.jpg",
   },
   {
     id: "yan-he-tan",
@@ -122,7 +122,7 @@ export const people = [
   {
     id: "roxanne-tan-li-thong",
     name: "Roxanne Tan Li Thong",
-    title: "Media Member",
+    title: "Media & Marketing Member",
     tier: "member",
     departments: ["media"],
     image: "/profile/team/roxanne.jpg",
@@ -131,17 +131,25 @@ export const people = [
     ],
   },
   {
-    id: "emma",
-    name: "Emma",
-    title: "Media Member",
+    id: "caryn-see-jing-ern",
+    name: "Caryn See Jing Ern",
+    title: "Media & Marketing Member",
     tier: "member",
     departments: ["media"],
-    image: "/profile/emma.jpeg",
+    image: "/profile/anonymous.svg",
+  },
+  {
+    id: "you-suyi",
+    name: "You Suyi",
+    title: "Media & Marketing Member",
+    tier: "member",
+    departments: ["media", "external-relations"],
+    image: "/profile/anonymous.svg",
   },
   {
     id: "sarah-lim",
     name: "Sarah Lim",
-    title: "Media Member",
+    title: "Media & Marketing Member",
     tier: "member",
     departments: ["media"],
     image: "/profile/team/sarah.jpeg",
@@ -150,25 +158,11 @@ export const people = [
     ],
   },
   {
-    id: "estelle-sia",
-    name: "Estelle Sia",
-    title: "External Relations Member",
-    tier: "member",
-    departments: ["external-relations"],
-    image: "/profile/estelle.jpeg",
-    links: [
-      {
-        label: "LinkedIn",
-        url: "https://www.linkedin.com/in/estelle-sia-1a99bb30b/",
-      },
-    ],
-  },
-  {
     id: "joshua-kuan-zhi-weng",
     name: "Joshua Kuan Zhi Weng",
     title: "External Relations Member",
     tier: "member",
-    departments: ["external-relations"],
+    departments: ["external-relations", "financial"],
     image: "/profile/team/joshua.jpeg",
     links: [
       {
@@ -180,9 +174,9 @@ export const people = [
   {
     id: "pau-chen-you",
     name: "Pau Chen You",
-    title: "Events Member",
+    title: "Content Writing Member",
     tier: "member",
-    departments: ["events", "content-writing"],
+    departments: ["content-writing"],
     image: "/profile/team/pau-chen-you.jpeg",
   },
   {
@@ -222,17 +216,22 @@ export const departments = [
   },
   {
     id: "media",
-    name: "Media",
+    name: "Media & Marketing",
     icon: "camera",
-    directorId: "charmaine-thong-zhi-yan",
-    memberIds: ["roxanne-tan-li-thong", "emma", "sarah-lim"],
+    directorId: "robyn-chin",
+    memberIds: [
+      "roxanne-tan-li-thong",
+      "caryn-see-jing-ern",
+      "you-suyi",
+      "sarah-lim",
+    ],
   },
   {
     id: "external-relations",
     name: "External Relations",
     icon: "handshake",
     directorId: "yan-he-tan",
-    memberIds: ["estelle-sia", "joshua-kuan-zhi-weng"],
+    memberIds: ["you-suyi", "joshua-kuan-zhi-weng"],
   },
   {
     id: "secretarial",
@@ -245,7 +244,7 @@ export const departments = [
     id: "events",
     name: "Events",
     icon: "calendar",
-    memberIds: ["pau-chen-you", "lum-tong-en", "jocelyn-gresia"],
+    memberIds: ["lum-tong-en", "jocelyn-gresia"],
   },
   {
     id: "content-writing",
@@ -257,7 +256,7 @@ export const departments = [
     id: "financial",
     name: "Financial",
     icon: "wallet",
-    memberIds: ["jocelyn-gresia"],
+    memberIds: ["joshua-kuan-zhi-weng", "jocelyn-gresia"],
   },
 ];
 

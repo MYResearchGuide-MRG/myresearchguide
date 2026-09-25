@@ -43,7 +43,7 @@ const accordionItems: AccordionItemType[] = [
     {
         icon: Settings,
         value: "item-3",
-        question: "How to use MYResearchGuide?",
+        question: "How can I use MYResearchGuide?",
         answer:
             "We have several sections in our Notion guide, from beginner steps to alumni experiences, each targeted for different questions you may have.",
     },

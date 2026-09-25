@@ -1,9 +1,8 @@
-/* eslint-disable react-hooks/static-components */
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from 'react';
-import Image from 'next/image';
+import NeuronBackdrop from "@/components/ui/NeuronBackdrop";
 import NewNav from "@/components/NewNav";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
@@ -18,54 +17,17 @@ export default function Mission() {
 
   const backgroundOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  // TILE COMPONENT FOR THE MATHEMATICAL EQUATIONS BACKGROUND
-  const ChalkboardTile = () => (
-    <div className="!w-[1024px] !h-[768px] !flex-shrink-0 !overflow-hidden">
-      <Image
-        src="/equations.jpg" // Source image with math equations
-        alt="math chalkboard equations"
-        width={1024}
-        height={768}
-        className="!object-cover !opacity-50" // object-cover for tiling, low opacity
-      />
-    </div>
-  );
-
   return (
     <>
       <NewNav />
       <div ref={containerRef} className="!relative !overflow-x-clip !overflow-y-visible !min-h-[70vh] md:!min-h-screen !flex !items-center !justify-center !bg-black !pt-4">
 
-        {/* BACKGROUND LAYER WITH GRADIENT MASK FOR SEAMLESS BLENDING */}
+        {/* BACKGROUND LAYER — MYSSP neuron network, fades out on scroll */}
         <motion.div
-          style={
-            prefersReducedMotion
-              ? {
-                  opacity: 0.85,
-                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
-                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
-                }
-              : {
-                  opacity: backgroundOpacity,
-                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
-                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)',
-                }
-          }
+          style={{ opacity: prefersReducedMotion ? 1 : backgroundOpacity }}
           className="!absolute !inset-0 !z-0 !pointer-events-none"
         >
-          <div className="!absolute !top-1/2 !left-1/2 !-translate-x-1/2 !-translate-y-1/2 !w-[250%] !transform !-rotate-12 !scale-125">
-            <div className="!flex !w-max animate-marquee">
-              {/* Replace original LogoGrid instances with tiled equation tiles for a packed marquee effect */}
-              <ChalkboardTile />
-              <ChalkboardTile />
-              <ChalkboardTile />
-              <ChalkboardTile />
-              <ChalkboardTile />
-              <ChalkboardTile />
-              <ChalkboardTile />
-              <ChalkboardTile />
-            </div>
-          </div>
+          <NeuronBackdrop />
         </motion.div>
 
         {/* BOTTOM VIGNETTE OVERLAY (Double protection for blending) */}

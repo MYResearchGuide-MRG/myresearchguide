@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import Image from "next/image";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
 // Word whose opacity is driven by scroll progress (teleprompter reveal)
@@ -85,28 +84,6 @@ export default function Mission() {
               />
             </div>
 
-            {/* 2. OVERLAPPING HERO IMAGE */}
-            <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0 }
-                  : { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.08 }
-              }
-              className="!relative !z-10 !max-w-auto md:!max-w-4xl !mx-auto !mt-16 md:!mt-24 !px-4"
-            >
-              <div className="!rounded-2xl !overflow-hidden !border-4 !border-black !shadow-[0_20px_50px_rgba(0,0,0,0.8)] md:!w-[700px] md:!h-auto md:!mx-auto !mt-10">
-                <Image
-                  src="/heroo.png"
-                  alt="Hero Display"
-                  width={1200}
-                  height={800}
-                  className="!w-full !h-auto !block !object-cover !object-top"
-                />
-              </div>
-            </motion.div>
           </section>
         </div>
       </div>

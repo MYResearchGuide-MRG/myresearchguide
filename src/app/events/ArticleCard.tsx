@@ -18,7 +18,7 @@ export default function ArticleCard({ article }: { article: ArticleSummary }) {
   const tag = article.tags?.[0] ?? "POST";
   return (
     <Link
-      href={`/articles/${article.slug}`}
+      href={`/events/${article.slug}`}
       className="!group !relative !bg-zinc-900/50 !rounded-3xl !p-6 !border !border-zinc-800 !flex !flex-col hover:!border-white/40 !transition-colors !no-underline"
     >
       {article.cover_image ? (

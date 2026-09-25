@@ -63,11 +63,11 @@ export default async function ArticleDetail({
       <section className="!px-4 md:!px-8 !pt-40 !pb-24 !bg-black !text-white">
         <div className="!max-w-3xl !mx-auto">
           <Link
-            href="/articles"
+            href="/events"
             className="!inline-flex !items-center !gap-2 !text-zinc-500 hover:!text-white !text-sm !mb-10 !no-underline !transition-colors"
           >
             <ArrowLeft size={15} />
-            All articles
+            All events
           </Link>
 
           <h1 className="!text-4xl md:!text-5xl !font-bold !tracking-tighter !mb-4 !text-white">
