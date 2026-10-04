@@ -51,7 +51,7 @@ export default function About1() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.35 }}
         >
-          <h1 className="!text-4xl md:!text-6xl lg:!text-8xl !font-regular !text-center !tracking-tighter !leading-tight">
+          <h1 className="!text-4xl sm:!text-5xl md:!text-[5rem] !font-regular !text-center !tracking-tighter !leading-tight">
             <span className="!text-spektr-cyan">
               All you need to know about <br className="!hidden md:!block" />
               <span className="!font-semibold !bg-gradient-to-r !from-stone-400 !to-slate-300 !bg-clip-text !text-transparent">
