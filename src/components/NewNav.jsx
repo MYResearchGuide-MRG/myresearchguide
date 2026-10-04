@@ -110,7 +110,7 @@ const Nav = () => {
             ))}
           </div>
 
-          <div className="!flex !items-center !justify-end !gap-2 sm:!gap-3">
+          <div className="!flex !items-center !justify-end min-[1200px]:!justify-start min-[1200px]:!pl-8 !gap-2 sm:!gap-3">
             <a
               href={MAILING_LIST_URL}
               target="_blank"
