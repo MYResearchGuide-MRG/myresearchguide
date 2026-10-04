@@ -222,25 +222,26 @@ export default function PartnersSponsors() {
         <div className="!absolute !bottom-0 !left-0 !right-0 !h-32 !bg-gradient-to-t !from-black !to-transparent !z-[5]" />
 
         <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={
             prefersReducedMotion
               ? { duration: 0 }
-              : { duration: 0.55, ease: "easeOut" }
+              : { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }
           }
-          className="!relative !z-10 !text-center !px-6"
+          className="!relative !z-10 !w-full !px-5 sm:!px-8"
         >
-          <p className="!text-slate-400 !uppercase !tracking-widest !text-l !mb-4">
-            Backed by
-          </p>
-          <h2 className="!text-4xl md:!text-8xl !font-bold !tracking-tighter !leading-tight !bg-gradient-to-r !from-stone-400 !to-slate-300 !bg-clip-text !text-transparent">
-            Our Partners & Sponsors
-          </h2>
-          <p className="!text-slate-400 !mt-6 !text-base md:!text-lg !max-w-xl !mx-auto !leading-relaxed">
-            We are grateful to the organisations and individuals who support our
-            mission to make research accessible for all Malaysians.
-          </p>
+          <h1 className="!text-4xl sm:!text-5xl md:!text-[5rem] !font-regular !text-center !leading-[1.05] !tracking-tight">
+            <span className="!text-spektr-cyan !block">Our Partners</span>
+            <span className="!block !break-words !bg-gradient-to-r !from-stone-400 !to-slate-300 !bg-clip-text !text-transparent">
+              &amp; Sponsors
+            </span>
+          </h1>
+          <div className="!mt-3 !text-center !px-1">
+            <i className="!text-base sm:!text-xl !text-white/60 !break-words">
+              [ Supporting research access for all Malaysians. ]
+            </i>
+          </div>
         </motion.div>
       </div>
 
