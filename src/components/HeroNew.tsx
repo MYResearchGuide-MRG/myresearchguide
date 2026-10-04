@@ -25,7 +25,7 @@ export default function HeroScrollDemo() {
       </motion.div>
 
       <motion.div
-        className="!relative !z-0 !w-full !max-w-6xl !mx-auto !px-3 sm:!px-6 !mt-12 md:!mt-20"
+        className="!relative !isolate !z-0 !w-full !max-w-[58rem] !mx-auto !px-3 sm:!px-6 !mt-10 sm:!mt-12 md:!mt-14"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={
@@ -34,9 +34,25 @@ export default function HeroScrollDemo() {
             : { duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.35 }
         }
       >
-        <FloatingTilt>
-          <HandbookPreview />
-        </FloatingTilt>
+        <motion.div
+          aria-hidden
+          className="!pointer-events-none !absolute !z-0 !inset-x-0 !-top-8 !-bottom-16 !rounded-[3rem] !bg-[radial-gradient(ellipse_at_center,rgba(65,120,255,0.60)_0%,rgba(112,75,255,0.34)_42%,transparent_74%)] !blur-[72px]"
+          animate={
+            prefersReducedMotion
+              ? undefined
+              : { opacity: [0.62, 1, 0.62], scale: [0.98, 1.02, 0.98] }
+          }
+          transition={
+            prefersReducedMotion
+              ? undefined
+              : { duration: 7, ease: "easeInOut", repeat: Infinity }
+          }
+        />
+        <div className="!relative !z-10">
+          <FloatingTilt>
+            <HandbookPreview />
+          </FloatingTilt>
+        </div>
       </motion.div>
     </div>
   );

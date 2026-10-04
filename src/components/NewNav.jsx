@@ -1,20 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  motion,
   AnimatePresence,
-  useScroll,
+  motion,
   useMotionValueEvent,
+  useScroll,
 } from "framer-motion";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 
 const MAILING_LIST_URL = "https://forms.gle/Sk9JS3kcKe8qw1cU6";
+
+const navLinks = [
+  { name: "About Us", href: "/team" },
+  { name: "Researchers", href: "/researchers" },
+  { name: "Events", href: "/events" },
+  { name: "Partners & Sponsors", href: "/partner-sponsor" },
+  { name: "Contact Us", href: "/contact" },
+];
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,50 +34,26 @@ const Nav = () => {
     setScrolled(latest > 80);
   });
 
-  const navLinks = [
-    { name: "About Us", href: "/team" },
-    { name: "Researchers", href: "/researchers" },
-    { name: "Events", href: "/events" },
-    { name: "Partners & Sponsors", href: "/partner-sponsor" },
-    { name: "Contact Us", href: "/contact" },
-  ];
+  useEffect(() => {
+    if (!isOpen) return;
 
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      y: "-100%",
-      transition: { duration: 0.3, ease: "easeInOut" },
-    },
-    open: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-  };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
-  const linkContainerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.08,
-      },
-    },
-  };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
 
-  const linkItemVariants = {
-    hidden: {
-      opacity: prefersReducedMotion ? 1 : 0,
-      y: prefersReducedMotion ? 0 : -8,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: prefersReducedMotion ? 0 : 0.35,
-        ease: "easeOut",
-      },
-    },
-  };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isOpen]);
+
+  const panelTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { duration: 0.3, ease: [0.16, 1, 0.3, 1] };
 
   return (
     <>
@@ -83,17 +67,14 @@ const Nav = () => {
       >
         <ScrollProgress />
         <motion.div
-          className="!relative !pointer-events-auto !flex !items-center !justify-between md:!grid md:!grid-cols-[1fr_auto_1fr] !w-full !max-w-[88rem] !px-4 sm:!px-6 md:!px-8"
-          animate={{
-            height: scrolled ? 56 : 64,
-          }}
+          className="!relative !pointer-events-auto !flex !items-center !justify-between min-[1200px]:!grid min-[1200px]:!grid-cols-[1fr_auto_1fr] !w-full !max-w-[88rem] !px-4 sm:!px-6 min-[1200px]:!px-8"
+          animate={{ height: scrolled ? 56 : 64 }}
           transition={
             prefersReducedMotion
               ? { duration: 0 }
               : { duration: 0.3, ease: "easeOut" }
           }
         >
-          {/* Logo Section */}
           <div className="!flex !cursor-pointer !z-[10000] !items-center">
             <Link href="/" className="!inline-flex !items-center">
               <img
@@ -104,112 +85,134 @@ const Nav = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation Links */}
-          <motion.div
-            className="!hidden md:!flex !items-center !gap-8 lg:!gap-10"
-            variants={linkContainerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className="!hidden min-[1200px]:!flex !items-center !gap-6 2xl:!gap-10">
             {navLinks.map((link) => (
-              <motion.div key={link.name} variants={linkItemVariants}>
-                <motion.div
-                  className="!relative !inline-block"
-                  initial="rest"
-                  whileHover={prefersReducedMotion ? undefined : "hover"}
-                  animate="rest"
+              <motion.div
+                key={link.name}
+                className="!relative !inline-block"
+                initial="rest"
+                whileHover={prefersReducedMotion ? undefined : "hover"}
+                animate="rest"
+              >
+                <Link
+                  href={link.href}
+                  className="!relative !inline-block !text-zinc-400 hover:!text-white !transition-colors !duration-300 !text-[15px] !font-medium !no-underline"
                 >
-                  <Link
-                    href={link.href}
-                    className="!relative !inline-block !text-zinc-400 hover:!text-white !transition-all !duration-300 !text-[15px] !font-medium !no-underline"
-                  >
-                    {link.name}
-                  </Link>
-                  <motion.span
-                    className="!absolute !-bottom-1 !left-0 !h-[1px] !w-full !bg-white !pointer-events-none"
-                    variants={{
-                      rest: { scaleX: 0 },
-                      hover: { scaleX: 1 },
-                    }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    style={{ transformOrigin: "left" }}
-                  />
-                </motion.div>
+                  {link.name}
+                </Link>
+                <motion.span
+                  className="!absolute !-bottom-1 !left-0 !h-[1px] !w-full !bg-white !pointer-events-none"
+                  variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  style={{ transformOrigin: "left" }}
+                />
               </motion.div>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Mailing list CTA — right column, so the links stay centred */}
-          <motion.div
-            className="!hidden md:!flex !justify-end"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeOut" }}
-          >
+          <div className="!flex !items-center !justify-end !gap-2 sm:!gap-3">
             <a
               href={MAILING_LIST_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="!no-underline"
+              className="!hidden sm:!inline-flex !items-center !gap-2 !rounded-lg !border !border-white !bg-white !px-4 !py-3 !text-sm !font-medium !text-black !no-underline hover:!bg-zinc-200 !transition-colors"
             >
-              <InteractiveHoverButton />
+              Mailing List
+              <ArrowUpRight size={16} aria-hidden />
             </a>
-          </motion.div>
-
-          {/* Mobile Menu Toggle */}
-          <div className="md:!hidden !z-[10000] !flex !items-center">
             <button
               type="button"
-              onClick={() => setIsOpen(!isOpen)}
-              className="!text-white !p-2 !focus:outline-none"
-              aria-label={
-                isOpen ? "Close navigation menu" : "Open navigation menu"
-              }
+              onClick={() => setIsOpen(true)}
+              className="min-[1200px]:!hidden !flex !size-10 !items-center !justify-center !rounded-full !text-white !focus:outline-none"
+              aria-label="Open navigation menu"
               aria-expanded={isOpen}
               aria-controls="mobile-navigation-menu"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              <Menu size={24} />
             </button>
           </div>
+        </motion.div>
+      </nav>
 
-          {/* Mobile Menu Overlay */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                id="mobile-navigation-menu"
-                initial="closed"
-                animate="open"
-                exit="closed"
-                variants={menuVariants}
-                className="!fixed !inset-0 !h-[100dvh] !w-full !bg-black !flex !flex-col !items-center !justify-center !gap-8 !z-[9999] !px-6"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            id="mobile-navigation-menu"
+            className="!fixed !inset-0 !z-[10001] !min-h-[100dvh] !bg-black !px-6"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -12 }}
+            transition={panelTransition}
+          >
+            <div className="!mx-auto !flex !h-20 !max-w-[88rem] !items-center !justify-between">
+              <img
+                src="/MRG1W.png"
+                alt="MYResearchGuide"
+                className="!h-8 sm:!h-9 !w-auto !object-contain"
+              />
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="!flex !size-10 !items-center !justify-center !rounded-full !text-white !focus:outline-none"
+                aria-label="Close navigation menu"
+                autoFocus
               >
-                {navLinks.map((link) => (
+                <X size={25} />
+              </button>
+            </div>
+
+            <div className="!mx-auto !mt-10 !flex !max-w-xl !flex-col !items-center">
+              {navLinks.map((link, index) => (
+                <motion.div
+                  key={link.name}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={
+                    prefersReducedMotion
+                      ? { duration: 0 }
+                      : {
+                          delay: 0.06 + index * 0.045,
+                          duration: 0.45,
+                          ease: [0.16, 1, 0.3, 1],
+                        }
+                  }
+                  className="!w-full !border-b !border-white/10"
+                >
                   <Link
-                    key={link.name}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="!text-zinc-400 hover:!text-white !text-2xl !font-medium !transition-colors !no-underline"
+                    className="!block !py-5 !text-center !text-2xl !font-medium !text-zinc-300 hover:!text-white !transition-colors !no-underline"
                   >
                     {link.name}
                   </Link>
-                ))}
-                <div className="!mt-4">
-                  <a
-                    href={MAILING_LIST_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="!no-underline"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <InteractiveHoverButton />
-                  </a>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </nav>
-      {/* Spacer so page content is not hidden under the fixed navbar */}
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { delay: 0.32, duration: 0.45, ease: [0.16, 1, 0.3, 1] }
+              }
+              className="!mx-auto !mt-8 !flex !max-w-xl !justify-center"
+            >
+              <a
+                href={MAILING_LIST_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="!no-underline"
+                onClick={() => setIsOpen(false)}
+              >
+                <InteractiveHoverButton />
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="!h-16 sm:!h-[4.5rem] !w-full !shrink-0" aria-hidden />
     </>
   );

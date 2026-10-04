@@ -42,7 +42,7 @@ export default function HandbookPreview() {
 
   return (
     <AppWindow url="myresearchguide.notion.site" edgeLight>
-      <div className="!flex !flex-col md:!flex-row md:!h-[600px]">
+      <div className="!flex !flex-col md:!flex-row md:!h-[520px]">
         {/* Table of contents — full-height sidebar on desktop, chip row on mobile */}
         <nav
           aria-label="Handbook table of contents"
@@ -99,7 +99,7 @@ export default function HandbookPreview() {
         </nav>
 
         {/* Page — Notion-style cover banner, the page intro, then a locked teaser */}
-        <div className="!relative !flex-1 !min-w-0 !min-h-[520px] md:!min-h-0 !flex !flex-col !overflow-hidden !bg-[#191919]">
+        <div className="!relative !flex-1 !min-w-0 !min-h-[440px] sm:!min-h-[480px] md:!min-h-0 !flex !flex-col !overflow-hidden !bg-[#191919]">
           <Image
             src="/handbook-banner.jpg"
             alt="MYResearchGuide — Start your Research Journey, with MYResearchGuide."

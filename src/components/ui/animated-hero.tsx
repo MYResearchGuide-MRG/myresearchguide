@@ -14,17 +14,17 @@ function Hero() {
     <div className="!w-full !block">
       <div className="container !mx-auto !px-4 sm:!px-6">
         <div className="!flex !flex-col !items-center !w-full">
-          <h1 className="!text-3xl sm:!text-4xl md:!text-5xl lg:!text-[5rem] !max-w-none !text-center !leading-tight !px-1">
-            <span className="!text-spektr-cyan">
-              Malaysia&apos;s #1 Guide to{" "}
+          <h1 className="!flex !flex-col !items-center !gap-2 !text-3xl sm:!text-4xl md:!text-[3.5rem] lg:!text-[4.25rem] xl:!text-[4.75rem] !max-w-5xl !text-center !px-1">
+            <span className="!block !leading-[1.05] !text-spektr-cyan">
+              Malaysia&apos;s #1 Guide to
             </span>
-            <span className="!font-semibold !whitespace-nowrap bg-gradient-to-r from-stone-400 to-slate-300 bg-clip-text text-transparent md:!text-[5.5rem] lg:!text-[6rem]">
+            <span className="!block !font-semibold !whitespace-nowrap !leading-[1.05] bg-gradient-to-r from-stone-400 to-slate-300 bg-clip-text text-transparent md:!text-[4rem] lg:!text-[4.75rem] xl:!text-[5.25rem]">
               Science Research
             </span>
           </h1>
 
           <motion.p
-            className="!text-base sm:!text-lg md:!text-xl !leading-relaxed !tracking-tight !text-muted-foreground !max-w-2xl !text-center !mx-auto !mt-4 !px-2"
+            className="!text-base sm:!text-lg md:!text-xl !leading-relaxed !tracking-tight !text-muted-foreground !max-w-2xl !text-center !mx-auto !mt-5 !px-2"
             initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={
@@ -34,13 +34,13 @@ function Hero() {
             }
           >
             MYResearchGuide is a free, beginner-friendly platform that helps
-            Malaysian students start and grow in science research — with
-            practical steps, researcher insight, and a community built by
+            Malaysian students start and grow in science research with practical
+            steps, researcher insight, and a community built by
             Malaysians for Malaysians.
           </motion.p>
 
           <motion.div
-            className="!mt-8 !flex !flex-col sm:!flex-row !items-stretch sm:!items-center !justify-center !gap-3 !w-full sm:!w-auto !px-2"
+            className="!mt-7 !flex !flex-col sm:!flex-row !items-stretch sm:!items-center !justify-center !gap-3 !w-full sm:!w-auto !px-2"
             initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={
@@ -53,14 +53,10 @@ function Hero() {
               href={MYSSP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="!relative !inline-flex !items-center !justify-center !rounded-lg !bg-white !text-black !px-12 !py-3 !text-sm sm:!text-base !font-semibold !text-center !no-underline hover:!bg-zinc-200 !transition-colors"
+              className="!inline-flex !items-center !justify-center !gap-2 !rounded-lg !bg-white !text-black !px-6 !py-3 !text-sm sm:!text-base !font-semibold !text-center !no-underline hover:!bg-zinc-200 !transition-colors"
             >
               Malaysia Science Scholar&apos;s Programme (MYSSP)
-              <ArrowUpRight
-                className="!absolute !right-4 !shrink-0"
-                size={18}
-                aria-hidden
-              />
+              <ArrowUpRight size={18} aria-hidden />
             </a>
             <a
               href={HANDBOOK_URL}
