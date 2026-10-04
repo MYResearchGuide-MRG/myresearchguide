@@ -47,6 +47,30 @@ const Nav = () => {
     },
   };
 
+  const linkContainerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: prefersReducedMotion ? 0 : 0.08,
+      },
+    },
+  };
+
+  const linkItemVariants = {
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : -8,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: prefersReducedMotion ? 0 : 0.35,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <>
       <nav
@@ -81,9 +105,14 @@ const Nav = () => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="!hidden md:!flex !items-center !gap-8 lg:!gap-10">
+          <motion.div
+            className="!hidden md:!flex !items-center !gap-8 lg:!gap-10"
+            variants={linkContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {navLinks.map((link) => (
-              <div key={link.name}>
+              <motion.div key={link.name} variants={linkItemVariants}>
                 <motion.div
                   className="!relative !inline-block"
                   initial="rest"
@@ -106,12 +135,17 @@ const Nav = () => {
                     style={{ transformOrigin: "left" }}
                   />
                 </motion.div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Mailing list CTA — right column, so the links stay centred */}
-          <div className="!hidden md:!flex !justify-end">
+          <motion.div
+            className="!hidden md:!flex !justify-end"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeOut" }}
+          >
             <a
               href={MAILING_LIST_URL}
               target="_blank"
@@ -120,7 +154,7 @@ const Nav = () => {
             >
               <InteractiveHoverButton />
             </a>
-          </div>
+          </motion.div>
 
           {/* Mobile Menu Toggle */}
           <div className="md:!hidden !z-[10000] !flex !items-center">
