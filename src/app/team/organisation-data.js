@@ -369,4 +369,16 @@ export const advisors = [
     image: "/interviews/owen.png",
     links: [{ label: "LinkedIn", url: "https://www.linkedin.com/in/olzm/" }],
   },
+  {
+    id: "advisor-dylan-ler",
+    name: "Dylan Ler",
+    title: "AI Deployment Team, Adobe & Independent AI Research, Green Robin Labs",
+    tier: "advisor",
+    departments: [],
+    image: "/profile/advisors/dylan.png",
+    links: [
+      { label: "LinkedIn", url: "https://linkedin.com/in/dylanler" },
+      { label: "GitHub", url: "https://github.com/dylanler" },
+    ],
+  },
 ];
