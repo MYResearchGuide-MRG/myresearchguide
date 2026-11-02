@@ -104,7 +104,7 @@ export default function HandbookSection() {
             <div className={styles.featureList} aria-label="Explore handbook features">
               <div className={styles.introduction}>
                 <h3>Malaysia&apos;s 1st Guide to STEM Research</h3>
-                <p>Written and curated by student researchers with years of STEM research experience. Proofread by 10+ experienced Malaysian researchers.</p>
+                <p>Written and curated by student researchers with years of STEM research experience in Malaysia. Proofread by 10+ experienced Malaysian researchers.</p>
               </div>
               {features.map((item, index) => {
                 const selected = active === index;
