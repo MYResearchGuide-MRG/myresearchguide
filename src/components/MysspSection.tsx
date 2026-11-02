@@ -15,10 +15,13 @@ export default function MysspSection() {
         <div className={styles.overview}>
           <div className={styles.copy}>
             <p className={styles.lead}>
-              Malaysia’s first STEM research programme for pre-university students.
+              Malaysia’s 1st STEM research programme for pre-university students.
             </p>
             <p className={styles.description}>
               An 8-week free research mentorship programme pairing students with experienced researchers from Cambridge, NUS, Warwick and more under a selection of STEM-based projects.
+            </p>
+            <p className={styles.selection}>
+              Exclusively for the best of the best in STEM, with selection driven by merit rather than diversity for diversity’s sake.
             </p>
             <a className={styles.link} href="https://myssp.myresearchguide.org/" target="_blank" rel="noopener noreferrer">
               Explore MYSSP <ArrowUpRight size={15} aria-hidden="true" />

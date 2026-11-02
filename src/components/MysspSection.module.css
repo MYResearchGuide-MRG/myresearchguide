@@ -5,7 +5,9 @@
 .overview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); overflow: hidden; border: 1px solid #2c2c2c; border-radius: 5px; background: var(--card-background); }
 .copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 48px 16px 48px 42px; }
 .lead { max-width: 440px; margin: 0; font-size: clamp(23px, 2vw, 28px); line-height: 1.35; letter-spacing: -.035em; }
-.description { max-width: 425px; margin: 22px 0 32px; color: #aaa; font-size: 15px; line-height: 1.8; }
+.description, .selection { max-width: 425px; color: #aaa; font-size: 15px; line-height: 1.8; }
+.description { margin: 22px 0 0; }
+.selection { margin: 14px 0 32px; }
 .link { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 44px; padding: 11px 20px; border: 1px solid #eee; border-radius: 4px; background: #eee; color: #111; font-size: 13px; line-height: 20px; text-decoration: none; transition: background 160ms ease; }
 .link:hover { background: #d4d4d4; }
 .link:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
@@ -13,13 +15,15 @@
   .overview { grid-template-columns: 1fr; }
   .copy { padding: 36px 36px 0; }
   .lead { max-width: 600px; }
-  .description { max-width: 600px; margin: 18px 0 24px; }
+  .description, .selection { max-width: 600px; }
+  .description { margin-top: 18px; }
+  .selection { margin-bottom: 24px; }
 }
 @media (max-width: 599px) {
   .section { padding: 0 20px 64px; }
   .heading { margin-bottom: 24px; font-size: clamp(26px, 6.5vw, 34px); }
   .copy { padding: 28px 24px 0; }
   .lead { font-size: 23px; }
-  .description { font-size: 14px; line-height: 1.75; }
+  .description, .selection { font-size: 14px; line-height: 1.75; }
 }
 @media (prefers-reduced-motion: reduce) { .link { transition: none; } }
