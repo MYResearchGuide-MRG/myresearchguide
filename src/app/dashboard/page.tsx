@@ -23,7 +23,7 @@ export default async function DashboardPage() {
 
   if (!profile) {
     return (
-      <main className="min-h-screen bg-black !text-white flex items-center justify-center !px-4">
+      <main className="min-h-screen bg-site-background !text-white flex items-center justify-center !px-4">
         <div className="!bg-zinc-900/50 !rounded-3xl !border !border-zinc-800 !p-8 !max-w-md !text-center">
           <h1 className="!text-2xl !font-bold !mb-2">Account not provisioned</h1>
           <p className="!text-sm !text-zinc-400">
@@ -49,7 +49,7 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden !text-white">
+    <main className="relative min-h-screen bg-site-background overflow-x-hidden !text-white">
       <section className="!max-w-3xl !mx-auto !px-4 md:!px-10 !py-12 md:!py-16 !space-y-10">
         {profile.must_change_password ? (
           <ChangePasswordForm />

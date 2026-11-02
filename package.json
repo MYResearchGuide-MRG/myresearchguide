@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
+    "preview:local": "node scripts/preview-local.mjs",
     "lint": "eslint",
     "bootstrap-admin": "node scripts/bootstrap-admin.mjs",
     "db:migrate": "node scripts/apply-migration.mjs",

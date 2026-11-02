@@ -32,7 +32,7 @@ const accordionItems: AccordionItemType[] = [
     value: "item-1",
     question: "What is MYResearchGuide?",
     answer:
-      "MYResearchGuide is an organisation providing guidance for all youth to get involved in science research, building a community of fostered passion for STEM.",
+      "MYResearchGuide is an organisation providing guidance for all youth to get involved in STEM research, building a community of fostered passion for STEM.",
   },
   {
     icon: LayoutList,
@@ -82,7 +82,7 @@ export default function Accordion_01() {
   const reduceMotion = useHydrationSafeReducedMotion();
 
   return (
-    <div className="!mb-40 !bg-black">
+    <div className="!mb-40 !bg-site-background">
       <section className="!w-full !max-w-[1000px] !mx-auto !px-4">
         <Accordion type="single" collapsible className="!space-y-4">
           {accordionItems.map(({ icon: Icon, value, question, answer }, index) => (

@@ -1,0 +1,39 @@
+.section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100svh - 72px);
+  padding: clamp(96px, 12svh, 144px) 32px 64px;
+  overflow: clip;
+  background: var(--site-background);
+  color: #f3f3f3;
+}
+
+.title {
+  margin: 0 0 28px;
+  font: inherit;
+  font-size: clamp(42px, 4.8vw, 68px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+/* The section already supplies its own spacing before the footer border. */
+.page > :global(#site-footer) {
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  .section { padding: 48px 24px 48px; }
+  .title { font-size: clamp(38px, 8.5vw, 54px); }
+}
+
+@media (max-width: 639px) {
+  .section { min-height: calc(100svh - 64px); }
+}
+
+@media (max-width: 399px) {
+  .section { padding-inline: 20px; }
+  .title { font-size: 36px; }
+}

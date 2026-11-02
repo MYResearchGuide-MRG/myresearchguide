@@ -1,0 +1,238 @@
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: min(850px, calc(100svh - 94px));
+  margin: 10px 16px 48px;
+  padding: 110px 32px;
+  overflow: hidden;
+  border: 1px solid #202020;
+  border-radius: 26px;
+  background: var(--site-background);
+  color: #fff;
+}
+
+.backdrop,
+.shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.backdrop {
+  z-index: 0;
+  /* Texture and brightness are baked into the footage to avoid compositing
+     a live mask or blend layer over hardware-decoded video. */
+  background: var(--site-background);
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  background: var(--site-background);
+}
+
+.poster {
+  position: absolute;
+  inset: 0;
+  background: #0a0a0a url("/media/research-montage-dots-start.png") center / cover no-repeat;
+  opacity: 1;
+  transition: opacity 600ms ease;
+}
+
+.poster[data-video-ready="true"] {
+  opacity: 0;
+}
+
+.shade {
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse at 50% 48%,
+      rgb(var(--site-background-rgb) / 22%) 0%,
+      rgb(var(--site-background-rgb) / 10%) 38%,
+      transparent 85%
+    ),
+    linear-gradient(
+      to bottom,
+      rgb(var(--site-background-rgb) / 12%),
+      transparent 30%,
+      transparent 65%,
+      rgb(var(--site-background-rgb) / 18%)
+    );
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  width: 100%;
+  text-align: center;
+}
+
+/* A paced entrance for the hero copy only. The header and video stay steady,
+   and content remains visible without JavaScript or animation support. */
+@media (prefers-reduced-motion: no-preference) {
+  .content > * { animation: hero-intro 1000ms cubic-bezier(0.22, 0.72, 0.25, 1) both; }
+  .content > :nth-child(2) { animation-delay: 140ms; }
+  .content > :nth-child(3) { animation-delay: 280ms; }
+  .content > :nth-child(4) { animation-delay: 420ms; }
+}
+@keyframes hero-intro {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(38px, 4.7vw, 72px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.title span {
+  display: block;
+}
+
+.colourLoop {
+  color: #c9ced7;
+  font-weight: 600;
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .colourLoop {
+    background-image: linear-gradient(
+      100deg,
+      #aaa5a0,
+      #dce5ef,
+      #aab9d3,
+      #c8c2bb,
+      #aaa5a0
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: heading-colour-loop 9s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes heading-colour-loop {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+.description {
+  max-width: 680px;
+  margin: 30px auto 0;
+  color: #dedede;
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  transition:
+    background-color 150ms,
+    border-color 150ms;
+}
+
+.actions svg {
+  flex-shrink: 0;
+}
+.actions .primary {
+  background: #fff;
+  color: #111;
+}
+.actions .primary:hover {
+  background: #dfdfdf;
+}
+.actions .secondary {
+  background: rgb(12 12 12 / 85%);
+  color: #fff;
+  border-color: #454545;
+}
+.actions .secondary:hover {
+  background: #242424;
+  border-color: #777;
+}
+
+
+.hero a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 5px;
+}
+
+@media (max-width: 700px) {
+  .hero {
+    min-height: max(620px, calc(100svh - 82px));
+    margin: 8px 10px 32px;
+    padding: 86px 22px 100px;
+    border-radius: 20px;
+  }
+  .title {
+    font-size: clamp(34px, 8.4vw, 52px);
+    letter-spacing: -0.045em;
+  }
+  .description {
+    margin-top: 24px;
+    max-width: 380px;
+    font-size: 15px;
+  }
+  .actions {
+    flex-direction: column;
+    max-width: 310px;
+    margin: 28px auto 0;
+  }
+  .actions a {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poster {
+    opacity: 1;
+    transition: none;
+  }
+  .colourLoop {
+    animation: none;
+  }
+  .actions a {
+    transition: none;
+  }
+}

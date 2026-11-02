@@ -56,7 +56,7 @@ export const handbookGroups: HandbookGroup[] = [
         title: "Getting Started",
         url: page("Getting-Started-f8c78996497043858ae0ea4d2518b423"),
         intro:
-          "Research is one of the most compelling ways to level up as a student. Here are the ways you can get involved in scientific research — even as a total beginner.",
+          "Research is one of the most compelling ways to level up as a student. Here are the ways you can get involved in scientific research, even as a total beginner.",
         points: [
           "Ways to get involved, even as a total beginner",
           "Independent thesis & initiative",
@@ -95,7 +95,7 @@ export const handbookGroups: HandbookGroup[] = [
         title: "Methodology",
         url: page("Methodology-06915a48fa654a6c941e051b4c102871"),
         intro:
-          "Your methodology is the step-by-step plan of how you will test your hypothesis — specific enough that a complete stranger could replicate your experiment.",
+          "Your methodology is the step-by-step plan of how you will test your hypothesis, specific enough that a complete stranger could replicate your experiment.",
         points: [
           "A general framework for designing your method",
           "Making your experiment replicable",
@@ -108,7 +108,7 @@ export const handbookGroups: HandbookGroup[] = [
         title: "Writing Your Proposal",
         url: page("Writing-Your-Proposal-37e89410362780179830f3f940cff8e8"),
         intro:
-          "A research proposal persuades reviewers that your planned project is worth approving, funding and pursuing — written before any experimentation begins.",
+          "A research proposal persuades reviewers that your planned project is worth approving, funding and pursuing. It is written before any experimentation begins.",
         points: [
           "What you’re investigating, and why",
           "How you build on existing solutions",
@@ -121,7 +121,7 @@ export const handbookGroups: HandbookGroup[] = [
         title: "Papers & Publishing",
         url: page("Papers-Publishing-398194f80baa436da361ba8edfaa14c4"),
         intro:
-          "A scientific paper shares your original work with the community. Papers that pass rigorous peer review are published in journals — a trusted record of research findings.",
+          "A scientific paper shares your original work with the community. Papers that pass rigorous peer review are published in journals, a trusted record of research findings.",
         points: [
           "What a scientific paper is",
           "Peer review and publishing in journals",
@@ -147,7 +147,7 @@ export const handbookGroups: HandbookGroup[] = [
         title: "FAQ",
         url: page("FAQ-c8f5e0734d084830b668c0f2a976f5c7"),
         intro:
-          "Common questions about research, answered — from choosing what type of research to conduct to finding your first topic.",
+          "Answers to common research questions, from choosing what type of research to conduct to finding your first topic.",
         points: [
           "What type of research activity should I conduct?",
           "How do I find a research topic?",
@@ -167,9 +167,9 @@ export const handbookGroups: HandbookGroup[] = [
         intro:
           "Heart-to-heart conversations with Malaysian researchers about their fields, their journeys, and the steps they’ve taken.",
         points: [
-          "Chooi Je Qin — AI Safety @ Oxford, Stats/CS/Math @ Harvard",
-          "Jia Yu Lim — Incoming PhD in AI @ NUS",
-          "Joel Pang — Chem Eng @ Caltech",
+          "Chooi Je Qin: AI Safety @ Oxford, Stats/CS/Math @ Harvard",
+          "Jia Yu Lim: Incoming PhD in AI @ NUS",
+          "Joel Pang: Chem Eng @ Caltech",
         ],
       },
       {

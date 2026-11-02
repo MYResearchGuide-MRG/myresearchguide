@@ -1,21 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useScroll,
-} from "framer-motion";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
+import styles from "./NewNav.module.css";
 
 const MAILING_LIST_URL = "https://forms.gle/Sk9JS3kcKe8qw1cU6";
 const DISCORD_URL = "https://discord.gg/V5mRRsa2QS";
+// Match the CSS breakpoint: MRG's logo and links need more room than Maritime's.
+const DESKTOP_QUERY = "(min-width: 1280px)";
+
+const navLinks = [
+  { name: "About Us", href: "/team" },
+  { name: "Researchers", href: "/researchers" },
+  // Restore when there are events to share.
+  // { name: "Events", href: "/events" },
+  { name: "Partners & Sponsors", href: "/partner-sponsor" },
+  { name: "Contact Us", href: "/contact" },
+];
+
+function subscribeToScroll(callback) {
+  window.addEventListener("scroll", callback, { passive: true });
+  return () => window.removeEventListener("scroll", callback);
+}
+const getScrolled = () => window.scrollY > 30;
+const getServerScrolled = () => false;
 
 const DiscordIcon = ({ size = 18 }) => (
   <svg
@@ -29,256 +40,181 @@ const DiscordIcon = ({ size = 18 }) => (
   </svg>
 );
 
-// Desktop nav button with a hover/focus tooltip explaining why to click it.
-const NavCta = ({ href, title, tip, className, children }) => (
-  <div className="group !relative !hidden sm:!block">
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-describedby={`tip-${href}`}
-      className={`!inline-flex !h-11 !items-center !gap-2 !rounded-lg !border !px-4 !text-sm !font-medium !no-underline !transition-colors ${className}`}
-    >
-      {children}
-    </a>
-    <div
-      id={`tip-${href}`}
-      role="tooltip"
-      className="!pointer-events-none !absolute !right-0 !top-full !z-10 !w-72 !pt-3 !opacity-0 !translate-y-1 !transition-all !duration-200 group-hover:!translate-y-0 group-hover:!opacity-100 group-focus-within:!translate-y-0 group-focus-within:!opacity-100"
-    >
-      <span
-        className="!absolute !right-8 !top-[7px] !size-3 !rotate-45 !border-l !border-t !border-white/15 !bg-zinc-900"
-        aria-hidden
-      />
-      <div className="!relative !rounded-xl !border !border-white/15 !bg-zinc-900 !px-4 !py-3.5 !shadow-2xl !shadow-black/60">
-        <p className="!m-0 !text-sm !font-semibold !text-white">{title}</p>
-        <p className="!m-0 !mt-1 !text-[13px] !leading-relaxed !text-zinc-400">
-          {tip}
-        </p>
+function NavCta({ href, id, title, tip, primary = false, children }) {
+  return (
+    <div className={styles.ctaGroup}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-describedby={id}
+        className={`${styles.cta} ${primary ? styles.primary : styles.secondary}`}
+      >
+        {children}
+      </a>
+      <div id={id} role="tooltip" className={styles.tooltip}>
+        <strong>{title}</strong>
+        <span>{tip}</span>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
-const navLinks = [
-  { name: "About Us", href: "/team" },
-  { name: "Researchers", href: "/researchers" },
-  { name: "Events", href: "/events" },
-  { name: "Partners & Sponsors", href: "/partner-sponsor" },
-  { name: "Contact Us", href: "/contact" },
-];
-
-const Nav = () => {
+export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const prefersReducedMotion = useHydrationSafeReducedMotion();
-  const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 80);
-  });
+  const scrolled = useSyncExternalStore(subscribeToScroll, getScrolled, getServerScrolled);
+  const pathname = usePathname();
+  const shellRef = useRef(null);
+  const toggleRef = useRef(null);
+  const panelRef = useRef(null);
 
   useEffect(() => {
     if (!isOpen) return;
 
     const previousOverflow = document.body.style.overflow;
+    const previousGutter = document.documentElement.style.scrollbarGutter;
+    document.documentElement.style.scrollbarGutter = "stable";
     document.body.style.overflow = "hidden";
+    panelRef.current?.querySelector("a")?.focus({ preventScroll: true });
 
-    const closeOnEscape = (event) => {
-      if (event.key === "Escape") setIsOpen(false);
+    const closeOnOutsideClick = (event) => {
+      if (!shellRef.current?.contains(event.target)) setIsOpen(false);
     };
-
-    window.addEventListener("keydown", closeOnEscape);
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+      }
+      if (event.key !== "Tab") return;
+      // Keep keyboard navigation in the header while background scrolling is locked.
+      const focusable = Array.from(shellRef.current.querySelectorAll("a[href], button"))
+        .filter((element) => element.getClientRects().length > 0);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    const desktop = window.matchMedia(DESKTOP_QUERY);
+    const closeOnDesktop = (event) => {
+      if (event.matches) setIsOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", handleKeyDown);
+    desktop.addEventListener("change", closeOnDesktop);
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
+      document.documentElement.style.scrollbarGutter = previousGutter;
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", handleKeyDown);
+      desktop.removeEventListener("change", closeOnDesktop);
     };
   }, [isOpen]);
 
-  const panelTransition = prefersReducedMotion
-    ? { duration: 0 }
-    : { duration: 0.3, ease: [0.16, 1, 0.3, 1] };
+  const isActive = (href) => pathname === href || pathname?.startsWith(`${href}/`);
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <>
-      <nav
-        data-site-nav
-        className={`!fixed !top-0 !left-0 !right-0 !z-[9999] !w-full !px-3 sm:!px-4 !pt-2 !pb-2 !flex !justify-center !transition-all !duration-300 ${
-          scrolled
-            ? "!bg-black/70 !backdrop-blur-xl !border-b !border-white/10"
-            : "!bg-black/20 !backdrop-blur-md"
-        }`}
-      >
-        <ScrollProgress />
-        <motion.div
-          className="!relative !pointer-events-auto !flex !items-center !justify-between min-[1200px]:!grid min-[1200px]:!grid-cols-[1fr_auto_1fr] !w-full !max-w-[88rem] !px-4 sm:!px-6 min-[1200px]:!px-8"
-          animate={{ height: scrolled ? 56 : 64 }}
-          transition={
-            prefersReducedMotion
-              ? { duration: 0 }
-              : { duration: 0.3, ease: "easeOut" }
-          }
+      <header data-site-nav className={styles.frame}>
+        <div
+          ref={shellRef}
+          className={styles.shell}
+          data-floating={scrolled || isOpen}
         >
-          <div className="!flex !cursor-pointer !z-[10000] !items-center">
-            <Link href="/" className="!inline-flex !items-center">
-              <img
-                src="/MRG1W.png"
-                alt="MYResearchGuide"
-                className="!h-8 sm:!h-9 !w-auto !object-contain"
-              />
+          <div className={styles.bar}>
+            <Link href="/" className={styles.brand} onClick={closeMenu} aria-label="MYResearchGuide home">
+              <img src="/MRG1W.png" alt="MYResearchGuide" width={750} height={107} />
             </Link>
-          </div>
 
-          <div className="!hidden min-[1200px]:!flex !items-center !gap-6 2xl:!gap-10">
-            {navLinks.map((link) => (
-              <motion.div
-                key={link.name}
-                className="!relative !inline-block"
-                initial="rest"
-                whileHover={prefersReducedMotion ? undefined : "hover"}
-                animate="rest"
-              >
+            <nav className={styles.desktopLinks} aria-label="Main navigation">
+              {navLinks.map((link) => (
                 <Link
+                  key={link.href}
                   href={link.href}
-                  className="!relative !inline-block !text-zinc-400 hover:!text-white !transition-colors !duration-300 !text-[15px] !font-medium !no-underline"
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className={styles.navLink}
                 >
                   {link.name}
                 </Link>
-                <motion.span
-                  className="!absolute !-bottom-1 !left-0 !h-[1px] !w-full !bg-white !pointer-events-none"
-                  variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  style={{ transformOrigin: "left" }}
-                />
-              </motion.div>
-            ))}
-          </div>
+              ))}
+            </nav>
 
-          <div className="!flex !items-center !justify-end min-[1200px]:!justify-start min-[1200px]:!pl-28 !gap-2 sm:!gap-3">
-            <NavCta
-              href={DISCORD_URL}
-              title="Join the community"
-              tip="Exchange ideas, explore your interests and learn from other young STEM enthusiasts."
-              className="!border-white/30 !text-white hover:!bg-white/10"
-            >
-              <DiscordIcon size={18} />
-              Discord
-            </NavCta>
-            <NavCta
-              href={MAILING_LIST_URL}
-              title="Stay in the loop"
-              tip="New guides, events and opportunities, straight to your inbox."
-              className="!border-white !bg-white !text-black hover:!bg-zinc-200"
-            >
-              Mailing List
-              <ArrowUpRight size={16} aria-hidden />
-            </NavCta>
-            <button
-              type="button"
-              onClick={() => setIsOpen(true)}
-              className="min-[1200px]:!hidden !flex !size-10 !items-center !justify-center !rounded-full !text-white !focus:outline-none"
-              aria-label="Open navigation menu"
-              aria-expanded={isOpen}
-              aria-controls="mobile-navigation-menu"
-            >
-              <Menu size={24} />
-            </button>
-          </div>
-        </motion.div>
-      </nav>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            id="mobile-navigation-menu"
-            className="!fixed !inset-0 !z-[10001] !min-h-[100dvh] !bg-black !px-6"
-            initial={prefersReducedMotion ? false : { opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -12 }}
-            transition={panelTransition}
-          >
-            <div className="!mx-auto !flex !h-20 !max-w-[88rem] !items-center !justify-between">
-              <img
-                src="/MRG1W.png"
-                alt="MYResearchGuide"
-                className="!h-8 sm:!h-9 !w-auto !object-contain"
-              />
+            <div className={styles.actions}>
+              <div className={styles.desktopActions}>
+                <NavCta
+                  href={DISCORD_URL}
+                  id="nav-discord-tip"
+                  title="Join the community"
+                  tip="Exchange ideas, explore your interests and learn from other young STEM enthusiasts."
+                >
+                  <DiscordIcon />
+                  Discord
+                </NavCta>
+                <NavCta
+                  href={MAILING_LIST_URL}
+                  id="nav-mailing-tip"
+                  title="Stay in the loop"
+                  tip="New guides, events and opportunities, straight to your inbox."
+                  primary
+                >
+                  Mailing List
+                  <ArrowUpRight size={15} aria-hidden />
+                </NavCta>
+              </div>
               <button
+                ref={toggleRef}
                 type="button"
-                onClick={() => setIsOpen(false)}
-                className="!flex !size-10 !items-center !justify-center !rounded-full !text-white !focus:outline-none"
-                aria-label="Close navigation menu"
-                autoFocus
+                onClick={() => setIsOpen((open) => !open)}
+                className={styles.menuToggle}
+                aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                aria-expanded={isOpen}
+                aria-controls="mobile-navigation-menu"
               >
-                <X size={25} />
+                {isOpen ? <X size={22} aria-hidden /> : <Menu size={22} aria-hidden />}
               </button>
             </div>
+          </div>
 
-            <div className="!mx-auto !mt-10 !flex !max-w-xl !flex-col !items-center">
-              {navLinks.map((link, index) => (
-                <motion.div
-                  key={link.name}
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0 }
-                      : {
-                          delay: 0.06 + index * 0.045,
-                          duration: 0.45,
-                          ease: [0.16, 1, 0.3, 1],
-                        }
-                  }
-                  className="!w-full !border-b !border-white/10"
-                >
+          {isOpen && (
+            <nav
+              ref={panelRef}
+              id="mobile-navigation-menu"
+              aria-label="Mobile navigation"
+              className={styles.panel}
+            >
+              <div className={styles.panelLinks}>
+                {navLinks.map((link) => (
                   <Link
+                    key={link.href}
                     href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="!block !py-5 !text-center !text-2xl !font-medium !text-zinc-300 hover:!text-white !transition-colors !no-underline"
+                    onClick={closeMenu}
+                    aria-current={isActive(link.href) ? "page" : undefined}
+                    className={styles.panelLink}
                   >
                     {link.name}
                   </Link>
-                </motion.div>
-              ))}
-            </div>
-
-            <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={
-                prefersReducedMotion
-                  ? { duration: 0 }
-                  : { delay: 0.32, duration: 0.45, ease: [0.16, 1, 0.3, 1] }
-              }
-              className="!mx-auto !mt-8 !flex !max-w-xl !flex-col !items-center !gap-4"
-            >
-              <a
-                href={DISCORD_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setIsOpen(false)}
-                className="!inline-flex !items-center !gap-2 !rounded-lg !border !border-white/30 !px-6 !py-3 !text-base !font-medium !text-white !no-underline"
-              >
-                <DiscordIcon size={20} />
-                Join our Discord
-              </a>
-              <a
-                href={MAILING_LIST_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="!no-underline"
-                onClick={() => setIsOpen(false)}
-              >
-                <InteractiveHoverButton />
-              </a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="!h-16 sm:!h-[4.5rem] !w-full !shrink-0" aria-hidden />
+                ))}
+              </div>
+              <div className={styles.panelActions}>
+                <a href={DISCORD_URL} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className={`${styles.cta} ${styles.secondary}`}>
+                  <DiscordIcon />
+                  Discord
+                </a>
+                <a href={MAILING_LIST_URL} target="_blank" rel="noopener noreferrer" onClick={closeMenu} className={`${styles.cta} ${styles.primary}`}>
+                  Mailing List
+                  <ArrowUpRight size={15} aria-hidden />
+                </a>
+              </div>
+            </nav>
+          )}
+        </div>
+      </header>
+      <div className={styles.spacer} aria-hidden />
     </>
   );
-};
-
-export default Nav;
+}

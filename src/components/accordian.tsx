@@ -31,7 +31,7 @@ const accordionItems: AccordionItemType[] = [
         value: "item-1",
         question: "What is MYResearchGuide?",
         answer:
-            "MYResearchGuide is a platform providing guidance for youth to engage in science research!",
+            "MYResearchGuide is a platform providing guidance for youth to engage in STEM research!",
     },
     {
         icon: LayoutList,

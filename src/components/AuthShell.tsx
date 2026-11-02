@@ -13,7 +13,7 @@ export default function AuthShell({
   children: React.ReactNode;
 }) {
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden !text-white flex items-center justify-center !px-4 !py-16">
+    <main className="relative min-h-screen bg-site-background overflow-x-hidden !text-white flex items-center justify-center !px-4 !py-16">
       <div className="!absolute !inset-0 !bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_55%)]" />
       <div className="!relative !w-full !max-w-md">
         <div className="!text-center !mb-8">

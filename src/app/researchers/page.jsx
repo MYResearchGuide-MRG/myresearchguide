@@ -12,7 +12,7 @@ export const metadata = {
 export default async function Page() {
   const researchers = await fetchPublicResearchers();
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden">
+    <main className="relative min-h-screen bg-site-background overflow-x-hidden">
       <NewNav />
       <ResearcherGrid researchers={researchers} />
       <Foot />

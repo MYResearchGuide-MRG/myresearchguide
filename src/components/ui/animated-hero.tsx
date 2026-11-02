@@ -19,7 +19,7 @@ function Hero() {
               Malaysia&apos;s #1 Guide to
             </span>
             <span className="!block !font-semibold !whitespace-nowrap !leading-[1.05] bg-gradient-to-r from-stone-400 to-slate-300 bg-clip-text text-transparent md:!text-[4rem] lg:!text-[4.75rem] xl:!text-[5.25rem]">
-              Science Research
+              STEM Research
             </span>
           </h1>
 
@@ -34,7 +34,7 @@ function Hero() {
             }
           >
             MYResearchGuide is a free, beginner-friendly platform that helps
-            Malaysian students start and grow in science research with practical
+            Malaysian students start and grow in STEM research with practical
             steps, researcher insight, and a community built by
             Malaysians for Malaysians.
           </motion.p>

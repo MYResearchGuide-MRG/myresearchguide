@@ -1,0 +1,269 @@
+.frame {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  padding: 0 12px;
+  pointer-events: none;
+}
+
+.shell {
+  position: relative;
+  width: 100%;
+  max-width: 90rem;
+  margin-top: 0;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--site-background);
+  color: #fff;
+  pointer-events: auto;
+  transition: max-width 500ms ease-out, margin-top 500ms ease-out,
+    border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.shell[data-floating="true"] {
+  max-width: 75rem;
+  margin-top: 12px;
+  border-color: rgb(255 255 255 / 12%);
+  background: var(--site-background);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 24%);
+  /* Keep the same opaque surface when floating so the video underneath
+     does not enter a different blur/compositing path on scroll. */
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 70px;
+  padding: 0 24px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  text-decoration: none;
+}
+
+.brand img {
+  display: block;
+  width: 214px;
+  height: auto;
+}
+
+.desktopLinks {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.navLink {
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.navLink:hover,
+.navLink[aria-current="page"] {
+  color: #fff;
+}
+
+.actions,
+.desktopActions {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 10px;
+}
+
+.ctaGroup {
+  position: relative;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.primary,
+.primary:hover {
+  color: #080808;
+  background: #fff;
+  border-color: #fff;
+}
+
+.primary:hover {
+  background: #e6e6e6;
+  border-color: #e6e6e6;
+}
+
+.secondary,
+.secondary:hover {
+  color: #eee;
+  background: transparent;
+  border-color: rgb(255 255 255 / 22%);
+}
+
+.secondary:hover {
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 40%);
+}
+
+.tooltip {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 1;
+  width: 270px;
+  padding: 14px 16px;
+  border: 1px solid #333;
+  border-radius: 10px;
+  background: #181818;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+.tooltip strong,
+.tooltip span {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.tooltip span {
+  margin-top: 4px;
+  color: #aaa;
+}
+
+.ctaGroup:hover .tooltip,
+.ctaGroup:focus-within .tooltip {
+  opacity: 1;
+}
+
+.menuToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menuToggle:hover {
+  background: rgb(255 255 255 / 8%);
+}
+
+.shell a:focus-visible,
+.menuToggle:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  max-height: calc(100dvh - 114px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 12px;
+  background: #111;
+  box-shadow: 0 16px 40px rgb(0 0 0 / 35%);
+  animation: menu-in 180ms ease-out;
+}
+
+.panelLinks {
+  display: grid;
+}
+
+.panelLink {
+  padding: 14px 16px;
+  border-radius: 6px;
+  color: #bbb;
+  font-size: 15px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.panelLink:hover,
+.panelLink[aria-current="page"] {
+  color: #fff;
+  background: rgb(255 255 255 / 6%);
+}
+
+.panelActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 14px 4px 4px;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.panelActions .cta {
+  min-height: 44px;
+}
+
+.spacer {
+  height: 72px;
+  flex-shrink: 0;
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 640px) {
+  .frame { padding-inline: 24px; }
+}
+
+/* The floating bar still has room for every label before desktop links appear. */
+@media (min-width: 1280px) {
+  .desktopLinks { display: flex; }
+  .menuToggle { display: none; }
+  .panel { display: none; }
+}
+
+@media (max-width: 639px) {
+  .bar { height: 62px; padding-inline: 12px; gap: 12px; }
+  .brand img { width: 190px; }
+  .desktopActions { display: none; }
+  .spacer { height: 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell, .cta, .navLink, .tooltip { transition: none; }
+  .panel { animation: none; }
+}

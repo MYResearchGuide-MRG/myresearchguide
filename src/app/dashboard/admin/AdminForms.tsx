@@ -168,7 +168,7 @@ export function BulkInviteForm() {
           <ul className="!space-y-1 !text-xs !text-zinc-400 !max-h-48 !overflow-auto">
             {results.map((r, i) => (
               <li key={i}>
-                <span className="!text-zinc-300">{r.name}</span> ({r.email}) —{" "}
+                <span className="!text-zinc-300">{r.name}</span> ({r.email}):{" "}
                 {r.status}
               </li>
             ))}

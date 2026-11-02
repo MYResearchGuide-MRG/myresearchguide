@@ -22,7 +22,7 @@ export default async function ResetPasswordPage({
       {hashIsRecovery ? (
         <ResetForm code={code} tokenHash={tokenHash} />
       ) : (
-        <div className="min-h-screen bg-black flex items-center justify-center !text-white !px-4">
+        <div className="min-h-screen bg-site-background flex items-center justify-center !text-white !px-4">
           <div className="!bg-zinc-900/50 !rounded-3xl !border !border-zinc-800 !p-8 !max-w-md !w-full !text-center">
             <h1 className="!text-2xl !font-bold !mb-2">Invalid link</h1>
             <p className="!text-sm !text-zinc-400">

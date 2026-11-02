@@ -1,0 +1,65 @@
+.section {
+  padding: 96px 32px;
+  min-height: 60vh;
+  background: var(--site-background);
+  color: #f3f3f3;
+}
+
+.heading {
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.heading h1 {
+  margin: 0;
+  font: inherit;
+  font-size: clamp(40px, 4.7vw, 64px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.heading p {
+  max-width: 660px;
+  margin: 20px auto 0;
+  color: #999;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.filters {
+  position: relative;
+  z-index: 2;
+}
+
+.grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* One brief introduction; filtering keeps existing cards mounted. */
+@media (prefers-reduced-motion: no-preference) {
+  .heading h1 { animation: arrive 420ms cubic-bezier(.22,.72,.25,1) both; }
+  .heading p { animation: arrive 420ms cubic-bezier(.22,.72,.25,1) 60ms both; }
+  .marquee { animation: arrive 350ms cubic-bezier(.22,.72,.25,1) 80ms both; }
+  .filters { animation: arrive 350ms cubic-bezier(.22,.72,.25,1) 100ms both; }
+  .grid { animation: reveal 300ms ease 120ms both; }
+}
+
+@keyframes arrive {
+  from { opacity: .35; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 767px) {
+  .section { padding: 64px 20px; }
+  .heading { margin-bottom: 32px; }
+  .heading p { margin-top: 16px; }
+}

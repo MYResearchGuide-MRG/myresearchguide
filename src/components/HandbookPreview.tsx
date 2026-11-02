@@ -102,7 +102,7 @@ export default function HandbookPreview() {
         <div className="!relative !flex-1 !min-w-0 !min-h-[440px] sm:!min-h-[480px] md:!min-h-0 !flex !flex-col !overflow-hidden !bg-[#191919]">
           <Image
             src="/handbook-banner.jpg"
-            alt="MYResearchGuide — Start your Research Journey, with MYResearchGuide."
+            alt="MYResearchGuide. Start your research journey with MYResearchGuide."
             width={1720}
             height={406}
             priority

@@ -1,0 +1,218 @@
+.footer {
+  margin-top: 80px;
+  border-top: 1px solid #232323;
+  background: var(--site-background);
+  color: #a3a3a3;
+}
+
+.inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 76px 48px 32px;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.8fr) repeat(3, minmax(0, 1fr));
+  gap: 56px;
+}
+
+.brand {
+  min-width: 0;
+}
+
+.logoLink {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.logo {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  height: auto;
+}
+
+.description {
+  max-width: 285px;
+  margin: 24px 0 18px;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.footer a {
+  color: #a3a3a3;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer a:focus-visible {
+  color: #fff;
+  outline: 2px solid #fff;
+  outline-offset: 5px;
+  border-radius: 2px;
+}
+
+.email {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 18px 0 0 -10px;
+}
+
+.socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.socials svg {
+  width: 19px;
+  height: 19px;
+}
+
+.group h2 {
+  margin: 0 0 22px;
+  color: #f5f5f5;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.group ul {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.group a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.group a svg {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 64px;
+  border-top: 1px solid #232323;
+  padding-top: 28px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.meta p {
+  margin: 0;
+}
+
+.wordmark {
+  width: 100%;
+  margin: 60px auto 0;
+  user-select: none;
+  pointer-events: none;
+  /* Fade the long wordmark into the footer. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.65) 40%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgba(0, 0, 0, 0.65) 40%,
+    transparent 100%
+  );
+  opacity: 0.38;
+}
+
+.wordmark img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1100px) {
+  .inner {
+    padding: 64px 32px 28px;
+  }
+  .top {
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 40px 32px;
+  }
+  .brand {
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer {
+    margin-top: 56px;
+  }
+  .inner {
+    padding: 44px 24px 24px;
+  }
+  .top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 24px;
+  }
+  .brand {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  .logo {
+    width: 150px;
+  }
+  .description {
+    max-width: 310px;
+    margin-top: 20px;
+  }
+  .group h2 {
+    margin-bottom: 16px;
+  }
+  .group ul {
+    gap: 12px;
+  }
+  .group a {
+    font-size: 13px;
+  }
+  .meta {
+    margin-top: 40px;
+    padding-top: 22px;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .wordmark {
+    margin-top: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer a {
+    transition: none;
+  }
+}

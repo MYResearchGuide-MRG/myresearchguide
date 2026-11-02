@@ -465,7 +465,7 @@ export function ProfileForm({
       </motion.button>
 
         {saved ? (
-          <p className="!text-sm !text-emerald-400">Saved — live on the site.</p>
+          <p className="!text-sm !text-emerald-400">Saved. Your profile is live on the site.</p>
         ) : null}
       </div>
     </form>

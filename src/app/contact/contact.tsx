@@ -1,14 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState } from "react";
+import localFont from "next/font/local";
 import { motion } from "framer-motion";
 import { Linkedin, Instagram, Mail, ArrowRight } from "lucide-react";
 import { FloatingPaths } from "@/components/ui/background-paths";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
+import styles from "./Contact.module.css";
+
+const geist = localFont({
+  src: "../../fonts/Geist-latin.woff2",
+  weight: "400 500",
+  style: "normal",
+  display: "swap",
+});
 
 const methodListVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
 };
 
 const methodItemVariants = {
@@ -16,7 +25,7 @@ const methodItemVariants = {
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.4, ease: "easeOut" as const },
+    transition: { duration: 0.65, ease: "easeOut" as const },
   },
 };
 
@@ -81,12 +90,12 @@ export default function VerticalContactSection() {
 
   const fieldWrap = "!flex !flex-col !gap-2";
   const labelClass =
-    "!text-[11px] !font-mono !uppercase !tracking-[0.2em] !text-white/40";
+    "!text-[13px] !font-normal !normal-case !tracking-normal !text-white/55";
   const inputClass =
     "!w-full !bg-transparent !text-white !text-lg !py-2 !border-0 !border-b !border-white/20 !rounded-none !outline-none !placeholder-white/25 focus:!border-white focus:!bg-white/[0.03] !transition-colors !duration-200";
 
   return (
-    <section className="!relative !min-h-[80vh] md:!min-h-screen !bg-black !text-white !px-4 sm:!px-6 !py-16 md:!py-32 lg:!py-40 !flex !items-center !justify-center !overflow-x-clip">
+    <section className={`${geist.className} ${styles.section}`} aria-labelledby="contact-heading">
       {/* Animated background paths — static skip for reduced motion */}
       {!prefersReducedMotion && (
         <div className="!absolute !inset-0 !pointer-events-none" aria-hidden>
@@ -104,20 +113,20 @@ export default function VerticalContactSection() {
           transition={
             prefersReducedMotion
               ? { duration: 0 }
-              : { duration: 0.55, ease: "easeOut" }
+              : { duration: 0.9, ease: [0.22, 0.72, 0.25, 1] }
           }
         >
-          <p className="!text-[11px] !font-mono !uppercase !tracking-[0.3em] !text-white/40 !mb-6">
+          <p className="!text-[13px] !font-normal !tracking-normal !text-white/55 !mb-6">
             Get in touch
           </p>
-          <h1 className="!text-5xl md:!text-7xl !font-bold !tracking-tighter !leading-[0.95] !mb-8">
+          <h1 id="contact-heading" className={styles.title}>
             Let&apos;s start a
             <br />
             conversation.
           </h1>
           <p className="!text-white/50 !text-base md:!text-lg !leading-relaxed !max-w-md !mb-12">
-            Whether you have a question, an idea, or want to get involved with
-            MYResearchGuide — we read every message.
+            Have a question, an idea, or want to get involved with
+            MYResearchGuide? We read every message.
           </p>
 
           <motion.div
@@ -178,7 +187,7 @@ export default function VerticalContactSection() {
           transition={
             prefersReducedMotion
               ? { duration: 0 }
-              : { duration: 0.55, ease: "easeOut", delay: 0.08 }
+              : { duration: 0.9, ease: [0.22, 0.72, 0.25, 1], delay: 0.16 }
           }
         >
           <form onSubmit={handleSubmit} className="!space-y-8">
@@ -238,7 +247,7 @@ export default function VerticalContactSection() {
                     ? undefined
                     : { scale: 0.97 }
                 }
-                className="!group !inline-flex !items-center !gap-2 !bg-white !text-black !px-8 !py-3.5 !rounded-full !font-bold !text-sm !uppercase !tracking-tighter !transition-colors hover:!bg-white/90 disabled:!opacity-60 disabled:!cursor-not-allowed"
+                className="!group !inline-flex !items-center !gap-2 !bg-white !text-black !px-8 !py-3.5 !rounded-full !font-medium !text-sm !normal-case !tracking-normal !transition-colors hover:!bg-white/90 disabled:!opacity-60 disabled:!cursor-not-allowed"
               >
                 {status && status !== "Sending..." ? status : "Send message"}
                 <ArrowRight

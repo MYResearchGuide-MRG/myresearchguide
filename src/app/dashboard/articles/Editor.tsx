@@ -138,7 +138,7 @@ export default function Editor({
     // containing math that was produced by the rich editor.
     if (mode === "write" && /\$/.test(bodyMd)) {
       setError(
-        "LaTeX math isn't supported in WYSIWYG mode — switch to Source to keep equations intact."
+        "LaTeX math isn't supported in WYSIWYG mode. Switch to Source to keep equations intact."
       );
       setAutosave("dirty");
       return;
@@ -398,7 +398,7 @@ export default function Editor({
                 ) {
                   bodyDraftRef.current = writeEntrySnapshot.current;
                   showFlash(
-                    "Math detected in WYSIWYG — reverted to pre-WYSIWYG content. Type equations in Source mode."
+                    "Math detected in WYSIWYG. Reverted to pre-WYSIWYG content. Type equations in Source mode."
                   );
                 }
                 writeEntrySnapshot.current = null;
@@ -410,7 +410,7 @@ export default function Editor({
               disabled={hasMath && mode === "source"}
               title={
                 hasMath && mode === "source"
-                  ? "This article contains LaTeX — Source mode keeps equations intact."
+                  ? "This article contains LaTeX. Source mode keeps equations intact."
                   : undefined
               }
               className="!text-zinc-400 hover:!text-white !text-sm !transition-colors disabled:!opacity-40 disabled:!cursor-not-allowed !cursor-pointer"
@@ -475,7 +475,7 @@ export default function Editor({
 
       <p className="!text-xs !text-zinc-500">
         {hasMath && mode === "source"
-          ? "LaTeX detected — editing in Source mode so equations stay intact."
+          ? "LaTeX detected. Editing in Source mode so equations stay intact."
           : "LaTeX ($...$ / $$...$$) must be written in Source mode. Cmd/Ctrl+B and Cmd/Ctrl+I for bold and italic."}
       </p>
 

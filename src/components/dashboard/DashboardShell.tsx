@@ -57,8 +57,8 @@ export default function DashboardShell({
   const initial = (profile.name ?? "").trim().charAt(0).toUpperCase() || "?";
 
   return (
-    <main className="!relative !min-h-screen !bg-black !overflow-x-hidden !text-white">
-      <header className="!sticky !top-0 !z-40 !border-b !border-zinc-800/80 !bg-black/80 !backdrop-blur">
+    <main className="!relative !min-h-screen !bg-site-background !overflow-x-hidden !text-white">
+      <header className="!sticky !top-0 !z-40 !border-b !border-zinc-800/80 !bg-site-background/80 !backdrop-blur">
         <div className="!max-w-5xl !mx-auto !flex !items-center !justify-between !gap-4 !px-4 md:!px-8 !py-4 !relative">
           <Link
             href="/dashboard"

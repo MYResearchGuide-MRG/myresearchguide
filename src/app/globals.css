@@ -6,6 +6,16 @@
 @tailwind utilities;
 
 /* 2. YOUR CUSTOM STYLES (Make sure they follow the directives) */
+:root {
+  --site-background: #0a0a0a;
+  --site-background-rgb: 10 10 10;
+  --card-background: #000;
+}
+
+html {
+  background-color: var(--site-background);
+}
+
 @layer utilities {
   /* If you have custom utility classes, they go here */
   .custom-blur {
@@ -124,10 +134,10 @@ body {
 }
 
 .custom-accordion {
-  --bs-accordion-bg: #000;
+  --bs-accordion-bg: var(--site-background);
   --bs-accordion-color: #fff;
   --bs-accordion-border-color: rgba(255, 255, 255, 0.2);
-  --bs-accordion-btn-bg: #000;
+  --bs-accordion-btn-bg: var(--site-background);
   --bs-accordion-btn-color: #fff;
   --bs-accordion-active-bg: #111; /* Darker grey when open */
   --bs-accordion-active-color: #fff;
@@ -204,7 +214,7 @@ body {
 body {
   font-family: "Inter", serif;
   color: white;
-  background-color: #111;
+  background-color: var(--site-background);
 }
 
 /* NAVBAR */

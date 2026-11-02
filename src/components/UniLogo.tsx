@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { uniLogo, uniFit, uniBg, uniShort } from "@/data/universities";
+import { directoryImageSrc } from "@/data/directory-images";
 
 // A single university logo rendered in a circular badge. Uses the per-uni fit
 // (contain/cover) and background colour so no square outline shows inside the
@@ -32,8 +33,11 @@ export default function UniLogo({
       }}
     >
       <img
-        src={src}
+        src={directoryImageSrc(src)}
         alt={uniShort(name)}
+        width={size}
+        height={size}
+        decoding="async"
         className={`!w-full !h-full ${cover ? "!object-cover" : "!object-contain"}`}
         style={{ padding: pad }}
       />

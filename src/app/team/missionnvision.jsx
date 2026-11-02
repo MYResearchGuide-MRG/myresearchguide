@@ -66,12 +66,9 @@ export default function Mission() {
               }
               className="md:text-left"
             >
-              <h1 className="text-center !text-3xl md:!text-6xl !font-bold ">
-                <div className="bg-gradient-to-r from-stone-400 to-slate-300 bg-clip-text text-transparent">
-                  © {new Date().getFullYear()} MYResearchGuide. All rights
-                  reserved.
-                </div>
-              </h1>
+              <h2 className="text-center !text-3xl md:!text-5xl !font-medium !tracking-tight !text-white">
+                Our mission
+              </h2>
             </motion.div>
           </div>
 
@@ -79,7 +76,7 @@ export default function Mission() {
             {/* Consolidated About block — scroll-driven teleprompter reveal */}
             <div className="!max-w-4xl !mx-auto !relative !z-0 !text-center">
               <ScrollReveal
-                text="MYResearchGuide (termed MRG) was founded in 2026 and is a not-for-profit organisation crafted in collaboration with Malaysian researchers from top institutions around the world. Our mission is to make science research accessible towards all Malaysian youth, and through curated initiatives are dedicated to bridging the gap between curiosity and opportunity."
+                text="MYResearchGuide (termed MRG) was founded in 2026 and is a not-for-profit organisation crafted in collaboration with Malaysian researchers from top institutions around the world. Our mission is to make STEM research accessible towards all Malaysian youth, and through curated initiatives are dedicated to bridging the gap between curiosity and opportunity."
                 className="!text-2xl sm:!text-3xl md:!text-4xl !font-semibold !leading-[1.35] !tracking-tight !text-white"
               />
             </div>

@@ -1,0 +1,57 @@
+.content { width: 100%; max-width: 1224px; margin-inline: auto; padding: 40px 32px 80px; }
+.section { margin-bottom: 80px; scroll-margin-top: 116px; }
+.sectionHeading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.sectionHeading h2 { margin: 0; font: inherit; font-size: clamp(30px, 3.6vw, 44px); font-weight: 500; line-height: 1.18; letter-spacing: -.045em; scroll-margin-top: 116px; }
+.carousel { min-width: 0; }
+.carouselTrack { margin-left: -16px; align-items: stretch; }
+.slide { padding-left: 16px; flex-basis: 33.333333%; }
+.controls { display: flex; flex-shrink: 0; gap: 8px; }
+.carousel .control { position: static; width: 44px; height: 44px; border: 1px solid #333; border-radius: 4px; background: #000; color: #ccc; transform: none; box-shadow: none; transition: border-color 180ms ease, color 180ms ease; }
+.carousel .control:hover { border-color: #888; background: #000; color: #fff; }
+.carousel .control:focus-visible { outline: 2px solid #eee; outline-offset: 3px; }
+.card { display: flex; flex-direction: column; align-items: center; height: 100%; min-height: 400px; padding: 32px 28px 28px; border: 1px solid #2a2a2a; border-radius: 8px; background: var(--card-background); text-align: center; transition: border-color 220ms ease; }
+.card:hover, .card:focus-within { border-color: #555; }
+.logo { display: grid; place-items: center; flex-shrink: 0; width: 96px; height: 96px; margin-bottom: 24px; padding: 14px; overflow: hidden; border-radius: 50%; background: #fff; }
+.logo[data-fit="cover"] { padding: 0; }
+.logo[data-small-padding="true"] { padding: 4px; }
+.logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.logo[data-fit="cover"] img { object-fit: cover; }
+.card h3 { margin: 0 0 14px; color: #eee; font: inherit; font-size: 20px; font-weight: 500; line-height: 1.35; letter-spacing: -.025em; }
+.card p { margin: 0 0 24px; color: #a3a3a3; font-size: 14px; line-height: 1.75; }
+.visit { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; margin-top: auto; color: #ddd; font-size: 13px; line-height: 20px; text-decoration: none; }
+.visit span { position: relative; }
+.visit span::after { content: ""; position: absolute; inset: auto 0 -4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 250ms ease; }
+.visit svg { flex-shrink: 0; transition: transform 250ms ease; }
+.visit:hover, .visit:focus-visible { color: #fff; text-decoration: none; }
+.visit:hover span::after, .visit:focus-visible span::after { transform: scaleX(1); }
+.visit:hover svg, .visit:focus-visible svg { transform: translate(2px,-2px); }
+.visit:focus-visible { outline: 2px solid #eee; outline-offset: 5px; border-radius: 2px; }
+.sponsorGrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; align-items: stretch; }
+.sponsorCard { align-items: flex-start; min-height: 0; padding: 36px; text-align: left; }
+.sponsorLogo { width: 180px; height: 96px; padding: 16px; border-radius: 4px; margin-bottom: 28px; }
+.sponsorCard h3 { font-size: 24px; }
+.sponsorCard p { font-size: 15px; line-height: 1.75; }
+.sponsorCard .visit { align-self: flex-start; }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal[data-visible="true"] { animation: section-in 550ms cubic-bezier(.22,.72,.25,1) both; }
+}
+@keyframes section-in { from { opacity: .55; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (max-width: 1079px) {
+  .slide { flex-basis: 50%; }
+  .card { padding: 28px 24px 24px; }
+  .sponsorCard { padding: 28px; }
+}
+@media (max-width: 699px) {
+  .sponsorGrid { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .content { padding: 24px 20px 60px; }
+  .section { margin-bottom: 56px; }
+  .sectionHeading { gap: 16px; margin-bottom: 22px; }
+  .sectionHeading h2 { font-size: 30px; }
+  .slide { flex-basis: calc(100% - 28px); }
+  .card { min-height: 390px; padding: 28px 22px 22px; }
+  .sponsorCard { min-height: 0; padding: 28px 24px; }
+  .sponsorCard p { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .carousel .control, .visit svg, .visit span::after { transition: none; }
+}

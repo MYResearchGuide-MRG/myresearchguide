@@ -2,6 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import localFont from "next/font/local";
 import {
   motion,
   AnimatePresence,
@@ -20,29 +21,19 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { isCompleted } from "@/data/researchers";
+import { directoryImageSrc } from "@/data/directory-images";
 import { uniLogo, uniShort, uniFit, uniBg } from "@/data/universities";
 import FilterDropdown, { DropdownOption } from "@/components/FilterDropdown";
 import UniMarquee from "@/components/UniMarquee";
 import UniLogoStack from "@/components/UniLogoStack";
+import styles from "./ResearcherGrid.module.css";
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.45, ease: "easeOut" as const },
-  },
-  exit: {
-    opacity: 0,
-    y: -8,
-    transition: { duration: 0.2, ease: "easeIn" as const },
-  },
-};
+const geist = localFont({
+  src: "../../fonts/Geist-latin.woff2",
+  weight: "400 700",
+  style: "normal",
+  display: "swap",
+});
 
 const LEVEL_ORDER = ["Undergrad", "Masters", "PhD", "Postdoc", "Industry"];
 const ALL = "All";
@@ -98,7 +89,7 @@ export default function ResearcherGrid({
       ...uniNames.map((u) => ({
         value: u,
         label: uniShort(u),
-        logo: uniLogo(u),
+        logo: directoryImageSrc(uniLogo(u) || ""),
         logoFit: uniFit(u),
         logoBg: uniBg(u),
       })),
@@ -156,33 +147,21 @@ export default function ResearcherGrid({
   }, [query, uni, level, field, researchers]);
 
   const anyFilter = uni !== ALL || level !== ALL || field !== ALL || !!query;
-  const filterKey = `${query}|${uni}|${level}|${field}`;
 
   return (
-    <section className="!px-4 md:!px-8 !py-12 sm:!py-16 md:!py-24 !bg-black !text-white !min-h-0 md:!min-h-screen">
-      {/* Header — preserve existing first reveal */}
-      <motion.div
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={
-          prefersReducedMotion
-            ? { duration: 0 }
-            : { duration: 0.7, ease: "easeOut" }
-        }
-        className="!text-center !mb-10 !mt-24"
-      >
-        <h1 className="!text-5xl md:!text-[5rem] !tracking-tighter !mb-4 !text-white">
+    <section className={`${geist.className} ${styles.section}`}>
+      <div className={styles.heading}>
+        <h1>
           Our Researchers.
         </h1>
-        <p className="!text-lg !max-w-2xl !mx-auto !text-gray-400">
-          The network of Malaysian researchers behind MYResearchGuide — spanning
+        <p>
+          The network of Malaysian researchers behind MYResearchGuide, spanning
           top institutions and labs around the world.
         </p>
-      </motion.div>
+      </div>
 
       {/* University logo marquee — click a logo to filter by that university */}
-      <div className="!max-w-6xl !mx-auto !mb-12">
+      <div className={`${styles.marquee} !max-w-6xl !mx-auto !mb-12`}>
         <UniMarquee
           names={uniNames}
           activeName={uni === ALL ? undefined : uni}
@@ -191,7 +170,7 @@ export default function ResearcherGrid({
       </div>
 
       {/* Search + Filters */}
-      <div className="!max-w-7xl !mx-auto !mb-12">
+      <div className={`${styles.filters} !max-w-7xl !mx-auto !mb-12`}>
         <div className="!flex !flex-col lg:!flex-row !gap-3 lg:!items-center">
           <div className="!relative !flex-1">
             <Search
@@ -203,6 +182,7 @@ export default function ResearcherGrid({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, university, or field…"
+              aria-label="Search researchers"
               className="!w-full !bg-zinc-900 !text-zinc-100 !border !border-zinc-800 !rounded-xl !pl-11 !pr-4 !py-3 !text-sm !outline-none focus:!border-white/40 focus:!bg-zinc-900/80 !transition-colors !placeholder-zinc-500"
             />
           </div>
@@ -232,7 +212,7 @@ export default function ResearcherGrid({
 
         <div className="!flex !items-center !gap-2 !mt-4 !text-zinc-500 !text-sm">
           <SlidersHorizontal size={14} />
-          <span>
+          <span role="status" aria-live="polite">
             {filtered.length} {filtered.length === 1 ? "researcher" : "researchers"}
             {anyFilter && ` · ${researchers.length} total`}
           </span>
@@ -241,6 +221,7 @@ export default function ResearcherGrid({
 
       {/* Grid */}
       <LayoutGroup>
+        <div className={`${styles.grid} !max-w-7xl !mx-auto !grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 !gap-6`}>
         <AnimatePresence mode="popLayout" initial={false}>
           {filtered.length === 0 ? (
             <motion.div
@@ -248,39 +229,33 @@ export default function ResearcherGrid({
               initial={prefersReducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={prefersReducedMotion ? undefined : { opacity: 0 }}
-              className="!max-w-7xl !mx-auto !text-center !py-24 !text-zinc-500"
+              className="!col-span-full !text-center !py-24 !text-zinc-500"
             >
               No researchers match your filters.
             </motion.div>
           ) : (
-            <motion.div
-              key={filterKey}
-              variants={prefersReducedMotion ? undefined : containerVariants}
-              initial={prefersReducedMotion ? false : "hidden"}
-              animate="visible"
-              exit={
-                prefersReducedMotion
-                  ? undefined
-                  : { opacity: 0, transition: { duration: 0.15 } }
-              }
-              className="!max-w-7xl !mx-auto !grid !grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3 !gap-6"
-            >
-              {filtered.map((r) => {
+              filtered.map((r, index) => {
                 return (
                   <motion.div
                     key={r.name}
-                    layout={!prefersReducedMotion}
-                    variants={prefersReducedMotion ? undefined : itemVariants}
+                    layout={prefersReducedMotion ? false : "position"}
+                    initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={prefersReducedMotion ? undefined : { opacity: 0, y: -4, transition: { duration: 0.16 } }}
                     whileHover={
                       prefersReducedMotion
                         ? undefined
-                        : { y: -4, borderColor: "rgba(255,255,255,0.4)" }
+                        : { y: -3, borderColor: "rgba(255,255,255,0.4)" }
                     }
                     whileTap={
                       prefersReducedMotion ? undefined : { scale: 0.99 }
                     }
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    className="!group !relative !bg-zinc-900/50 !rounded-3xl !p-8 !border !border-zinc-800 !flex !flex-col !items-center !text-center !transition-colors"
+                    transition={prefersReducedMotion ? { duration: 0 } : {
+                      duration: 0.28,
+                      ease: [0.22, 0.72, 0.25, 1],
+                      layout: { duration: 0.32, ease: [0.22, 0.72, 0.25, 1] },
+                    }}
+                    className="!group !relative !bg-black !rounded-3xl !p-8 !border !border-zinc-800 !flex !flex-col !items-center !text-center !transition-colors"
                   >
                     {/* Whole-card link for completed profiles (overlay; socials sit above it) */}
                     {/* {completed ? (
@@ -296,8 +271,12 @@ export default function ResearcherGrid({
                       <div className="!w-28 !h-28 !rounded-full !overflow-hidden !border-4 !border-zinc-700 !flex !items-center !justify-center !bg-zinc-800 !transition-transform !duration-300 group-hover:!scale-[1.03]">
                         {r.image ? (
                           <img
-                            src={r.image}
+                            src={directoryImageSrc(r.image)}
                             alt={r.name}
+                            width={224}
+                            height={224}
+                            loading={index < 3 ? "eager" : "lazy"}
+                            decoding="async"
                             className="!w-full !h-full !object-cover"
                           />
                         ) : (
@@ -370,10 +349,10 @@ export default function ResearcherGrid({
                     */}
                   </motion.div>
                 );
-              })}
-            </motion.div>
+              })
           )}
         </AnimatePresence>
+        </div>
       </LayoutGroup>
     </section>
   );

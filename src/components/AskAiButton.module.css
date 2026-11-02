@@ -1,0 +1,120 @@
+.wrapper {
+  width: fit-content;
+  max-width: 100%;
+  margin: 24px auto 0;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid #454545;
+  border-radius: 999px;
+  background: #171717;
+  color: #eee;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.button:hover {
+  background: #222;
+  border-color: #777;
+}
+
+.button:focus-visible,
+.manualCopy:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 5px;
+}
+
+.button:disabled {
+  cursor: progress;
+}
+
+.copyIcon {
+  flex-shrink: 0;
+  color: #b8b8b8;
+}
+
+.label {
+  text-wrap: balance;
+}
+
+.brands {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 9px;
+  margin-left: 2px;
+}
+
+.brands img {
+  display: block;
+  flex-shrink: 0;
+}
+
+.status {
+  min-height: 18px;
+  margin: 8px 0 0;
+  color: #bbb;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.manualCopy {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid #555;
+  border-radius: 10px;
+  background: #171717;
+  color: #eee;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+@media (max-width: 520px) {
+  .wrapper {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .button {
+    display: grid;
+    grid-template-columns: 15px minmax(0, 1fr);
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 20px;
+    gap: 9px;
+  }
+
+  .brands {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin-left: 0;
+  }
+
+  .status {
+    min-height: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

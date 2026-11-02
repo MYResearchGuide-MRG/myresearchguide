@@ -130,7 +130,7 @@ export default function ArticleList({
     return (
       <div className="!rounded-3xl !border !border-dashed !border-zinc-800 !p-16 !text-center">
         <p className="!text-zinc-500 !text-sm !mb-4">
-          No articles yet — write your first one.
+          No articles yet. Write your first one.
         </p>
         <Link
           href="/dashboard/articles/new"

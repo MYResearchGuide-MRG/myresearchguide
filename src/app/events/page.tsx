@@ -34,9 +34,9 @@ export default async function EventsPage() {
   const list: ArticleSummary[] = (articles ?? []) as ArticleSummary[];
 
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden">
+    <main className="relative min-h-screen bg-site-background overflow-x-hidden">
       <NewNav />
-      <section className="!px-4 md:!px-8 !py-12 sm:!py-16 md:!py-24 !bg-black !text-white">
+      <section className="!px-4 md:!px-8 !py-12 sm:!py-16 md:!py-24 !bg-site-background !text-white">
         <div className="!text-center !mb-12 sm:!mb-16">
           <h1 className="!text-5xl md:!text-[5rem] !tracking-tighter !mb-4 !text-white">
             Events.
@@ -57,7 +57,7 @@ export default async function EventsPage() {
             Now running
           </span>
           <h2 className="!text-2xl md:!text-4xl !font-semibold !tracking-tight !text-white !leading-tight !mb-4">
-            MYSSP 2026, Malaysia&apos;s 1st Science Research Programme has
+            MYSSP 2026, Malaysia&apos;s 1st STEM Research Programme has
             officially commenced!
           </h2>
           <span className="!inline-flex !items-center !gap-1.5 !text-sm md:!text-base !font-semibold !text-white group-hover:!underline">

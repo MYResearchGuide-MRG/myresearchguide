@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
   if (!r) return { title: "Researcher | MYResearchGuide" };
   return {
     title: `${r.name} | MYResearchGuide`,
-    description: `${r.name} — ${r.tagline}. Read the MYResearchGuide interview.`,
+    description: `${r.name}: ${r.tagline}. Read the MYResearchGuide interview.`,
   };
 }
 
@@ -96,10 +96,10 @@ export default async function ResearcherDetail({ params }) {
   ].filter((s) => s.href);
 
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden">
+    <main className="relative min-h-screen bg-site-background overflow-x-hidden">
       <NewNav />
 
-      <section className="!px-4 md:!px-8 !pt-40 !pb-24 !bg-black !text-white">
+      <section className="!px-4 md:!px-8 !pt-40 !pb-24 !bg-site-background !text-white">
         <div className="!max-w-3xl !mx-auto">
           <Link
             href="/researchers"

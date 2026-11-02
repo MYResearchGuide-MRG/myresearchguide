@@ -694,7 +694,7 @@ export default function OrganisationGraph() {
           <span>Team.</span>
         </h2>
         <p className={styles.organisationSubtitle}>
-          Meet the team of individuals committed to democratising science research opportunities for youth across Malaysia.
+          Meet the team of individuals committed to democratising STEM research opportunities for youth across Malaysia.
         </p>
       </Reveal>
 

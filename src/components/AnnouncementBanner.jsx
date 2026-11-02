@@ -11,7 +11,7 @@ const MYSSP_URL = "https://myssp.myresearchguide.org";
 // Banner copy — edit here.
 const BANNER_TITLE = "The MYSSP programme is officially released.";
 const BANNER_SUB =
-  "Check out Malaysia's 1st science research mentorship programme.";
+  "Check out Malaysia's 1st STEM research mentorship programme.";
 
 // Dismissal is per browser session: closing the banner keeps it gone while the
 // visitor keeps browsing, but it returns the next time they open the browser.

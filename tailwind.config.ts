@@ -11,6 +11,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        "site-background": "rgb(var(--site-background-rgb) / <alpha-value>)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

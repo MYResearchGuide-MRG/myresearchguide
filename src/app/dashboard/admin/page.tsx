@@ -34,7 +34,7 @@ export default async function AdminPage() {
     .order("name");
 
   return (
-    <main className="relative min-h-screen bg-black overflow-x-hidden !text-white">
+    <main className="relative min-h-screen bg-site-background overflow-x-hidden !text-white">
       <section className="!max-w-5xl !mx-auto !px-4 md:!px-8 !py-10 !space-y-8">
         <div>
           <h1 className="!text-4xl md:!text-5xl !font-bold !tracking-tighter !mb-2">
@@ -49,7 +49,7 @@ export default async function AdminPage() {
           <div>
             <h2 className="!text-lg !font-bold !tracking-tight">Blog management</h2>
             <p className="!text-sm !text-zinc-500 !mt-1">
-              Write, edit, and publish articles (markdown + LaTeX) — you can
+              Write, edit, and publish articles (markdown + LaTeX). You can
               edit any member&apos;s posts.
             </p>
           </div>

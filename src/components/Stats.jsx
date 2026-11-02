@@ -119,7 +119,7 @@ const Cards = () => {
             {/* Left: heading, then the feature list — only the active item expands */}
             <div className="lg:!col-span-5 !flex !flex-col">
               <h2 className="!text-3xl md:!text-5xl !font-bold !leading-tight !mb-3">
-                Get started with science research{" "}
+                Get started with STEM research{" "}
                 <span className="!relative !inline-block !px-1">
                   one day
                   <motion.span
@@ -150,7 +150,7 @@ const Cards = () => {
                 </motion.span>
               </h2>
               <p className="!text-[#a1a1a1] !text-lg !mb-8 !leading-relaxed">
-                Stop wasting your money on scam programmes. Pursue real science
+                Stop wasting your money on scam programmes. Pursue real STEM
                 research, with our guide, for free.
               </p>
               <div
