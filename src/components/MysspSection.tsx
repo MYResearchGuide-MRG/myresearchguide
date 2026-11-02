@@ -10,7 +10,7 @@ export default function MysspSection() {
     <section id="myssp" className={`${geist.className} ${styles.section}`} aria-labelledby="myssp-heading">
       <div className={styles.inner}>
         <h2 id="myssp-heading" className={styles.heading}>
-          Malaysia Science Scholar’s Programme <span>(MYSSP)</span>
+          The Malaysia Science Scholar’s Programme <span>(MYSSP)</span>
         </h2>
         <div className={styles.overview}>
           <div className={styles.copy}>

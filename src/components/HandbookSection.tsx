@@ -97,12 +97,15 @@ export default function HandbookSection() {
       <div className={styles.inner}>
         <header className={styles.heading}>
           <h2 id="handbook-heading">The MYResearchGuide Handbook</h2>
-          <p>A free guide to getting started with STEM research.</p>
         </header>
 
         <div className={styles.showcase}>
           <div className={styles.features}>
             <div className={styles.featureList} aria-label="Explore handbook features">
+              <div className={styles.introduction}>
+                <h3>Malaysia&apos;s 1st Guide to STEM Research</h3>
+                <p>Written and curated by student researchers with years of STEM research experience. Proofread by 10+ experienced Malaysian researchers.</p>
+              </div>
               {features.map((item, index) => {
                 const selected = active === index;
                 return (
@@ -137,7 +140,6 @@ export default function HandbookSection() {
               <a href={HANDBOOK_URL} target="_blank" rel="noopener noreferrer">
                 Browse the full handbook <ArrowUpRight size={16} aria-hidden="true" />
               </a>
-              <p>Proofread by 10+ experienced Malaysian researchers.</p>
             </div>
           </div>
 
