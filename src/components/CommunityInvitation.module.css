@@ -53,7 +53,7 @@
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 .actions svg { flex-shrink: 0; }
-.primary { color: #151515; background: #fff; }
+.primary { composes: light from "./ui/action-motion.module.css"; color: #151515; background: #fff; }
 .primary:hover { color: #151515; background: #e4e4e4; }
 .actions a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 @media (max-width: 1079px) {

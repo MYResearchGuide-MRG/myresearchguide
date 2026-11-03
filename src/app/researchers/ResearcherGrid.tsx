@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import localFont from "next/font/local";
+import actionMotion from "@/components/ui/action-motion.module.css";
 import {
   motion,
   AnimatePresence,
@@ -373,7 +374,7 @@ function SocialIcon({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="!inline-flex !items-center !justify-center !w-9 !h-9 !rounded-lg !bg-zinc-800/70 !border !border-zinc-700 !text-zinc-300 hover:!bg-white hover:!text-black hover:!border-white !transition-colors !no-underline !relative !z-10"
+      className={`${actionMotion.dark} !inline-flex !items-center !justify-center !w-9 !h-9 !rounded-lg !bg-zinc-800/70 !border !border-zinc-700 !text-zinc-300 !no-underline !relative !z-10`}
       onClick={(e) => e.stopPropagation()}
     >
       {children}

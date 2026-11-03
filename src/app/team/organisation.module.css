@@ -906,6 +906,7 @@
   line-height: 1.4;
 }
 
+.profileLink { composes: dark from "../../components/ui/action-motion.module.css"; }
 .profileLinks a {
   display: inline-flex;
   align-items: center;

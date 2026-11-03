@@ -175,6 +175,8 @@
 .actions svg {
   flex-shrink: 0;
 }
+.primary { composes: light from "./ui/action-motion.module.css"; }
+.secondary { composes: dark from "./ui/action-motion.module.css"; }
 .actions .primary {
   background: #fff;
   color: #111;

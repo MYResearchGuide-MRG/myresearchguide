@@ -6,6 +6,7 @@
 .carouselTrack { margin-left: -16px; align-items: stretch; }
 .slide { padding-left: 16px; flex-basis: 33.333333%; }
 .controls { display: flex; flex-shrink: 0; gap: 8px; }
+.control { composes: dark from "../../components/ui/action-motion.module.css"; }
 .carousel .control { position: static; width: 44px; height: 44px; border: 1px solid #333; border-radius: 4px; background: #000; color: #ccc; transform: none; box-shadow: none; transition: border-color 180ms ease, color 180ms ease; }
 .carousel .control:hover { border-color: #888; background: #000; color: #fff; }
 .carousel .control:focus-visible { outline: 2px solid #eee; outline-offset: 3px; }
@@ -37,6 +38,15 @@
 .sponsorCard h3 { font-size: 24px; }
 .sponsorCard p { font-size: 15px; line-height: 1.75; }
 .sponsorCard .visit { align-self: flex-start; }
+.academicHeading { color: #a7c3fa; background: linear-gradient(110deg, #7c9eea, #c2dbff 40%, #89b5ff 70%, #7c9eea); background-size: 220% 100%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.academicCard { display: grid; grid-template-columns: 228px minmax(0, 1fr); align-items: center; gap: 48px; min-height: 0; padding: 36px; text-align: left; border-color: transparent; background: linear-gradient(#000, #000) padding-box, linear-gradient(120deg, #243653, #6d94dd 26%, #1f2b42 48%, #314c78 70%, #9cbef6 88%, #243653) border-box; background-size: 100% 100%, 220% 100%; }
+.academicCard:hover, .academicCard:focus-within { border-color: #6d94dd; }
+.academicLogo { width: 100%; max-width: 228px; }
+.academicLogo img { display: block; width: 100%; height: auto; }
+.academicCopy { min-width: 0; max-width: 680px; }
+.academicCopy h3 { font-size: 24px; }
+.academicCopy p { font-size: 15px; line-height: 1.75; margin-bottom: 16px; }
+.academicCopy .visit { margin-top: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .reveal[data-visible="true"] { animation: section-in 550ms cubic-bezier(.22,.72,.25,1) both; }
   .sponsorHeading { animation: gold-heading 6s ease-in-out infinite alternate; animation-play-state: paused; }
@@ -44,7 +54,12 @@
   .sponsorCard::after { animation: sponsor-glint 5s cubic-bezier(.25,.6,.25,1) infinite; animation-play-state: paused; }
   .sponsorCard:nth-child(2)::after { animation-delay: 800ms; }
   .reveal[data-in-view="true"] .sponsorHeading, .reveal[data-in-view="true"] .sponsorCard, .reveal[data-in-view="true"] .sponsorCard::after { animation-play-state: running; }
+  .academicHeading { animation: academic-heading 8s ease-in-out infinite alternate; animation-play-state: paused; }
+  .academicCard { animation: academic-border 8s ease-in-out infinite alternate; animation-play-state: paused; }
+  .reveal[data-in-view="true"] .academicHeading, .reveal[data-in-view="true"] .academicCard { animation-play-state: running; }
 }
+@keyframes academic-heading { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes academic-border { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 100% 50%; } }
 @keyframes gold-heading { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @keyframes gold-border { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 100% 50%; } }
 @keyframes sponsor-glint { 0% { transform: translateX(0); opacity: 0; } 10%, 45% { opacity: 1; } 60%, 100% { transform: translateX(300%); opacity: 0; } }
@@ -53,6 +68,7 @@
   .slide { flex-basis: 50%; }
   .card { padding: 28px 24px 24px; }
   .sponsorCard { padding: 28px; }
+  .academicCard { gap: 32px; padding: 28px; }
 }
 @media (max-width: 699px) {
   .sponsorGrid { grid-template-columns: minmax(0,1fr); gap: 16px; }
@@ -64,6 +80,10 @@
   .card { min-height: 390px; padding: 28px 22px 22px; }
   .sponsorCard { min-height: 0; padding: 28px 24px; }
   .sponsorCard p { font-size: 14px; }
+  .academicCard { grid-template-columns: minmax(0, 1fr); gap: 28px; min-height: 0; padding: 28px 24px; }
+  .academicLogo { max-width: 192px; }
+  .academicCopy h3 { font-size: 22px; }
+  .academicCopy p { font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .card, .sponsorCard::before, .carousel .control, .visit svg, .visit span::after { transition: none; }

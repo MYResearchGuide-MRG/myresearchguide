@@ -98,6 +98,15 @@ const goldSponsors: Org[] = [
   },
 ];
 
+// Description adapted from UTAR's official introduction: https://utar.edu.my/Introduction.php
+const academicPartner: Org = {
+  name: "Universiti Tunku Abdul Rahman (UTAR)",
+  logo: "/brands/organisations/utar.png",
+  description:
+    "Established in 2002, UTAR is a not-for-profit Malaysian university committed to affordable, quality education. Its programmes span science, engineering, technology, medicine, business and the arts, supported by a commitment to teaching and research.",
+  link: "https://utar.edu.my/",
+};
+
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { once: true, amount: 0.12 });
@@ -229,6 +238,23 @@ export default function PartnersSponsors() {
                 </article>
               ))}
             </div>
+          </section>
+        </Reveal>
+        <Reveal className={styles.section}>
+          <section aria-labelledby="academic-partner-heading">
+            <div className={styles.sectionHeading}>
+              <h2 id="academic-partner-heading" className={styles.academicHeading}>Academic Partner</h2>
+            </div>
+            <article className={`${styles.card} ${styles.academicCard}`}>
+              <div className={styles.academicLogo}>
+                <img src={academicPartner.logo} alt="UTAR logo" width={288} height={137} loading="lazy" decoding="async" />
+              </div>
+              <div className={styles.academicCopy}>
+                <h3>{academicPartner.name}</h3>
+                <p>{academicPartner.description}</p>
+                <VisitLink org={academicPartner} />
+              </div>
+            </article>
           </section>
         </Reveal>
         <Reveal className={styles.section}>

@@ -105,6 +105,8 @@
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 
+.primary { composes: light from "./ui/action-motion.module.css"; }
+.secondary { composes: dark from "./ui/action-motion.module.css"; }
 .primary,
 .primary:hover {
   color: #080808;

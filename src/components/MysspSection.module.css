@@ -8,7 +8,7 @@
 .description, .selection { max-width: 425px; color: #aaa; font-size: 15px; line-height: 1.8; }
 .description { margin: 22px 0 0; }
 .selection { margin: 14px 0 32px; }
-.link { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 44px; padding: 11px 20px; border: 1px solid #eee; border-radius: 4px; background: #eee; color: #111; font-size: 13px; line-height: 20px; text-decoration: none; transition: background 160ms ease; }
+.link { composes: light from "./ui/action-motion.module.css"; display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 44px; padding: 11px 20px; border: 1px solid #eee; border-radius: 4px; background: #eee; color: #111; font-size: 13px; line-height: 20px; text-decoration: none; }
 .link:hover { background: #d4d4d4; }
 .link:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
 @media (max-width: 899px) {

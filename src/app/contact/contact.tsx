@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import localFont from "next/font/local";
 import { motion } from "framer-motion";
 import { Linkedin, Instagram, Mail, ArrowRight } from "lucide-react";
+import actionMotion from "@/components/ui/action-motion.module.css";
 import { FloatingPaths } from "@/components/ui/background-paths";
 import { useHydrationSafeReducedMotion } from "@/components/ui/use-hydration-safe-reduced-motion";
 import styles from "./Contact.module.css";
@@ -234,27 +235,16 @@ export default function VerticalContactSection() {
             </div>
 
             <div className="!flex !items-center !gap-5 !pt-2">
-              <motion.button
+              <button
                 type="submit"
                 disabled={sending}
-                whileHover={
-                  prefersReducedMotion || sending
-                    ? undefined
-                    : { scale: 1.02 }
-                }
-                whileTap={
-                  prefersReducedMotion || sending
-                    ? undefined
-                    : { scale: 0.97 }
-                }
-                className="!group !inline-flex !items-center !gap-2 !bg-white !text-black !px-8 !py-3.5 !rounded-full !font-medium !text-sm !normal-case !tracking-normal !transition-colors hover:!bg-white/90 disabled:!opacity-60 disabled:!cursor-not-allowed"
+                className={`${actionMotion.light} !inline-flex !items-center !gap-2 !bg-white !text-black !px-8 !py-3.5 !rounded-full !font-medium !text-sm !normal-case !tracking-normal disabled:!opacity-60 disabled:!cursor-not-allowed`}
               >
                 {status && status !== "Sending..." ? status : "Send message"}
                 <ArrowRight
                   size={16}
-                  className="!transition-transform !duration-200 group-hover:!translate-x-1"
                 />
-              </motion.button>
+              </button>
               {sending && (
                 <span className="!text-white/50 !text-sm">Sending…</span>
               )}

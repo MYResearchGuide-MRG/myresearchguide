@@ -71,9 +71,9 @@
 .actions a { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 44px; padding: 11px 14px; border: 1px solid #414141; border-radius: 4px; font-size: 13px; line-height: 20px; text-decoration: none; }
 .actions a > span { min-width: 0; text-align: center; }
 .actions svg { flex-shrink: 0; }
-.primary { color: #111; background: #f5f5f5; }
+.primary { composes: light from "./ui/action-motion.module.css"; color: #111; background: #f5f5f5; }
 .primary:hover { color: #111; background: #dedede; }
-.secondary { color: #eee; background: #101010; }
+.secondary { composes: dark from "./ui/action-motion.module.css"; color: #eee; background: #101010; }
 .secondary:hover { color: #fff; border-color: #888; }
 .actions a:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
 .figure {

@@ -550,7 +550,7 @@ function ProfileDrawer({ person, onClose }) {
             <h3 id={`${profileTitleId}-links`}>Links</h3>
             <div className={styles.profileLinks}>
               {person.links.map((link) => (
-                <a key={link.url} href={link.url} target="_blank" rel="noreferrer">
+                <a key={link.url} className={styles.profileLink} href={link.url} target="_blank" rel="noreferrer">
                   {link.label === "LinkedIn" ? <Linkedin size={16} aria-hidden="true" /> : <ExternalLink size={16} aria-hidden="true" />}
                   {link.label}
                 </a>

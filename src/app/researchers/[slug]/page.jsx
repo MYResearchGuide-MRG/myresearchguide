@@ -15,6 +15,7 @@ import { isCompleted, slugify } from "@/data/researchers";
 import { fetchPublicResearchers } from "@/lib/researchers-db";
 import { transcripts } from "@/data/transcripts";
 import UniLogoStack from "@/components/UniLogoStack";
+import actionMotion from "@/components/ui/action-motion.module.css";
 
 // Profile data is DB-backed now, so pages are rendered per-request.
 export const dynamic = "force-dynamic";
@@ -147,7 +148,7 @@ export default async function ResearcherDetail({ params }) {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${r.name} on ${s.label}`}
-                          className="!flex !items-center !justify-center !w-9 !h-9 !bg-zinc-950/60 !border !border-zinc-800 !text-zinc-300 !rounded-lg hover:!bg-white hover:!text-black !transition-colors !no-underline"
+                          className={`${actionMotion.dark} !flex !items-center !justify-center !w-9 !h-9 !bg-zinc-950/60 !border !border-zinc-800 !text-zinc-300 !rounded-lg !no-underline`}
                         >
                           <Icon size={16} />
                         </a>

@@ -137,7 +137,7 @@ export default function HandbookSection() {
             </div>
 
             <div className={styles.access}>
-              <a href={HANDBOOK_URL} target="_blank" rel="noopener noreferrer">
+              <a className={styles.fullHandbook} href={HANDBOOK_URL} target="_blank" rel="noopener noreferrer">
                 Browse the full handbook <ArrowUpRight size={16} aria-hidden="true" />
               </a>
             </div>
