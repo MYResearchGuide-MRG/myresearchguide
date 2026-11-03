@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Geist } from "next/font/google";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Play } from "lucide-react";
 import { HANDBOOK_URL, handbookGroups } from "@/data/handbook-preview";
 import { useHydrationSafeReducedMotion } from "./ui/use-hydration-safe-reduced-motion";
 import styles from "./HandbookSection.module.css";
@@ -34,8 +34,10 @@ export default function HandbookSection() {
   const [hasEntered, setHasEntered] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
   const [ready, setReady] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const [mediaError, setMediaError] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const filmRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
   const featureRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -48,16 +50,21 @@ export default function HandbookSection() {
     const section = sectionRef.current;
     if (!section) return;
     const observer = new IntersectionObserver(([entry]) => {
-      const visible = entry.isIntersecting && entry.intersectionRatio >= 0.15;
-      setInView(visible);
       if (entry.isIntersecting) setHasEntered(true);
-    }, { threshold: [0, 0.15] });
+    });
     observer.observe(section);
+    // On mobile the video sits below the chapter list. Start it when the
+    // video itself is visible, rather than while the visitor reads the list.
+    const filmObserver = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting && entry.intersectionRatio >= 0.15);
+    }, { threshold: [0, 0.15] });
+    if (filmRef.current) filmObserver.observe(filmRef.current);
     const updateVisibility = () => setPageVisible(!document.hidden);
     updateVisibility();
     document.addEventListener("visibilitychange", updateVisibility);
     return () => {
       observer.disconnect();
+      filmObserver.disconnect();
       document.removeEventListener("visibilitychange", updateVisibility);
     };
   }, []);
@@ -65,17 +72,34 @@ export default function HandbookSection() {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+    let cancelled = false;
     if (shouldPlay) {
-      // The still preview remains available when autoplay is blocked.
-      void video.play().catch(() => {});
+      video.muted = true;
+      void video.play().catch(error => {
+        // Switching chapters or leaving the viewport can interrupt play().
+        // A denied autoplay request needs a real user-initiated retry.
+        if (!cancelled && error.name !== "AbortError") setAutoplayBlocked(true);
+      });
     } else {
       video.pause();
     }
+    return () => { cancelled = true; };
   }, [shouldPlay, active, hasEntered]);
+
+  function playPreview() {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    // Call directly from the click so Safari retains the user gesture.
+    void video.play().catch(error => {
+      if (videoRef.current === video && error.name !== "AbortError") setAutoplayBlocked(true);
+    });
+  }
 
   function selectFeature(index: number) {
     if (index === active) return;
     setReady(false);
+    setAutoplayBlocked(false);
     setMediaError(false);
     setActive(index);
   }
@@ -145,19 +169,39 @@ export default function HandbookSection() {
 
           <div className={styles.demo}>
             <div className={styles.window}>
-              <div className={styles.film}>
+              <div ref={filmRef} className={styles.film}>
+                {/* An independent image stays visible even when Safari clears
+                    the native poster after rejecting a play() request. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  key={`${feature.id}-poster`}
+                  className={styles.poster}
+                  src={`/media/handbook/${feature.id}.webp`}
+                  alt={`Preview of ${chapter.title} in the research handbook`}
+                  aria-hidden={ready && !mediaError}
+                  width={760}
+                  height={560}
+                  loading="lazy"
+                  decoding="async"
+                />
                 <video
                   key={feature.id}
                   ref={videoRef}
                   className={styles.video}
-                  data-ready={ready}
+                  data-ready={ready && !mediaError}
                   src={hasEntered ? `/media/handbook/${feature.id}.mp4` : undefined}
                   poster={`/media/handbook/${feature.id}.webp`}
                   preload="metadata"
                   muted
                   playsInline
                   aria-label={`Silent walkthrough of ${chapter.title} in the MYResearchGuide Notion handbook`}
-                  onLoadedData={() => setReady(true)}
+                  onPlaying={() => {
+                    setReady(true);
+                    setAutoplayBlocked(false);
+                  }}
+                  onPause={() => {
+                    if (shouldPlay && !videoRef.current?.ended) setAutoplayBlocked(true);
+                  }}
                   onTimeUpdate={event => {
                     const video = event.currentTarget;
                     if (progressRef.current && video.duration) {
@@ -169,6 +213,11 @@ export default function HandbookSection() {
                   }}
                   onError={() => setMediaError(true)}
                 />
+                {autoplayBlocked && !mediaError ? (
+                  <button type="button" className={styles.playPreview} onClick={playPreview}>
+                    <Play size={16} aria-hidden="true" /> Play preview
+                  </button>
+                ) : null}
                 {mediaError ? (
                   <a className={styles.mediaFallback} href={chapter.url} target="_blank" rel="noopener noreferrer">
                     Read this chapter on Notion <ArrowUpRight size={16} aria-hidden="true" />

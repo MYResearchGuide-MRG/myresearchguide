@@ -12,8 +12,11 @@ shown inside the videos are the actual handbook pages.
 
 Each WebP is the matching first-frame poster. MP4s are H.264, 760 × 560,
 30 fps, without audio, with fast-start metadata. Only the selected video is
-loaded once the section enters the viewport. Playback pauses offscreen or in a
-hidden tab; reduced-motion visitors see the poster. Visible playback controls were removed at the site owner's request.
+loaded once the section enters the viewport. Playback starts when the video itself
+is visible and pauses offscreen or in a hidden tab; reduced-motion visitors see
+the poster. An independent poster image remains visible until playback starts.
+Normal autoplay has no controls; if the browser blocks playback (for example,
+iPhone Low Power Mode), a Play preview button allows a user-initiated retry.
 
 Refresh these recordings if the corresponding Notion chapters change.
 The earlier `gif2.mp4`, `gif5.mp4` and `HandbookPreview.tsx` remain intact.
