@@ -48,15 +48,12 @@ export default function VerticalContactSection() {
       message: formData.get("message"), // matches <textarea name="message" />
     };
 
-    // Debugging: Check your browser console to see if this is null!
-    console.log("Payload being sent:", payload);
-
-    const response = await fetch("/api/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
     try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
       if (response.ok) {
         setStatus("Message Sent!");
         (e.target as HTMLFormElement).reset(); // Clear form
