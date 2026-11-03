@@ -110,7 +110,7 @@ export default async function ResearcherDetail({ params }) {
           </Link>
 
           {/* Hero */}
-          <div className="!mb-10 !rounded-3xl !border !border-zinc-800 !bg-zinc-900/40 !p-6 sm:!p-8">
+          <div className="!mb-10 !rounded-3xl !border !border-zinc-800 !bg-black !p-6 sm:!p-8">
             <div className="!flex !flex-col sm:!flex-row !items-center sm:!items-start !gap-5 sm:!gap-7">
               <div className="!relative !shrink-0">
                 <div className="!w-28 !h-28 sm:!w-32 sm:!h-32 !rounded-full !overflow-hidden !border-4 !border-zinc-800 !flex !items-center !justify-center !bg-zinc-800">

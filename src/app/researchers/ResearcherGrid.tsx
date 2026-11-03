@@ -183,7 +183,7 @@ export default function ResearcherGrid({
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by name, university, or field…"
               aria-label="Search researchers"
-              className="!w-full !bg-zinc-900 !text-zinc-100 !border !border-zinc-800 !rounded-xl !pl-11 !pr-4 !py-3 !text-sm !outline-none focus:!border-white/40 focus:!bg-zinc-900/80 !transition-colors !placeholder-zinc-500"
+              className="!w-full !bg-black !text-zinc-100 !border !border-zinc-800 !rounded-xl !pl-11 !pr-4 !py-3 !text-sm !outline-none focus:!border-white/40 !transition-colors !placeholder-zinc-500"
             />
           </div>
 

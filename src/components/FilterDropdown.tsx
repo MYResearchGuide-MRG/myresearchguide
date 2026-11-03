@@ -54,7 +54,7 @@ export default function FilterDropdown({
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="!flex !items-center !gap-2 !w-full lg:!w-56 !bg-zinc-900 !text-zinc-200 !border !border-zinc-800 !rounded-xl !px-3.5 !py-3 !text-sm !outline-none hover:!border-zinc-600 focus:!border-white/40 !transition-colors"
+        className="!flex !items-center !gap-2 !w-full lg:!w-56 !bg-black !text-zinc-200 !border !border-zinc-800 !rounded-xl !px-3.5 !py-3 !text-sm !outline-none hover:!border-zinc-600 focus:!border-white/40 !transition-colors"
       >
         {icon ? <span className="!text-zinc-500 !shrink-0">{icon}</span> : null}
         {selected?.logo ? (
@@ -77,7 +77,7 @@ export default function FilterDropdown({
       {open ? (
         <ul
           role="listbox"
-          className="!absolute !z-50 !mt-2 !w-full !max-h-72 !overflow-auto !bg-zinc-900 !border !border-zinc-800 !rounded-xl !p-1.5 !shadow-2xl !shadow-black/60"
+          className="!absolute !z-50 !mt-2 !w-full !max-h-72 !overflow-auto !bg-black !border !border-zinc-800 !rounded-xl !p-1.5 !shadow-2xl !shadow-black/60"
         >
           {options.map((o) => {
             const active = o.value === value;

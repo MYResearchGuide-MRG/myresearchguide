@@ -43,10 +43,10 @@ export default function UniMarquee({
               type="button"
               onClick={() => onSelect?.(it.name)}
               aria-label={`Filter by ${uniShort(it.name)}`}
-              className={`!flex !items-center !gap-2.5 !border !rounded-full !pl-1.5 !pr-4 !py-1.5 !shrink-0 !cursor-pointer !transition-all ${
+              className={`!flex !items-center !gap-2.5 !bg-black !border !rounded-full !pl-1.5 !pr-4 !py-1.5 !shrink-0 !cursor-pointer !transition-all ${
                 active
-                  ? "!bg-white/10 !border-white/40 !opacity-100"
-                  : "!bg-zinc-900/60 !border-zinc-800/80 !opacity-70 hover:!opacity-100 hover:!border-zinc-600"
+                  ? "!border-white/40"
+                  : "!border-zinc-800/80 hover:!border-zinc-600"
               }`}
             >
               <UniLogo name={it.name} size={32} />

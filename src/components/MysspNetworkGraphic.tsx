@@ -5,16 +5,32 @@ import { useEffect, useId, useRef } from "react";
 import { useHydrationSafeReducedMotion } from "./ui/use-hydration-safe-reduced-motion";
 import styles from "./MysspNetworkGraphic.module.css";
 
-// Abstract nodes, independent of the programme's people or projects.
+// The six MYSSP research tracks, drawn as small pixel instruments.
 const NODES = [
-  { x: .22, y: .19, radius: 19, phase: .2 },
-  { x: .65, y: .14, radius: 14, phase: 1.8 },
-  { x: .85, y: .37, radius: 22, phase: 3.4 },
-  { x: .76, y: .76, radius: 17, phase: 4.9 },
-  { x: .39, y: .85, radius: 12, phase: 2.3 },
-  { x: .13, y: .64, radius: 23, phase: 5.6 },
-];
+  { x: .23, y: .17, phase: .2, name: "AI & computer sciences", label: ["AI & computer", "sciences"],
+    pixels: ["001010100", "011111110", "110000011", "010111010", "110101011", "010111010", "110000011", "011111110", "001010100"] },
+  { x: .73, y: .16, phase: 1.8, name: "Mathematics", label: ["Mathematics"],
+    pixels: ["011111110", "010000010", "001000000", "000100000", "000010000", "000100000", "001000000", "010000010", "011111110"] },
+  { x: .82, y: .47, phase: 3.4, name: "Physics", label: ["Physics"],
+    pixels: ["001000100", "010101010", "010010010", "101000101", "100010001", "101000101", "010010010", "010101010", "001000100"] },
+  { x: .73, y: .77, phase: 4.9, name: "Interdisciplinary & social sciences", label: ["Interdisciplinary", "& social sciences"],
+    pixels: ["000111000", "000111000", "000010000", "000010000", "011111110", "010010010", "010010010", "111010111", "111000111"] },
+  { x: .25, y: .77, phase: 2.3, name: "Chemistry", label: ["Chemistry"],
+    pixels: ["000111000", "000101000", "000101000", "000101000", "001000100", "001110100", "010101010", "010000010", "011111110"] },
+  { x: .17, y: .47, phase: 5.6, name: "Biology", label: ["Biology"],
+    pixels: ["010000010", "011111110", "001000100", "000101000", "000010000", "000101000", "001000100", "011111110", "010000010"] },
+].map(({ pixels, ...node }) => ({
+  ...node,
+  pixels: pixels.flatMap((row, y) => [...row].flatMap((pixel, x) => pixel === "1" ? [{ x, y }] : [])),
+}));
 type Point = { x: number; y: number };
+const INITIAL_RADII = [23, 18, 32, 27, 20, 30];
+
+function nextRadius(current: number) {
+  const target = 18 + Math.random() * 16;
+  return Math.abs(target - current) >= 5 ? target : current < 26 ? 34 : 18;
+}
+
 function curvePoint(start: Point, bend: Point, end: Point, t: number) {
   const q = 1 - t;
   return { x: q * q * start.x + 2 * q * t * bend.x + t * t * end.x,
@@ -37,27 +53,44 @@ export default function MysspNetworkGraphic() {
     let visible = false;
     let field: { x: number; y: number; wave: number; falloff: number }[] = [];
     const offsets = NODES.map(() => ({ x: 0, y: 0, releaseAt: 0 }));
+    const sizes = INITIAL_RADII.map(radius => ({
+      radius, from: radius, to: nextRadius(radius), progress: 0,
+      duration: 3600 + Math.random() * 2000,
+    }));
     let positions: Point[] = [];
     let pointer: Point | null = null;
-    let hovered = -1, focused = -1;
+    let focused = -1, touchSelected = -1;
     let drag: { index: number; pointerId: number; dx: number; dy: number } | null = null;
     let pulse = { index: -1, started: 0 };
+
+    function isActive(index: number) {
+      return index === drag?.index || index === focused || index === touchSelected || Boolean(nodeRefs.current[index]?.matches(":hover"));
+    }
+
+    function nodeRadius(index: number) {
+      return sizes[index].radius * Math.min(1, Math.max(.8, width / 480));
+    }
+
+    function constrainPosition(x: number, y: number) {
+      // Reserve room for the labels, including while a node is being dragged.
+      return { x: Math.max(68, Math.min(width - 68, x)), y: Math.max(44, Math.min(height - 116, y)) };
+    }
 
     function basePosition(index: number) {
       const node = NODES[index];
       const scale = Math.min(width / 600, height / 460);
       const t = elapsed / 1000;
-      return {
-        x: node.x * width + Math.sin(t * .44 + node.phase) * 11 * scale,
-        y: node.y * height + Math.cos(t * .36 + node.phase) * 12 * scale,
-      };
+      return constrainPosition(
+        node.x * width + Math.sin(t * .44 + node.phase) * 8 * scale,
+        node.y * height + Math.cos(t * .36 + node.phase) * 8 * scale,
+      );
     }
 
     function moveNode(index: number, x: number, y: number) {
       const base = basePosition(index);
-      const inset = Math.max(26, NODES[index].radius * Math.min(width / 600, height / 460) + 10);
-      offsets[index].x = (Math.max(inset, Math.min(width - inset, x)) - base.x) / width;
-      offsets[index].y = (Math.max(inset, Math.min(height - 36, y)) - base.y) / height;
+      const bounded = constrainPosition(x, y);
+      offsets[index].x = (bounded.x - base.x) / width;
+      offsets[index].y = (bounded.y - base.y) / height;
     }
 
     function paint() {
@@ -77,12 +110,13 @@ export default function MysspNetworkGraphic() {
       }
       const nodes = NODES.map((_, index) => {
         const base = basePosition(index);
-        const node = { x: base.x + offsets[index].x * width, y: base.y + offsets[index].y * height };
+        const node = constrainPosition(base.x + offsets[index].x * width, base.y + offsets[index].y * height);
         const control = nodeRefs.current[index];
         if (control) {
           control.style.left = `${node.x}px`;
           control.style.top = `${node.y}px`;
-          control.style.width = control.style.height = `${Math.max(44, (NODES[index].radius + 8) * scale * 2)}px`;
+          control.style.width = control.style.height = `${Math.max(44, (nodeRadius(index) + 6) * 2)}px`;
+          control.dataset.active = String(isActive(index));
         }
         return node;
       });
@@ -91,7 +125,7 @@ export default function MysspNetworkGraphic() {
       function connection(start: Point, end: Point, bend: Point, index: number, secondary = false) {
         if (!ctx) return;
         const steps = Math.ceil(Math.hypot(end.x - start.x, end.y - start.y) / 4);
-        const active = index === drag?.index || index === hovered || index === focused;
+        const active = isActive(index);
         ctx.fillStyle = secondary ? "#4b4b4b" : active ? "#eee" : "#949494";
         for (let step = 0; step <= steps; step++) {
           const p = curvePoint(start, bend, end, step / steps);
@@ -115,15 +149,15 @@ export default function MysspNetworkGraphic() {
       });
 
       nodes.forEach((node, index) => {
-        const radius = NODES[index].radius * scale;
-        const active = index === drag?.index || index === hovered || index === focused;
+        const radius = nodeRadius(index);
+        const active = isActive(index);
         ctx.fillStyle = "#000";
         ctx.beginPath();
         ctx.arc(node.x, node.y, radius + 4, 0, Math.PI * 2);
         ctx.fill();
         // Concentric pixel rings keep the objects distinct from UI buttons.
         for (let ring = 0; ring < 2; ring++) {
-          const r = radius + ring * 5 * scale;
+          const r = radius + ring * 5;
           const count = Math.max(12, Math.round(2 * Math.PI * r / 4));
           ctx.fillStyle = ring === 0 ? active ? "#fff" : "#c6c6c6" : active ? "#aaa" : "#555";
           for (let dot = 0; dot < count; dot++) {
@@ -131,9 +165,11 @@ export default function MysspNetworkGraphic() {
             ctx.fillRect(Math.round(node.x + Math.cos(angle) * r), Math.round(node.y + Math.sin(angle) * r), 1.6, 1.6);
           }
         }
-        ctx.fillStyle = "#ddd";
-        const core = Math.max(4, 6 * scale);
-        ctx.fillRect(Math.round(node.x - core / 2), Math.round(node.y - core / 2), core, core);
+        ctx.fillStyle = active ? "#fff" : "#ddd";
+        const iconScale = radius / 25;
+        NODES[index].pixels.forEach(pixel => {
+          ctx.fillRect(node.x + (pixel.x - 4) * 2.5 * iconScale - iconScale, node.y + (pixel.y - 4) * 2.5 * iconScale - iconScale, 1.8 * iconScale, 1.8 * iconScale);
+        });
         const pulseAge = (performance.now() - pulse.started) / 650;
         if (!reducedMotion && pulse.index === index && pulseAge < 1) {
           const r = radius + 8 + pulseAge * 22;
@@ -158,6 +194,19 @@ export default function MysspNetworkGraphic() {
       if (now - last >= 1000 / 30) {
         const dt = Math.min(now - last, 80);
         if (!drag) elapsed += dt;
+        sizes.forEach((size, index) => {
+          // Keep the target steady under a pointer or keyboard focus.
+          if (isActive(index)) return;
+          size.progress = Math.min(1, size.progress + dt / size.duration);
+          const eased = size.progress * size.progress * (3 - 2 * size.progress);
+          size.radius = size.from + (size.to - size.from) * eased;
+          if (size.progress === 1) {
+            size.from = size.radius;
+            size.to = nextRadius(size.radius);
+            size.progress = 0;
+            size.duration = 3600 + Math.random() * 2000;
+          }
+        });
         offsets.forEach((offset, index) => {
           if (drag?.index === index || now < offset.releaseAt) return;
           const decay = Math.exp(-dt / 420);
@@ -188,13 +237,18 @@ export default function MysspNetworkGraphic() {
     }
     function pointerDown(event: PointerEvent) {
       const index = nodeIndex(event.target);
-      if (index < 0 || drag || !event.isPrimary || event.button !== 0 || !positions[index]) return;
+      if (drag || !event.isPrimary || event.button !== 0) return;
+      touchSelected = -1;
+      focused = -1;
+      if (index < 0 || !positions[index]) { paint(); return; }
       const p = localPoint(event);
       drag = { index, pointerId: event.pointerId, dx: p.x - positions[index].x, dy: p.y - positions[index].y };
       pointer = p;
       pulse = { index, started: performance.now() };
       host!.dataset.dragging = "true";
       nodeRefs.current[index]?.focus({ preventScroll: true });
+      focused = -1;
+      touchSelected = event.pointerType === "touch" ? index : -1;
       host!.setPointerCapture(event.pointerId);
       event.preventDefault();
       paint();
@@ -203,7 +257,6 @@ export default function MysspNetworkGraphic() {
       if (drag && event.pointerId !== drag.pointerId) return;
       const p = localPoint(event);
       pointer = event.pointerType === "touch" && !drag ? null : p;
-      hovered = drag?.index ?? nodeIndex(event.target);
       if (drag) {
         moveNode(drag.index, p.x - drag.dx, p.y - drag.dy);
         event.preventDefault();
@@ -219,7 +272,6 @@ export default function MysspNetworkGraphic() {
       delete host!.dataset.dragging;
       if (host!.hasPointerCapture(pointerId)) host!.releasePointerCapture(pointerId);
       pointer = null;
-      hovered = -1;
       paint();
     }
     function pointerUp(event: PointerEvent) {
@@ -228,20 +280,30 @@ export default function MysspNetworkGraphic() {
     function pointerLeave() {
       if (drag) return;
       pointer = null;
-      hovered = -1;
       paint();
     }
-    function focusIn(event: FocusEvent) { focused = nodeIndex(event.target); paint(); }
-    function focusOut() { focused = -1; paint(); }
+    function focusIn(event: FocusEvent) {
+      focused = event.target instanceof Element && event.target.matches(":focus-visible") ? nodeIndex(event.target) : -1;
+      paint();
+    }
+    function focusOut() { focused = -1; touchSelected = -1; paint(); }
+    function outsidePointerDown(event: PointerEvent) {
+      if (event.target instanceof Node && !host!.contains(event.target)) {
+        touchSelected = -1;
+        paint();
+      }
+    }
     function activate(event: MouseEvent) {
       const index = nodeIndex(event.target);
       if (index < 0) return;
+      if (event.detail === 0) focused = index;
       pulse = { index, started: performance.now() };
       paint();
     }
     function keyDown(event: KeyboardEvent) {
       const index = nodeIndex(event.target);
       if (index < 0) return;
+      focused = index;
       if (event.key === "Escape") {
         releaseDrag();
         offsets.forEach(offset => { offset.x = 0; offset.y = 0; offset.releaseAt = 0; });
@@ -297,6 +359,7 @@ export default function MysspNetworkGraphic() {
     host.addEventListener("click", activate);
     window.addEventListener("blur", releaseDrag);
     document.addEventListener("visibilitychange", visibilityChange);
+    document.addEventListener("pointerdown", outsidePointerDown);
     return () => {
       cancelAnimationFrame(frame);
       resize.disconnect();
@@ -314,18 +377,23 @@ export default function MysspNetworkGraphic() {
       host.removeEventListener("click", activate);
       window.removeEventListener("blur", releaseDrag);
       document.removeEventListener("visibilitychange", visibilityChange);
+      document.removeEventListener("pointerdown", outsidePointerDown);
     };
   }, [reducedMotion]);
 
   return (
-    <div ref={hostRef} className={styles.graphic} role="group" aria-label="Interactive MYSSP graph" aria-describedby={helpId}>
+    <div ref={hostRef} className={styles.graphic} role="group" aria-label="MYSSP research fields. Interactive graph" aria-describedby={helpId}>
       <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
       <img src="/brands/myssp-mark.png" className={styles.mark} alt="" width="392" height="431" loading="lazy" />
       {NODES.map((node, index) => (
-        <button key={index} ref={element => { nodeRefs.current[index] = element; }}
+        <button key={node.name} ref={element => { nodeRefs.current[index] = element; }}
           type="button" className={styles.node} data-network-node={index}
           style={{ left: `${node.x * 100}%`, top: `${node.y * 100}%` }}
-          aria-label={`Move graph node ${index + 1}`} aria-describedby={helpId} />
+          aria-label={`Move ${node.name} node`} aria-describedby={helpId}>
+          <span className={styles.label} aria-hidden="true">
+            {node.label.map(line => <span key={line}>{line}</span>)}
+          </span>
+        </button>
       ))}
       <span className={styles.hint} aria-hidden="true">Drag the nodes to explore</span>
       <span id={helpId} className={styles.srOnly}>Drag a node, or focus it and use the arrow keys to move it. Press Escape to reset the graph.</span>

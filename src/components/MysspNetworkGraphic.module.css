@@ -1,10 +1,15 @@
 .graphic { position: relative; width: 100%; min-width: 0; min-height: 460px; isolation: isolate; overflow: hidden; touch-action: pan-y; }
 .canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .mark { position: absolute; top: 50%; left: 50%; width: 74px; height: auto; transform: translate(-50%, -50%); filter: grayscale(1); pointer-events: none; user-select: none; }
-.node { position: absolute; z-index: 1; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: transparent; transform: translate(-50%, -50%); touch-action: none; user-select: none; cursor: grab; -webkit-tap-highlight-color: transparent; }
+.node { position: absolute; z-index: 1; width: 60px; height: 60px; padding: 0; border: 0; border-radius: 50%; background: transparent; transform: translate(-50%, -50%); touch-action: none; user-select: none; cursor: grab; -webkit-tap-highlight-color: transparent; }
+.label { position: absolute; top: calc(100% + 6px); left: 50%; width: 126px; padding: 2px 3px; transform: translate(-50%, -3px); border-radius: 2px; background: #000; color: #eee; font-family: inherit; font-size: 12px; font-weight: 400; line-height: 1.35; text-align: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease; }
+.label span { display: block; }
+.node[data-active="true"] { z-index: 2; }
+.node[data-active="true"] .label { opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0); }
 .node:focus-visible { outline: 1px dashed #eee; outline-offset: 4px; }
 .graphic[data-dragging="true"], .graphic[data-dragging="true"] .node { cursor: grabbing; }
 .hint { position: absolute; bottom: 15px; left: 0; width: 100%; color: #888; font-size: 11px; line-height: 16px; text-align: center; pointer-events: none; }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 899px) { .graphic { min-height: 420px; max-width: 640px; justify-self: center; } }
-@media (max-width: 599px) { .graphic { min-height: 340px; } .mark { width: 58px; } }
+@media (max-width: 599px) { .graphic { min-height: 390px; } .mark { width: 58px; } .label { font-size: 11px; } }
+@media (prefers-reduced-motion: reduce) { .label { transition: none; } }

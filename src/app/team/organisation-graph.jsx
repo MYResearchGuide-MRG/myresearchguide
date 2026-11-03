@@ -236,7 +236,9 @@ function MemberRow({ person, departmentId, onSelect, isLead }) {
       <Avatar person={person} size="member" />
       <span className={styles.memberRowCopy}>
         <span className={styles.memberRowName}>{person.name}</span>
-        <span className={styles.memberRowTitle}>{person.title}</span>
+        <span className={styles.memberRowTitle}>
+          {departmentNames.get(departmentId)} {isLead ? "Director" : "Member"}
+        </span>
       </span>
       {otherDepartments.length > 0 ? (
         <span className={styles.memberRowAffiliations}>{otherDepartments.join(" / ")}</span>
@@ -285,13 +287,13 @@ function DepartmentExpansion({ department, peopleById, onSelect, mobile = false,
         <span className={styles.expansionCount}>{departmentPeople.length} {departmentPeople.length === 1 ? "person" : "people"}</span>
       </div>
       <div className={styles.memberList}>
-        {departmentPeople.map((person, index) => (
+        {departmentPeople.map((person) => (
           <MemberRow
             key={person.id}
             person={person}
             departmentId={department.id}
             onSelect={onSelect}
-            isLead={index === 0 && person.tier === "director"}
+            isLead={person.id === department.directorId}
           />
         ))}
       </div>
@@ -430,7 +432,7 @@ function DepartmentDrawer({ department, peopleById, onSelectPerson, onClose, red
                 person={person}
                 departmentId={department.id}
                 onSelect={onSelectPerson}
-                isLead={index === 0 && person.tier === "director"}
+                isLead={person.id === department.directorId}
               />
             </motion.div>
           ))}

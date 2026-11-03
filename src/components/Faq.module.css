@@ -30,7 +30,7 @@
 .item + .item { border-top: 1px solid #292929; }
 .item:first-child { border-radius: 4px 4px 0 0; }
 .item:last-child { border-radius: 0 0 4px 4px; }
-.item[data-state="open"] { background: #050505; }
+.item[data-state="open"] { background: var(--card-background); }
 .itemHeading { margin: 0; font: inherit; }
 .trigger {
   display: flex;

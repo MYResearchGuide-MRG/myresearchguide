@@ -27,14 +27,27 @@
 .visit:hover svg, .visit:focus-visible svg { transform: translate(2px,-2px); }
 .visit:focus-visible { outline: 2px solid #eee; outline-offset: 5px; border-radius: 2px; }
 .sponsorGrid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; align-items: stretch; }
-.sponsorCard { align-items: flex-start; min-height: 0; padding: 36px; text-align: left; }
+.sponsorHeading { color: #e3c899; background: linear-gradient(110deg, #c39442 0%, #f2d998 22%, #fff0c7 38%, #d6aa59 56%, #f4dda2 75%, #c39442 100%); background-size: 250% 100%; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.sponsorCard { position: relative; isolation: isolate; overflow: hidden; align-items: flex-start; min-height: 0; padding: 36px; border-color: transparent; background: linear-gradient(#000, #000) padding-box, linear-gradient(125deg, #796441, #d6b775 24%, #302b23 44%, #403627 64%, #e6cd96 82%, #796441) border-box; background-size: 100% 100%, 250% 100%; text-align: left; }
+.sponsorCard:hover, .sponsorCard:focus-within { border-color: transparent; }
+.sponsorCard::before { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px #d5b77d; opacity: 0; pointer-events: none; transition: opacity 350ms ease; }
+.sponsorCard:hover::before, .sponsorCard:focus-within::before { opacity: .55; }
+.sponsorCard::after { content: ""; position: absolute; top: 0; left: -50%; width: 50%; height: 1px; background: linear-gradient(90deg, transparent, #f4dfad, transparent); pointer-events: none; }
 .sponsorLogo { width: 180px; height: 96px; padding: 16px; border-radius: 4px; margin-bottom: 28px; }
 .sponsorCard h3 { font-size: 24px; }
 .sponsorCard p { font-size: 15px; line-height: 1.75; }
 .sponsorCard .visit { align-self: flex-start; }
 @media (prefers-reduced-motion: no-preference) {
   .reveal[data-visible="true"] { animation: section-in 550ms cubic-bezier(.22,.72,.25,1) both; }
+  .sponsorHeading { animation: gold-heading 6s ease-in-out infinite alternate; animation-play-state: paused; }
+  .sponsorCard { animation: gold-border 6s ease-in-out infinite alternate; animation-play-state: paused; }
+  .sponsorCard::after { animation: sponsor-glint 5s cubic-bezier(.25,.6,.25,1) infinite; animation-play-state: paused; }
+  .sponsorCard:nth-child(2)::after { animation-delay: 800ms; }
+  .reveal[data-in-view="true"] .sponsorHeading, .reveal[data-in-view="true"] .sponsorCard, .reveal[data-in-view="true"] .sponsorCard::after { animation-play-state: running; }
 }
+@keyframes gold-heading { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+@keyframes gold-border { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 100% 50%; } }
+@keyframes sponsor-glint { 0% { transform: translateX(0); opacity: 0; } 10%, 45% { opacity: 1; } 60%, 100% { transform: translateX(300%); opacity: 0; } }
 @keyframes section-in { from { opacity: .55; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (max-width: 1079px) {
   .slide { flex-basis: 50%; }
@@ -53,5 +66,5 @@
   .sponsorCard p { font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .carousel .control, .visit svg, .visit span::after { transition: none; }
+  .card, .sponsorCard::before, .carousel .control, .visit svg, .visit span::after { transition: none; }
 }

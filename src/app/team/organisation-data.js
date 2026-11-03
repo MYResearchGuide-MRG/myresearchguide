@@ -2,7 +2,7 @@ export const people = [
   {
     id: "dun-li-chan",
     name: "Dun Li Chan",
-    title: "Founder of MYResearchGuide",
+    title: "Founder (Guide Advisor)",
     tier: "executive",
     departments: [],
     image: "/profile/team/dun-li-chan.jpg",
@@ -21,7 +21,7 @@ export const people = [
   {
     id: "hazel-lim",
     name: "Hazel Lim",
-    title: "Co-Founder & Executive Director",
+    title: "Executive Director",
     tier: "executive",
     departments: [],
     image: "/profile/hazel.jpeg",
@@ -31,26 +31,6 @@ export const people = [
         url: "https://www.linkedin.com/in/hazel-lim-81741b393/",
       },
     ],
-  },
-  {
-    id: "moses-lua",
-    name: "Moses Lua",
-    title: "Tech Director",
-    tier: "director",
-    departments: ["tech"],
-    image: "/profile/anonymous.svg",
-    links: [
-      { label: "LinkedIn", url: "https://www.linkedin.com/in/moseslua/" },
-      { label: "GitHub", url: "https://github.com/moseslua" },
-    ],
-  },
-  {
-    id: "robyn-chin",
-    name: "Robyn Chin",
-    title: "Media & Marketing Director",
-    tier: "director",
-    departments: ["media"],
-    image: "/profile/team/robyn.jpg",
   },
   {
     id: "yan-he-tan",
@@ -92,20 +72,6 @@ export const people = [
     ],
   },
   {
-    id: "kee-chee-peng",
-    name: "Kee Chee Peng",
-    title: "Tech Member",
-    tier: "member",
-    departments: ["tech"],
-    image: "/profile/team/kee-chee-peng.jpeg",
-    links: [
-      {
-        label: "LinkedIn",
-        url: "https://www.linkedin.com/in/chee-pheng-kee-5614301a2",
-      },
-    ],
-  },
-  {
     id: "ernest-tan-yong-xin",
     name: "Ernest Tan Yong Xin",
     title: "Tech Member",
@@ -117,17 +83,6 @@ export const people = [
         label: "LinkedIn",
         url: "https://www.linkedin.com/in/ernest-tan-95187a3a3/",
       },
-    ],
-  },
-  {
-    id: "roxanne-tan-li-thong",
-    name: "Roxanne Tan Li Thong",
-    title: "Media & Marketing Member",
-    tier: "member",
-    departments: ["media"],
-    image: "/profile/team/roxanne.jpg",
-    links: [
-      { label: "LinkedIn", url: "https://www.linkedin.com/in/roxanne-tan-lt" },
     ],
   },
   {
@@ -158,51 +113,12 @@ export const people = [
     ],
   },
   {
-    id: "joshua-kuan-zhi-weng",
-    name: "Joshua Kuan Zhi Weng",
-    title: "External Relations Member",
-    tier: "member",
-    departments: ["external-relations", "financial"],
-    image: "/profile/team/joshua.jpeg",
-    links: [
-      {
-        label: "LinkedIn",
-        url: "https://www.linkedin.com/in/joshua-kuan-46547631a",
-      },
-    ],
-  },
-  {
     id: "pau-chen-you",
     name: "Pau Chen You",
     title: "Content Writing Member",
     tier: "member",
     departments: ["content-writing"],
     image: "/profile/team/pau-chen-you.jpeg",
-  },
-  {
-    id: "lum-tong-en",
-    name: "Lum Tong En",
-    title: "Events Member",
-    tier: "member",
-    departments: ["events", "secretarial"],
-    image: "/profile/team/lum-tong-en.png",
-    links: [
-      {
-        label: "LinkedIn",
-        url: "https://www.linkedin.com/in/tong-en-l-26a18741a",
-      },
-    ],
-  },
-  {
-    id: "faiz",
-    name: "Faiz Anuar",
-    title: "Content Writing Member",
-    tier: "member",
-    departments: ["content-writing"],
-    image: "/profile/team/faiz.jpeg",
-    links: [
-      { label: "LinkedIn", url: "https://www.linkedin.com/in/mfaizanuar" },
-    ],
   },
 ];
 
@@ -211,16 +127,13 @@ export const departments = [
     id: "tech",
     name: "Tech",
     icon: "code",
-    directorId: "moses-lua",
-    memberIds: ["fathy-rashad", "kee-chee-peng", "ernest-tan-yong-xin"],
+    memberIds: ["fathy-rashad", "ernest-tan-yong-xin"],
   },
   {
     id: "media",
     name: "Media & Marketing",
     icon: "camera",
-    directorId: "robyn-chin",
     memberIds: [
-      "roxanne-tan-li-thong",
       "caryn-see-jing-ern",
       "you-suyi",
       "sarah-lim",
@@ -231,32 +144,32 @@ export const departments = [
     name: "External Relations",
     icon: "handshake",
     directorId: "yan-he-tan",
-    memberIds: ["you-suyi", "joshua-kuan-zhi-weng"],
+    memberIds: ["you-suyi"],
   },
   {
     id: "secretarial",
     name: "Secretarial",
     icon: "clipboard",
     directorId: "jocelyn-gresia",
-    memberIds: ["lum-tong-en"],
+    memberIds: [],
   },
   {
     id: "events",
     name: "Events",
     icon: "calendar",
-    memberIds: ["lum-tong-en", "jocelyn-gresia"],
+    memberIds: ["jocelyn-gresia"],
   },
   {
     id: "content-writing",
     name: "Content Writing",
     icon: "pen",
-    memberIds: ["faiz", "pau-chen-you"],
+    memberIds: ["pau-chen-you"],
   },
   {
     id: "financial",
     name: "Financial",
     icon: "wallet",
-    memberIds: ["joshua-kuan-zhi-weng", "jocelyn-gresia"],
+    memberIds: ["jocelyn-gresia"],
   },
 ];
 

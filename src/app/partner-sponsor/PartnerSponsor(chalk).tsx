@@ -101,8 +101,9 @@ const goldSponsors: Org[] = [
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const visible = useInView(ref, { once: true, amount: 0.12 });
+  const inView = useInView(ref, { amount: 0.05 });
   // Server-rendered content stays visible; the short reveal never gates access.
-  return <div ref={ref} className={`${styles.reveal} ${className}`} data-visible={visible}>{children}</div>;
+  return <div ref={ref} className={`${styles.reveal} ${className}`} data-visible={visible} data-in-view={inView}>{children}</div>;
 }
 
 function OrgLogo({ org, sponsor = false }: { org: Org; sponsor?: boolean }) {
@@ -194,16 +195,17 @@ function PartnerCarousel({ items, prefersReducedMotion }: { items: Org[]; prefer
 export default function PartnersSponsors() {
   const headerRef = useRef(null);
   const prefersReducedMotion = useHydrationSafeReducedMotion();
+  const heroVisible = useInView(headerRef);
   const { scrollYProgress } = useScroll({ target: headerRef, offset: ["start start", "end start"] });
   const backgroundOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <div className="!bg-site-background !text-white">
       <header ref={headerRef} className={pageStyles.hero}>
-        <motion.div style={{ opacity: prefersReducedMotion ? 1 : backgroundOpacity }} className="!absolute !inset-0 !z-0 !pointer-events-none">
+        <motion.div style={{ opacity: prefersReducedMotion ? 1 : backgroundOpacity }} className={pageStyles.heroAtmosphere} data-visible={heroVisible}>
           <NeuronBackdrop />
         </motion.div>
-        <div className="!absolute !bottom-0 !left-0 !right-0 !h-32 !bg-gradient-to-t !from-site-background !to-transparent !z-[5]" />
+        <div className={pageStyles.heroFade} />
         <div className={pageStyles.heroCopy}>
           <h1 className={pageStyles.heroTitle}>
             <span>Our Partners</span>
@@ -215,11 +217,8 @@ export default function PartnersSponsors() {
 
       <div className={styles.content}>
         <Reveal className={styles.section}>
-          <PartnerCarousel items={partners} prefersReducedMotion={prefersReducedMotion} />
-        </Reveal>
-        <Reveal className={styles.section}>
           <section aria-labelledby="sponsors-heading">
-            <div className={styles.sectionHeading}><h2 id="sponsors-heading">Gold sponsors</h2></div>
+            <div className={styles.sectionHeading}><h2 id="sponsors-heading" className={styles.sponsorHeading}>Gold sponsors</h2></div>
             <div className={styles.sponsorGrid}>
               {goldSponsors.map((org) => (
                 <article key={org.name} className={`${styles.card} ${styles.sponsorCard}`}>
@@ -231,6 +230,9 @@ export default function PartnersSponsors() {
               ))}
             </div>
           </section>
+        </Reveal>
+        <Reveal className={styles.section}>
+          <PartnerCarousel items={partners} prefersReducedMotion={prefersReducedMotion} />
         </Reveal>
         <PartnerSupport />
       </div>
