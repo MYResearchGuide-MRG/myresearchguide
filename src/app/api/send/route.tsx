@@ -5,10 +5,7 @@ import { Resend } from 'resend';
 function getResend() {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
-    throw new Error(
-      'RESEND_API_KEY environment variable is not set. ' +
-      'Get your API key at https://resend.com/api-keys'
-    );
+    throw new Error('RESEND_API_KEY environment variable is not set.');
   }
   return new Resend(key);
 }
@@ -16,23 +13,36 @@ function getResend() {
 export async function POST(req: Request) {
   try {
     const { name, email, message } = await req.json();
-    const resend = getResend();
 
-    const { data, error } = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: ['ernesttyx@gmail.com'], // Must be your Resend login email
-      subject: `Contact: ${name}`,
-      text: `From: ${email}\n\n${message}`,
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { error: 'Missing name, email, or message.' },
+        { status: 400 }
+      );
+    }
+
+    const { data, error } = await getResend().emails.send({
+      from: 'MYResearchGuide <onboarding@resend.dev>',
+      to: ['myresearchguide.org@gmail.com'], // MRG inbox = Resend account owner (required while on the sandbox sender)
+      replyTo: email,                         // reply in Gmail goes straight to the sender
+      subject: `Contact form: ${name}`,
+      text: `From: ${name} <${email}>\n\n${message}`,
     });
 
     if (error) {
-      console.error("Resend Error Details:", error);
-      return NextResponse.json({ error }, { status: 400 });
+      console.error('Resend error:', error);
+      return NextResponse.json(
+        { error: error.message ?? 'Email provider rejected the request.' },
+        { status: 502 }
+      );
     }
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true, id: data?.id });
   } catch (err) {
-    console.error("Fetch Error:", err);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error('Contact route error:', err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }
