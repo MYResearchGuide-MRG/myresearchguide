@@ -6,7 +6,7 @@ import styles from "../ContentPage.module.css";
 
 export const metadata: Metadata = {
   title: "Partners & Sponsors | MYResearchGuide",
-  description: "Meet the partners and gold sponsors helping MYResearchGuide make STEM research accessible to Malaysian students. Browse organisations or find out how to support our work.",
+  description: "Meet the sponsors, academic partners and community partners helping MYResearchGuide make STEM research accessible to Malaysian students. Find out how to support our work.",
 };
 
 export default function Page() {

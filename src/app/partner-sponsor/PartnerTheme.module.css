@@ -47,6 +47,16 @@
 .academicCopy h3 { font-size: 24px; }
 .academicCopy p { font-size: 15px; line-height: 1.75; margin-bottom: 16px; }
 .academicCopy .visit { margin-top: 0; }
+.angelHeading { color: #b5ddcb; }
+.angelCard { display: grid; grid-template-columns: 200px minmax(0, 1fr); align-items: center; gap: 44px; padding: 32px; border: 1px solid transparent; border-radius: 8px; background: linear-gradient(#000, #000) padding-box, linear-gradient(115deg, #293e34, #87bba0 25%, #24362d 48%, #263a31 70%, #a2d1b8 88%, #293e34) border-box; background-size: 100% 100%, 240% 100%; }
+.angelPortrait { width: 200px; aspect-ratio: 10 / 11; overflow: hidden; border-radius: 5px; background: #111; }
+.angelPortrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+.angelCopy { min-width: 0; }
+.angelCopy h3 { margin: 0; color: #f3f3f3; font: inherit; font-size: clamp(28px, 2.7vw, 36px); font-weight: 500; line-height: 1.2; letter-spacing: -.035em; }
+.angelCopy p { margin: 18px 0 20px; color: #aaa; font-size: 16px; line-height: 1.75; }
+.angelCopy p span { display: block; }
+.angelLinks { display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.angelLinks .visit { margin-top: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .reveal[data-visible="true"] { animation: section-in 550ms cubic-bezier(.22,.72,.25,1) both; }
   .sponsorHeading { animation: gold-heading 6s ease-in-out infinite alternate; animation-play-state: paused; }
@@ -57,7 +67,10 @@
   .academicHeading { animation: academic-heading 8s ease-in-out infinite alternate; animation-play-state: paused; }
   .academicCard { animation: academic-border 8s ease-in-out infinite alternate; animation-play-state: paused; }
   .reveal[data-in-view="true"] .academicHeading, .reveal[data-in-view="true"] .academicCard { animation-play-state: running; }
+  .angelCard { animation: angel-border 10s ease-in-out infinite alternate; animation-play-state: paused; }
+  .reveal[data-in-view="true"] .angelCard { animation-play-state: running; }
 }
+@keyframes angel-border { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 100% 50%; } }
 @keyframes academic-heading { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
 @keyframes academic-border { from { background-position: 0 0, 0% 50%; } to { background-position: 0 0, 100% 50%; } }
 @keyframes gold-heading { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
@@ -69,6 +82,11 @@
   .card { padding: 28px 24px 24px; }
   .sponsorCard { padding: 28px; }
   .academicCard { gap: 32px; padding: 28px; }
+}
+@media (max-width: 899px) {
+  .angelCard { grid-template-columns: 176px minmax(0, 1fr); gap: 28px; padding: 28px; }
+  .angelPortrait { width: 176px; }
+  .angelCopy p { font-size: 15px; }
 }
 @media (max-width: 699px) {
   .sponsorGrid { grid-template-columns: minmax(0,1fr); gap: 16px; }
@@ -84,6 +102,11 @@
   .academicLogo { max-width: 192px; }
   .academicCopy h3 { font-size: 22px; }
   .academicCopy p { font-size: 14px; }
+}
+@media (max-width: 599px) {
+  .angelCard { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 28px 24px 22px; }
+  .angelPortrait { width: 144px; }
+  .angelCopy p { margin: 14px 0 18px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .card, .sponsorCard::before, .carousel .control, .visit svg, .visit span::after { transition: none; }

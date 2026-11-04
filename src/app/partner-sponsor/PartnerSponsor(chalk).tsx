@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   motion,
   useScroll,
@@ -253,6 +254,39 @@ export default function PartnersSponsors() {
                 <h3>{academicPartner.name}</h3>
                 <p>{academicPartner.description}</p>
                 <VisitLink org={academicPartner} />
+              </div>
+            </article>
+          </section>
+        </Reveal>
+        <Reveal className={styles.section}>
+          <section aria-labelledby="angel-sponsor-heading">
+            <div className={styles.sectionHeading}>
+              <h2 id="angel-sponsor-heading" className={styles.angelHeading}>Angel Sponsor</h2>
+            </div>
+            <article className={styles.angelCard} aria-labelledby="angel-sponsor-name">
+              <div className={styles.angelPortrait}>
+                <Image
+                  src="/profile/advisors/dylan.png"
+                  alt="Dylan Ler"
+                  width={400}
+                  height={440}
+                  sizes="(max-width: 599px) 144px, (max-width: 899px) 176px, 200px"
+                />
+              </div>
+              <div className={styles.angelCopy}>
+                <h3 id="angel-sponsor-name">Dylan Ler</h3>
+                <p>
+                  <span>AI Deployment Team, Adobe</span>
+                  <span>Independent AI Research, Green Robin Labs</span>
+                </p>
+                <div className={styles.angelLinks} aria-label="Dylan Ler profiles">
+                  <a className={styles.visit} href="https://linkedin.com/in/dylanler" target="_blank" rel="noopener noreferrer" aria-label="View Dylan Ler on LinkedIn">
+                    <span>LinkedIn</span><ArrowUpRight size={16} aria-hidden="true" />
+                  </a>
+                  <a className={styles.visit} href="https://github.com/dylanler" target="_blank" rel="noopener noreferrer" aria-label="View Dylan Ler on GitHub">
+                    <span>GitHub</span><ArrowUpRight size={16} aria-hidden="true" />
+                  </a>
+                </div>
               </div>
             </article>
           </section>
