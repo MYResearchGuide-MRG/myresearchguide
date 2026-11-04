@@ -48,7 +48,10 @@
 .academicCopy p { font-size: 15px; line-height: 1.75; margin-bottom: 16px; }
 .academicCopy .visit { margin-top: 0; }
 .angelHeading { color: #b5ddcb; }
-.angelCard { display: grid; grid-template-columns: 200px minmax(0, 1fr); align-items: center; gap: 44px; padding: 32px; border: 1px solid transparent; border-radius: 8px; background: linear-gradient(#000, #000) padding-box, linear-gradient(115deg, #293e34, #87bba0 25%, #24362d 48%, #263a31 70%, #a2d1b8 88%, #293e34) border-box; background-size: 100% 100%, 240% 100%; }
+.angelCard { position: relative; isolation: isolate; display: grid; grid-template-columns: 200px minmax(0, 1fr); align-items: center; gap: 44px; padding: 32px; border: 1px solid transparent; border-radius: 8px; background: linear-gradient(#000, #000) padding-box, linear-gradient(115deg, #293e34, #87bba0 25%, #24362d 48%, #263a31 70%, #a2d1b8 88%, #293e34) border-box; background-size: 100% 100%, 240% 100%; transition: border-color 220ms ease; }
+.angelCard:hover, .angelCard:focus-within { border-color: #87bba0; }
+.angelCard::before { content: ""; position: absolute; z-index: -1; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px #a2d1b8; opacity: 0; pointer-events: none; transition: opacity 350ms ease; }
+.angelCard:hover::before, .angelCard:focus-within::before { opacity: .55; }
 .angelPortrait { width: 200px; aspect-ratio: 10 / 11; overflow: hidden; border-radius: 5px; background: #111; }
 .angelPortrait img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
 .angelCopy { min-width: 0; }
@@ -109,5 +112,5 @@
   .angelCopy p { margin: 14px 0 18px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .card, .sponsorCard::before, .carousel .control, .visit svg, .visit span::after { transition: none; }
+  .card, .sponsorCard::before, .angelCard, .angelCard::before, .carousel .control, .visit svg, .visit span::after { transition: none; }
 }
